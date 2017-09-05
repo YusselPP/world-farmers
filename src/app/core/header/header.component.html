@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
       <button
@@ -36,12 +36,8 @@
 
         <li><a
           style="cursor: pointer;"
-          *ngIf="authService.isAuthenticated()">Administrar</a></li>
-
-        <li><a
-          style="cursor: pointer;"
           (click)="onLogout()"
-          *ngIf="authService.isAuthenticated()">Logout</a></li>
+          *ngIf="authService.isAuthenticated()">Salir</a></li>
       </ul>
     </div>
   </div>

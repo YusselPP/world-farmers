@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Contact } from '../contact.model';
+import { AuthService } from '../../auth/auth.service';
+import { ContactService } from '../../shared/contact.service';
 
 @Component({
   selector: 'app-contacts-list',
@@ -7,15 +9,15 @@ import { Contact } from '../contact.model';
   styleUrls: ['./contacts-list.component.css']
 })
 export class ContactsListComponent implements OnInit {
-  contacts: Contact[];
+  contacts: Contact[] = [];
 
-  constructor() { }
+  constructor(private auth: AuthService, private contactService: ContactService) { }
 
   ngOnInit() {
-    this.contacts = [
-      new Contact('Agricultor', 'Agricultor 1', '', ['Miel'], '', '', '', 'Mérida, Yucatán, México', 0, 0),
-      new Contact('Cooperativa', 'Cooperativa 1', '', ['Maíz', 'Cebada'], '', '', '', 'Irapuato, Guanajuato, México', 0, 0)
-    ]
+    this.contacts = this.contactService.contacts;
   }
 
+  onNew() {
+
+  }
 }

@@ -1,3 +1,13 @@
-<p>
-  contact-detail works!
-</p>
+ <div class="panel panel-default">
+  <div class="panel-heading">
+   <h2 class="panel-title">{{ contact.name }}</h2>
+  </div>
+  <div class="panel-body">
+    <p><strong>Ubicación:</strong> {{ contact.locality }}</p>
+    <p><strong>Productos:</strong> {{ contact.products.join(', ') }}</p>
+    <p><strong>Años de experiencia:</strong> {{ contact.experienceYears }}</p>
+    <p><strong>Coordenadas:</strong> {{ contact.latitude }}, {{ contact.longitude }}</p>
+    <p><strong>Tamaño del campo:</strong> {{ contact.landSize }}</p>
+    <p><strong>Capacidad de cosecha:</strong> {{ contact.harvestAmount }}</p>
+  </div>
+</div>

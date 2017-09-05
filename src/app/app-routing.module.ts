@@ -5,9 +5,9 @@ import { HomeComponent } from './core/home/home.component';
 import { ContactsListComponent } from './directory/contacts-list/contacts-list.component';
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent }
   // { path: 'recipes', loadChildren: './recipes/recipes.module#RecipesModule'},
-  { path: 'directorio', component: ContactsListComponent }
+  // { path: 'directorio', component: ContactsListComponent }
 ];
 
 @NgModule({

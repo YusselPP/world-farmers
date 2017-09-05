@@ -11,6 +11,6 @@ export class Contact {
 
     public locality: string,
     public latitude: number,
-    public longitud: number
+    public longitude: number
   ) {}
 }

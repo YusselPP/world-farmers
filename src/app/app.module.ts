@@ -8,6 +8,7 @@ import {SharedModule} from './shared/shared.module';
 import {AuthModule} from './auth/auth.module';
 import {CoreModule} from './core/core.module';
 import { DirectoryModule } from './directory/directory.module';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   declarations: [

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { ContactDetailComponent } from './contact-detail/contact-detail.component';
 import { ContactEditComponent } from './contact-edit/contact-edit.component';
@@ -20,7 +20,7 @@ import { ContactService } from '../shared/contact.service';
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule,
+    FormsModule,
     DirectoryRoutingModule
   ],
   providers: [

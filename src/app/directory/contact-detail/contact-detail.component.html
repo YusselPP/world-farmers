@@ -1,13 +1,52 @@
- <div class="panel panel-default">
-  <div class="panel-heading">
-   <h2 class="panel-title">{{ contact.name }}</h2>
-  </div>
-  <div class="panel-body">
-    <p><strong>Ubicación:</strong> {{ contact.locality }}</p>
-    <p><strong>Productos:</strong> {{ contact.products.join(', ') }}</p>
-    <p><strong>Años de experiencia:</strong> {{ contact.experienceYears }}</p>
-    <p><strong>Coordenadas:</strong> {{ contact.latitude }}, {{ contact.longitude }}</p>
-    <p><strong>Tamaño del campo:</strong> {{ contact.landSize }}</p>
-    <p><strong>Capacidad de cosecha:</strong> {{ contact.harvestAmount }}</p>
-  </div>
+ <div class="card">
+   <div class="card-header">
+     <h3 style="margin-bottom: 0">{{ contact.name }}</h3>
+   </div>
+    <div class="card-body">
+      <form>
+
+        <div class="row">
+          <label for="locality" class="col-sm-2 col-form-label"><strong>Ubicación:</strong></label>
+          <div class="col-sm-10 d-flex align-items-center">
+            <input type="text" readonly class="form-control-plaintext" id="locality" name="locality" value="{{ contact.locality }}">
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="products" class="col-sm-2 col-form-label"><strong>Productos:</strong></label>
+          <div class="col-sm-10 d-flex align-items-center">
+            <input type="text" readonly class="form-control-plaintext" id="products" name="products" value="{{ contact.products.join(', ') }}">
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="experienceYears" class="col-sm-2 col-form-label"><strong>Años de experiencia:</strong></label>
+          <div class="col-sm-10 d-flex align-items-center">
+            <input type="text" readonly class="form-control-plaintext" id="experienceYears" name="experienceYears" value="{{ contact.experienceYears }}">
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="coordinates" class="col-sm-2 col-form-label"><strong>Coordenadas:</strong></label>
+          <div class="col-sm-10 d-flex align-items-center">
+            <input type="text" readonly class="form-control-plaintext" id="coordinates" name="coordinates" value="{{ contact.latitude }}, {{ contact.longitude }}">
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="landSize" class="col-sm-2 col-form-label"><strong>Tamaño del campo:</strong></label>
+          <div class="col-sm-10 d-flex align-items-center">
+            <input type="text" readonly class="form-control-plaintext" id="landSize" name="landSize" value="{{ contact.landSize }}">
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="harvestAmount" class="col-sm-2 col-form-label"><strong>Capacidad de cosecha:</strong></label>
+          <div class="col-sm-10 d-flex align-items-center">
+            <input type="text" readonly class="form-control-plaintext" id="harvestAmount" name="harvestAmount" value="{{ contact.harvestAmount }}">
+          </div>
+        </div>
+
+      </form>
+    </div>
 </div>

@@ -17,7 +17,7 @@ export class ContactDetailComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(
       map => {
         const id = map.get('id');
-        if (id !== null) {
+        if (id !== null && !isNaN(Number(id))) {
           this.contact = this.contactService.contacts[id];
         }
       }

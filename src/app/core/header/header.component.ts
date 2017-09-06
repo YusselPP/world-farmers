@@ -8,23 +8,8 @@ import { AuthService } from '../../auth/auth.service';
   templateUrl: './header.component.html'
 })
 export class HeaderComponent {
-  @ViewChild('collapsedNavbar') private collapsedNavbar: ElementRef;
-
-  private isNavExpanded = false;
-
   constructor(private dataStorageService: DataStorageService,
-              private authService: AuthService,
-              private renderer: Renderer2) {
-  }
-
-  onToggleNavbar() {
-    if (this.isNavExpanded) {
-      this.isNavExpanded = false;
-      this.renderer.removeClass(this.collapsedNavbar.nativeElement, 'in');
-    } else {
-      this.isNavExpanded = true;
-      this.renderer.addClass(this.collapsedNavbar.nativeElement, 'in');
-    }
+              private authService: AuthService) {
   }
 
   onSaveData() {

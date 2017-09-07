@@ -1,3 +1,75 @@
-<p>
-  contact-edit works!
-</p>
+<div class="row">
+  <div class="col-12 col-sm-10 col-md-8 mx-auto">
+    <div class="card">
+      <div class="card-body">
+        <form (ngSubmit)="onSave(f)" #f="ngForm">
+          {{contact | json}}
+          <div class="form-group" [ngClass]="{'was-validated': name.invalid && (name.dirty || f.submitted)}">
+            <label for="name">*Nombre:</label>
+            <input type="text" class="form-control" id="name" name="name" required [(ngModel)]="contact.name" #name="ngModel">
+            <div class="invalid-feedback">
+              Ingresa un nombre
+            </div>
+          </div>
+
+          <div class="form-group" [ngClass]="{'was-validated': phoneNumber.invalid && (phoneNumber.dirty || f.submitted)}">
+            <label for="phoneNumber">Teléfono:</label>
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" pattern="([ -]|\d)*" ngModel #phoneNumber="ngModel">
+            <div class="invalid-feedback">
+              Solo se permite ingresar números
+            </div>
+          </div>
+
+          <div class="form-group" [ngClass]="{'was-validated': locality.invalid && (locality.dirty || f.submitted)}">
+            <label for="locality">Ubicación:</label>
+            <input type="text" class="form-control" id="locality" name="locality" ngModel  #locality="ngModel">
+            <div class="invalid-feedback"></div>
+          </div>
+
+          <div class="form-group" [ngClass]="{'was-validated': products.invalid && (products.dirty || f.submitted)}">
+            <label for="products">Productos:</label>
+            <input type="text" class="form-control" id="products" name="products" placeholder="ej: maíz, garbanzo, algodón" [(ngModel)]="contact.products" #products="ngModel">
+            <div class="invalid-feedback"></div>
+          </div>
+
+          <div class="form-group" [ngClass]="{'was-validated': experienceYears.invalid && (experienceYears.dirty || f.submitted)}">
+            <label for="experienceYears">Años de experiencia:</label>
+            <input type="text" class="form-control" id="experienceYears" name="experienceYears" ngModel  #experienceYears="ngModel">
+            <div class="invalid-feedback">x</div>
+          </div>
+
+          <label for="latitude">Coordenadas:</label>
+
+          <div class="form-row">
+            <div class="form-group col-6" [ngClass]="{'was-validated': latitude.invalid && (latitude.dirty || f.submitted)}">
+              <input type="number" class="form-control" id="latitude" name="latitude" placeholder="latitud" ngModel  #latitude="ngModel">
+              <div class="invalid-feedback">1</div>
+            </div>
+            <div class="form-group col-6" [ngClass]="{'was-validated': longitude.invalid && (longitude.dirty || f.submitted)}">
+              <input type="number" class="form-control" id="longitude" name="longitude" placeholder="longitud" ngModel  #longitude="ngModel">
+              <div class="invalid-feedback">2</div>
+            </div>
+          </div>
+
+          <div class="form-group" [ngClass]="{'was-validated': landSize.invalid && (landSize.dirty || f.submitted)}">
+            <label for="landSize">Tamaño del campo:</label>
+            <input type="text" class="form-control" id="landSize" name="landSize" ngModel  #landSize="ngModel">
+            <div class="invalid-feedback"></div>
+          </div>
+
+          <div class="form-group" [ngClass]="{'was-validated': harvestAmount.invalid && (harvestAmount.dirty || f.submitted)}">
+            <label for="harvestAmount">Capacidad de cosecha:</label>
+            <input type="text" class="form-control" id="harvestAmount" name="harvestAmount" ngModel  #harvestAmount="ngModel">
+            <div class="invalid-feedback"></div>
+          </div>
+
+          <div class="form-row">
+            <button class="btn btn-danger mr-auto" (click)="onCancel()">Cancelar</button>
+            <button class="btn btn-primary" >Guardar</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

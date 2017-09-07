@@ -2,3 +2,25 @@
 a {
   cursor: pointer;
 }
+
+.custom-select.is-invalid~.invalid-feedback,
+.custom-select.is-invalid~.invalid-tooltip,
+.form-control.is-invalid~.invalid-feedback,
+.form-control.is-invalid~.invalid-tooltip,
+.was-validated .custom-select:invalid~.invalid-feedback,
+.was-validated .custom-select:invalid~.invalid-tooltip,
+.was-validated .form-control:invalid~.invalid-feedback,
+.was-validated .form-control:invalid~.invalid-tooltip {
+  display: block;
+}
+
+.custom-select.is-valid~.invalid-feedback,
+.custom-select.is-valid~.invalid-tooltip,
+.form-control.is-valid~.invalid-feedback,
+.form-control.is-valid~.invalid-tooltip,
+.was-validated .custom-select:valid~.invalid-feedback,
+.was-validated .custom-select:valid~.invalid-tooltip,
+.was-validated .form-control:valid~.invalid-feedback,
+.was-validated .form-control:valid~.invalid-tooltip {
+  display: none;
+}

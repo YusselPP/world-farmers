@@ -10,9 +10,9 @@
     </div>
 
     <div class="pull-right" *ngIf="auth.isAuthenticated()">
-      <button class="btn btn-primary" title="Editar" (click)="onEdit()">
+      <a class="btn btn-primary" title="Editar" [routerLink]="[index, 'editar']">
         <i class="fa fa-pencil" aria-hidden="true"></i>
-      </button>
+      </a>
       <button class="btn btn-danger" title="Eliminar" (click)="onRemove()">
         <i class="fa fa-trash-o" aria-hidden="true"></i>
       </button>

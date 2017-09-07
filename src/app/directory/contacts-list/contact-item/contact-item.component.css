@@ -5,3 +5,7 @@ a {
 i {
   color: white;
 }
+
+button {
+  cursor: pointer;
+}

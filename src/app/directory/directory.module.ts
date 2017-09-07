@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ContactDetailComponent } from './contact-detail/contact-detail.component';
 import { ContactEditComponent } from './contact-edit/contact-edit.component';
@@ -22,6 +22,7 @@ import { AuthGuard } from '../auth/auth-guard.service';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     DirectoryRoutingModule
   ],
   providers: [

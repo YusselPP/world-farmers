@@ -8,64 +8,82 @@
     <div class="card">
       <div class="card-body">
 
-        <form *ngIf="contact; else contactNotFound" (ngSubmit)="onSave(f)" #f="ngForm">
+        <form *ngIf="contact; else contactNotFound" [formGroup]="contactForm" (ngSubmit)="onSave()">
           {{contact | json}}
-          <div class="form-group" [ngClass]="{'was-validated': name.invalid && (name.dirty || f.submitted)}">
+          <div class="form-group" [ngClass]="{'was-validated': contactForm.get('name').touched || submitted}">
             <label for="name">*Nombre:</label>
-            <input type="text" class="form-control" id="name" name="name" required [(ngModel)]="contact.name" #name="ngModel">
+            <input type="text" class="form-control" id="name" name="name" required formControlName="name">
             <div class="invalid-feedback">
               Ingresa un nombre
             </div>
           </div>
 
-          <div class="form-group" [ngClass]="{'was-validated': phoneNumber.invalid && (phoneNumber.dirty || f.submitted)}">
+          <div class="form-group" [ngClass]="{'was-validated': contactForm.get('phoneNumber').touched || submitted}">
             <label for="phoneNumber">Teléfono:</label>
-            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" pattern="([ -]|\d)*" ngModel #phoneNumber="ngModel">
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" pattern="([ -]|\d)*" formControlName="phoneNumber">
             <div class="invalid-feedback">
               Solo se permite ingresar números
             </div>
           </div>
 
-          <div class="form-group" [ngClass]="{'was-validated': locality.invalid && (locality.dirty || f.submitted)}">
+          <div class="form-group" [ngClass]="{'was-validated': contactForm.get('locality').touched || submitted}">
             <label for="locality">Ubicación:</label>
-            <input type="text" class="form-control" id="locality" name="locality" ngModel  #locality="ngModel">
+            <input type="text" class="form-control" id="locality" name="locality" formControlName="locality">
             <div class="invalid-feedback"></div>
           </div>
 
-          <div class="form-group" [ngClass]="{'was-validated': products.invalid && (products.dirty || f.submitted)}">
-            <label for="products">Productos:</label>
-            <input type="text" class="form-control" id="products" name="products" placeholder="ej: maíz, garbanzo, algodón" [(ngModel)]="contact.products" #products="ngModel">
-            <div class="invalid-feedback"></div>
+          <div formArrayName="products">
+            Productos:
+            <div *ngFor="let product of products.controls; index as i">
+
+              <!-- The repeated product template -->
+              <!--<h4>Producto #{{i + 1}}</h4>-->
+              <div style="margin-left: 1em;">
+                <div class="form-group" [ngClass]="{'was-validated': product.touched || submitted}">
+                  <!--<label for="product-{{i}}">Producto:</label>-->
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="product-{{i}}" name="product-{{i}}" placeholder="ej: maíz, garbanzo, algodón" [formControlName]="i">
+                    <button class="input-group-addon" style="color: red" (click)="removeProduct(i)" >
+                      <i class="fa fa-remove" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-secondary mb-2 ml-4" (click)="addProduct()" >
+              <i class="fa fa-plus" aria-hidden="true"></i>
+              Agregar producto
+            </button>
           </div>
 
-          <div class="form-group" [ngClass]="{'was-validated': experienceYears.invalid && (experienceYears.dirty || f.submitted)}">
+          <div class="form-group" [ngClass]="{'was-validated': contactForm.get('experienceYears').touched || submitted}">
             <label for="experienceYears">Años de experiencia:</label>
-            <input type="text" class="form-control" id="experienceYears" name="experienceYears" ngModel  #experienceYears="ngModel">
+            <input type="text" class="form-control" id="experienceYears" name="experienceYears" formControlName="experienceYears">
             <div class="invalid-feedback">x</div>
           </div>
 
           <label for="latitude">Coordenadas:</label>
 
           <div class="form-row">
-            <div class="form-group col-6" [ngClass]="{'was-validated': latitude.invalid && (latitude.dirty || f.submitted)}">
-              <input type="number" class="form-control" id="latitude" name="latitude" placeholder="latitud" ngModel  #latitude="ngModel">
+            <div class="form-group col-6" [ngClass]="{'was-validated': contactForm.get('latitude').touched || submitted}" >
+              <input type="number" class="form-control" id="latitude" name="latitude" placeholder="latitud" formControlName="latitude">
               <div class="invalid-feedback">1</div>
             </div>
-            <div class="form-group col-6" [ngClass]="{'was-validated': longitude.invalid && (longitude.dirty || f.submitted)}">
-              <input type="number" class="form-control" id="longitude" name="longitude" placeholder="longitud" ngModel  #longitude="ngModel">
+            <div class="form-group col-6"  [ngClass]="{'was-validated': contactForm.get('longitude').touched || submitted}">
+              <input type="number" class="form-control" id="longitude" name="longitude" placeholder="longitud" formControlName="longitude">
               <div class="invalid-feedback">2</div>
             </div>
           </div>
 
-          <div class="form-group" [ngClass]="{'was-validated': landSize.invalid && (landSize.dirty || f.submitted)}">
+          <div class="form-group" [ngClass]="{'was-validated': contactForm.get('landSize').touched || submitted}">
             <label for="landSize">Tamaño del campo:</label>
-            <input type="text" class="form-control" id="landSize" name="landSize" ngModel  #landSize="ngModel">
+            <input type="text" class="form-control" id="landSize" name="landSize" formControlName="landSize">
             <div class="invalid-feedback"></div>
           </div>
 
-          <div class="form-group" [ngClass]="{'was-validated': harvestAmount.invalid && (harvestAmount.dirty || f.submitted)}">
+          <div class="form-group" [ngClass]="{'was-validated': contactForm.get('harvestAmount').touched || submitted}">
             <label for="harvestAmount">Capacidad de cosecha:</label>
-            <input type="text" class="form-control" id="harvestAmount" name="harvestAmount" ngModel  #harvestAmount="ngModel">
+            <input type="text" class="form-control" id="harvestAmount" name="harvestAmount" formControlName="harvestAmount">
             <div class="invalid-feedback"></div>
           </div>
 

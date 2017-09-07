@@ -10,14 +10,13 @@ import { ContactService } from '../../../shared/contact.service';
 })
 export class ContactItemComponent implements OnInit {
   @Input() contact: Contact;
-  @Input() index: number;
 
-  constructor(private auth: AuthService, private contactService: ContactService) { }
+  constructor(public auth: AuthService, private contactService: ContactService) { }
 
   ngOnInit() {
   }
 
-  onRemove(event: UIEvent, id: number) {
+  onRemove(event: UIEvent, id: string) {
     console.log(event);
     event.preventDefault();
     event.stopPropagation();

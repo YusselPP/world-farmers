@@ -9,7 +9,7 @@ import { ContactService } from '../../shared/contact.service';
   styleUrls: ['./contact-detail.component.css']
 })
 export class ContactDetailComponent implements OnInit {
-  private contact: Contact;
+  public contact: Contact;
 
   constructor(private activatedRoute: ActivatedRoute, private contactService: ContactService) { }
 
@@ -17,8 +17,8 @@ export class ContactDetailComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(
       map => {
         const id = map.get('id');
-        if (id !== null && !isNaN(Number(id))) {
-          this.contact = this.contactService.contacts[id];
+        if (id !== null) {
+          this.contact = this.contactService.get(id);
         }
       }
     );

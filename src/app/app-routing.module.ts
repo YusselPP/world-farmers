@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 import { HomeComponent } from './core/home/home.component';
-import { ContactsListComponent } from './directory/contacts-list/contacts-list.component';
+import { NotFoundComponent } from './core/not-found/not-found.component';
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent }
-  // { path: 'recipes', loadChildren: './recipes/recipes.module#RecipesModule'},
-  // { path: 'directorio', component: ContactsListComponent }
+  { path: '', component: HomeComponent },
+  {path: '404', component: NotFoundComponent},
+  {path: '**', redirectTo: '/404'}
 ];
 
 @NgModule({

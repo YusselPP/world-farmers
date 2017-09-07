@@ -7,20 +7,21 @@ import { AuthService } from '../auth/auth.service';
 import { DataStorageService } from '../shared/data-storage.service';
 import { AuthInterceptor } from '../shared/auth.interceptor';
 import { LoggingInterceptor } from '../shared/logging.interceptor';
-import { AppRoutingModule } from '../app-routing.module';
-import { SharedModule } from '../shared/shared.module';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    NotFoundComponent
   ],
   imports: [
-    SharedModule,
-    AppRoutingModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
-    AppRoutingModule,
     HeaderComponent
   ],
   providers: [

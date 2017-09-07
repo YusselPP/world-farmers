@@ -1,52 +1,64 @@
- <div class="card">
-   <div class="card-header">
+<a class="btn btn-default" routerLink="/directorio">
+  <i class="fa fa-arrow-left" aria-hidden="true"></i>
+  Regresar
+</a>
+<hr>
+<div class="card">
+   <div class="card-header" *ngIf="contact">
      <h3 style="margin-bottom: 0">{{ contact.name }}</h3>
    </div>
-    <div class="card-body">
-      <form>
-
-        <div class="row">
-          <label for="locality" class="col-sm-2 col-form-label"><strong>Ubicación:</strong></label>
-          <div class="col-sm-10 d-flex align-items-center">
-            <input type="text" readonly class="form-control-plaintext" id="locality" name="locality" value="{{ contact.locality }}">
-          </div>
+  <div class="card-body">
+    <form *ngIf="contact; else contactNotFound">
+      <div class="row">
+        <label for="locality" class="col-sm-2 col-form-label"><strong>Ubicación:</strong></label>
+        <div class="col-sm-10 d-flex align-items-center">
+          <input type="text" readonly class="form-control-plaintext" id="locality" name="locality" value="{{ contact.locality }}">
         </div>
+      </div>
 
-        <div class="row">
-          <label for="products" class="col-sm-2 col-form-label"><strong>Productos:</strong></label>
-          <div class="col-sm-10 d-flex align-items-center">
-            <input type="text" readonly class="form-control-plaintext" id="products" name="products" value="{{ contact.products.join(', ') }}">
-          </div>
+      <div class="row">
+        <label for="products" class="col-sm-2 col-form-label"><strong>Productos:</strong></label>
+        <div class="col-sm-10 d-flex align-items-center">
+          <input type="text" readonly class="form-control-plaintext" id="products" name="products" value="{{ contact.products.join(', ') }}">
         </div>
+      </div>
 
-        <div class="row">
-          <label for="experienceYears" class="col-sm-2 col-form-label"><strong>Años de experiencia:</strong></label>
-          <div class="col-sm-10 d-flex align-items-center">
-            <input type="text" readonly class="form-control-plaintext" id="experienceYears" name="experienceYears" value="{{ contact.experienceYears }}">
-          </div>
+      <div class="row">
+        <label for="experienceYears" class="col-sm-2 col-form-label"><strong>Años de experiencia:</strong></label>
+        <div class="col-sm-10 d-flex align-items-center">
+          <input type="text" readonly class="form-control-plaintext" id="experienceYears" name="experienceYears" value="{{ contact.experienceYears }}">
         </div>
+      </div>
 
-        <div class="row">
-          <label for="coordinates" class="col-sm-2 col-form-label"><strong>Coordenadas:</strong></label>
-          <div class="col-sm-10 d-flex align-items-center">
-            <input type="text" readonly class="form-control-plaintext" id="coordinates" name="coordinates" value="{{ contact.latitude }}, {{ contact.longitude }}">
-          </div>
+      <div class="row">
+        <label for="coordinates" class="col-sm-2 col-form-label"><strong>Coordenadas:</strong></label>
+        <div class="col-sm-10 d-flex align-items-center">
+          <input type="text" readonly class="form-control-plaintext" id="coordinates" name="coordinates" value="{{ contact.latitude }}, {{ contact.longitude }}">
         </div>
+      </div>
 
-        <div class="row">
-          <label for="landSize" class="col-sm-2 col-form-label"><strong>Tamaño del campo:</strong></label>
-          <div class="col-sm-10 d-flex align-items-center">
-            <input type="text" readonly class="form-control-plaintext" id="landSize" name="landSize" value="{{ contact.landSize }}">
-          </div>
+      <div class="row">
+        <label for="landSize" class="col-sm-2 col-form-label"><strong>Tamaño del campo:</strong></label>
+        <div class="col-sm-10 d-flex align-items-center">
+          <input type="text" readonly class="form-control-plaintext" id="landSize" name="landSize" value="{{ contact.landSize }}">
         </div>
+      </div>
 
-        <div class="row">
-          <label for="harvestAmount" class="col-sm-2 col-form-label"><strong>Capacidad de cosecha:</strong></label>
-          <div class="col-sm-10 d-flex align-items-center">
-            <input type="text" readonly class="form-control-plaintext" id="harvestAmount" name="harvestAmount" value="{{ contact.harvestAmount }}">
-          </div>
+      <div class="row">
+        <label for="harvestAmount" class="col-sm-2 col-form-label"><strong>Capacidad de cosecha:</strong></label>
+        <div class="col-sm-10 d-flex align-items-center">
+          <input type="text" readonly class="form-control-plaintext" id="harvestAmount" name="harvestAmount" value="{{ contact.harvestAmount }}">
         </div>
+      </div>
 
-      </form>
-    </div>
+    </form>
+
+    <ng-template #contactNotFound>
+      <h5 class="text-center">No existe el recurso solicitado</h5>
+      <br>
+      <div class="text-center">
+        <a class="btn btn-danger" routerLink="/directorio">Regresar</a>
+      </div>
+    </ng-template>
+  </div>
 </div>

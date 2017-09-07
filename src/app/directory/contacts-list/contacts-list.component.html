@@ -1,13 +1,13 @@
 <ng-template [ngIf]="auth.isAuthenticated()">
-  <button class="btn btn-primary" (click)="onNew()">
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
-  </button>
+  <a class="btn btn-primary" routerLink="nuevo">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    Nuevo
+  </a>
   <hr>
 </ng-template>
 <div class="row">
   <app-contact-item class="col-sm-6 mb-1"
-    *ngFor="let contactEl of contacts; let i = index"
-    [contact]="contactEl"
-    [index]="i"
+    *ngFor="let id of contactsIds"
+    [contact]="contactsMap[id]"
   ></app-contact-item>
 </div>

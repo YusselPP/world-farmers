@@ -21,8 +21,6 @@ const directoryRoutes: Routes = [
     RouterModule.forChild(directoryRoutes)
   ],
   exports: [RouterModule],
-  providers: [
-    AuthGuard
-  ]
+  providers: []
 })
 export class DirectoryRoutingModule {}

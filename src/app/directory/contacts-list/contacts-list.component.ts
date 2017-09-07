@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Contact } from '../contact.model';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { ContactService } from '../../shared/contact.service';
 
@@ -8,16 +7,27 @@ import { ContactService } from '../../shared/contact.service';
   templateUrl: './contacts-list.component.html',
   styleUrls: ['./contacts-list.component.css']
 })
-export class ContactsListComponent implements OnInit {
-  contacts: Contact[] = [];
+export class ContactsListComponent implements OnInit, OnDestroy {
+  contactsMap;
+  contactsIds;
+  contactsChangeUnsuscribe;
 
-  constructor(private auth: AuthService, private contactService: ContactService) { }
+  constructor(public auth: AuthService, private contactService: ContactService) { }
 
   ngOnInit() {
-    this.contacts = this.contactService.contacts;
+    console.log('init')
+    this.contactsMap = this.contactService.getContacts();
+    this.contactsIds = Object.keys(this.contactsMap);
+    this.contactsChangeUnsuscribe = this.contactService.contactsChange.subscribe(this.onContacsChange.bind(this));
   }
 
-  onNew() {
+  ngOnDestroy() {
+    this.contactsChangeUnsuscribe.unsubscribe();
+  }
 
+  onContacsChange(contactsMap) {
+    console.log(contactsMap);
+    this.contactsMap = contactsMap;
+    this.contactsIds = Object.keys(contactsMap);
   }
 }

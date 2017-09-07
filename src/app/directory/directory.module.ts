@@ -9,6 +9,7 @@ import { DirectoryRoutingModule } from './directory-routing.module';
 import { ContactItemComponent } from './contacts-list/contact-item/contact-item.component';
 import { DirectoryComponent } from './directory.component';
 import { ContactService } from '../shared/contact.service';
+import { AuthGuard } from '../auth/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ContactService } from '../shared/contact.service';
     DirectoryRoutingModule
   ],
   providers: [
+    AuthGuard,
     ContactService
   ]
 })

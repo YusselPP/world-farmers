@@ -1,5 +1,5 @@
 <a
-  [routerLink]="[index]"
+  [routerLink]="[contact.id]"
   routerLinkActive="active"
   class="card"
 >
@@ -10,10 +10,10 @@
     </div>
 
     <div class="pull-right" *ngIf="auth.isAuthenticated()">
-      <a class="btn btn-primary" title="Editar" [routerLink]="[index, 'editar']">
+      <a class="btn btn-primary" title="Editar" [routerLink]="[contact.id, 'editar']">
         <i class="fa fa-pencil" aria-hidden="true"></i>
       </a>
-      <button class="btn btn-danger" title="Eliminar" (click)="onRemove($event, index)">
+      <button class="btn btn-danger" title="Eliminar" (click)="onRemove($event, contact.id)">
         <i class="fa fa-trash-o" aria-hidden="true"></i>
       </button>
     </div>

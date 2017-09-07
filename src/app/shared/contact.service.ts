@@ -28,4 +28,8 @@ export class ContactService {
       return false;
     }
   }
+
+  remove(id: number) {
+    this.contacts.splice(id, 1);
+  }
 }

@@ -10,18 +10,18 @@ import { ContactService } from '../../shared/contact.service';
 export class ContactsListComponent implements OnInit, OnDestroy {
   contactsMap;
   contactsIds;
-  contactsChangeUnsuscribe;
+  contactsChangeSubscription;
 
   constructor(public auth: AuthService, private contactService: ContactService) { }
 
   ngOnInit() {
     this.contactsMap = this.contactService.getContacts();
     this.contactsIds = Object.keys(this.contactsMap);
-    this.contactsChangeUnsuscribe = this.contactService.contactsChange.subscribe(this.onContacsChange.bind(this));
+    this.contactsChangeSubscription = this.contactService.contactsChange.subscribe(this.onContacsChange.bind(this));
   }
 
   ngOnDestroy() {
-    this.contactsChangeUnsuscribe.unsubscribe();
+    this.contactsChangeSubscription.unsubscribe();
   }
 
   onContacsChange(contactsMap) {

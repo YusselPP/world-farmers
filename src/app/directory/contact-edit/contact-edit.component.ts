@@ -57,6 +57,10 @@ export class ContactEditComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    if (!this.contact) {
+      return;
+    }
+
     this.contactForm.reset({
       name: this.contact.name,
       phoneNumber: this.contact.phoneNumber,
@@ -67,6 +71,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
       latitude: this.contact.latitude,
       longitude: this.contact.longitude
     });
+
     this.setProducts(this.contact.products);
   }
 

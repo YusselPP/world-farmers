@@ -10,6 +10,7 @@ import { ContactItemComponent } from './contacts-list/contact-item/contact-item.
 import { DirectoryComponent } from './directory.component';
 import { ContactService } from '../shared/contact.service';
 import { AuthGuard } from '../auth/auth-guard.service';
+import { PaginationModule } from '../pagination/pagination.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AuthGuard } from '../auth/auth-guard.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    PaginationModule,
     DirectoryRoutingModule
   ],
   providers: [

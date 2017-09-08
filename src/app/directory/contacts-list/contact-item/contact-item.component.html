@@ -4,18 +4,26 @@
   class="card"
 >
   <div class="card-body">
-    <div class="pull-left">
-      <h6 class="card-title">{{ contact.name }} - {{ contact.products.join(', ') }}</h6>
-      <p class="card-text">{{ contact.locality }}</p>
-    </div>
+    <div class="row">
 
-    <div class="pull-right" *ngIf="auth.isAuthenticated()">
-      <a class="btn btn-primary" title="Editar" [routerLink]="[contact.id, 'editar']">
-        <i class="fa fa-pencil" aria-hidden="true"></i>
-      </a>
-      <button class="btn btn-danger" title="Eliminar" (click)="onRemove($event, contact.id)">
-        <i class="fa fa-trash-o" aria-hidden="true"></i>
-      </button>
+      <div class="col-9 col-sm-10 col-md-9">
+        <h6 class="card-title">{{ contact.name }} - {{ contact.products.join(', ') }}</h6>
+        <p class="card-text">{{ contact.locality }}</p>
+      </div>
+
+      <div class="col-3 col-sm-2 col-md-3 align-self-center" *ngIf="auth.isAuthenticated()">
+
+        <div class="row justify-content-end pr-2">
+            <a class="btn btn-primary m-1" title="Editar" [routerLink]="[contact.id, 'editar']">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </a>
+            <button class="btn btn-danger m-1" title="Eliminar" (click)="onRemove($event, contact.id)">
+              <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </button>
+        </div>
+
+      </div>
+
     </div>
   </div>
 </a>

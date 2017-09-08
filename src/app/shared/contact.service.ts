@@ -34,14 +34,19 @@ export class ContactService {
   private contactsMap = {};
 
   constructor () {
+    console.log('contact service');
     this.getContacts();
   }
 
   get(id: string) {
-    if (!this.contacts.hasOwnProperty(id)) {
+    if (!this.contactsMap.hasOwnProperty(id)) {
       return null;
     }
     return _.cloneDeep(this.contactsMap[id]);
+  }
+
+  getContactsChunk(offset: number, limit: number) {
+
   }
 
   getContacts() {
@@ -56,8 +61,11 @@ export class ContactService {
 
     this.contactsChange.emit(this.getContactsMap());
 
-    console.log(this.contactsMap, this.contacts);
     return this.getContactsMap();
+  }
+
+  getContactsCount(): number {
+    return this.contacts.length;
   }
 
   store(contact: Contact) {
@@ -73,8 +81,6 @@ export class ContactService {
     if (this.contactsMap.hasOwnProperty(id)) {
       Object.assign(this.contactsMap[id], contact);
 
-      console.log(this.contactsMap, this. contacts);
-
       return true;
     } else {
       console.error('update - Contact doesn\'t exists');
@@ -89,8 +95,6 @@ export class ContactService {
       this.contacts.splice(pos, 1);
       delete this.contactsMap[id];
       this.contactsChange.emit(this.getContactsMap());
-
-      console.log(this.contactsMap, this. contacts);
 
       return true;
     } else {

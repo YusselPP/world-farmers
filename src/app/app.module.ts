@@ -8,10 +8,14 @@ import {SharedModule} from './shared/shared.module';
 import {AuthModule} from './auth/auth.module';
 import {CoreModule} from './core/core.module';
 import { DirectoryModule } from './directory/directory.module';
+import { APP_ROUTE, ROUTE } from './const';
 
 @NgModule({
   declarations: [
     AppComponent
+  ],
+  providers: [
+    { provide: APP_ROUTE, useValue: ROUTE },
   ],
   imports: [
     BrowserModule,
@@ -22,7 +26,6 @@ import { DirectoryModule } from './directory/directory.module';
     CoreModule,
     AppRoutingModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

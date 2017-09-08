@@ -1,3 +1,7 @@
-.card .pull-left {
+.card-title, .card-text {
   color: black;
+}
+
+a {
+  text-decoration: none;
 }

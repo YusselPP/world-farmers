@@ -10,7 +10,7 @@ import { AuthService } from '../auth.service';
 })
 export class SignupComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) { console.log('Signup Component'); }
 
   ngOnInit() {
   }

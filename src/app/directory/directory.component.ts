@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DirectoryComponent implements OnInit {
 
-  constructor() { }
+  constructor() {console.log('directory component'); }
 
   ngOnInit() {
   }

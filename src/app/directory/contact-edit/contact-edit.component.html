@@ -1,6 +1,7 @@
-<a class="btn btn-default" routerLink="/directorio">
+<a class="btn btn-sm btn-default"
+   [routerLink]="[appRoute.SLASH, dirRoute.ROOT, dirRoute.PAGE, paginationService.currentPage]">
   <i class="fa fa-arrow-left" aria-hidden="true"></i>
-  Regresar
+  Directorio
 </a>
 <hr>
 <div class="row">
@@ -83,7 +84,7 @@
           </div>
 
           <div class="form-row">
-            <a class="btn btn-danger mr-auto" routerLink="/directorio">Cancelar</a>
+            <a class="btn btn-danger mr-auto" [routerLink]="[appRoute.SLASH, dirRoute.ROOT]">Cancelar</a>
             <button class="btn btn-primary" >Guardar</button>
           </div>
 
@@ -92,7 +93,7 @@
           <h5 class="text-center">No existe el recurso solicitado</h5>
           <br>
           <div class="text-center">
-            <a class="btn btn-primary" routerLink="/directorio">Regresar</a>
+            <a class="btn btn-primary" [routerLink]="[appRoute.SLASH, dirRoute.ROOT]">Directorio</a>
           </div>
         </ng-template>
       </div>

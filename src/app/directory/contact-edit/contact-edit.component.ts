@@ -1,8 +1,11 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, Inject, OnChanges, OnInit } from '@angular/core';
 import { Contact } from '../contact.model';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ContactService } from '../../shared/contact.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PaginationService } from '../../pagination/pagination.service';
+import { APP_DIR_ROUTE } from '../const';
+import { APP_ROUTE } from '../../const';
 
 @Component({
   selector: 'app-contact-edit',
@@ -17,16 +20,20 @@ export class ContactEditComponent implements OnInit, OnChanges {
   submitted = false;
 
   constructor(
+    @Inject(APP_ROUTE) public appRoute,
+    @Inject(APP_DIR_ROUTE) public dirRoute,
+    public paginationService: PaginationService,
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute,
+    private activeRoute: ActivatedRoute,
     private contactService: ContactService) {
 
+    console.log('contact edit component');
     this.createForm();
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(paramMap => {
+    this.activeRoute.paramMap.subscribe(paramMap => {
 
       const id = paramMap.get('id');
 
@@ -38,7 +45,6 @@ export class ContactEditComponent implements OnInit, OnChanges {
         this.contact = new Contact();
       }
       this.ngOnChanges();
-      console.log(this.contactForm);
     });
   }
 
@@ -111,9 +117,12 @@ export class ContactEditComponent implements OnInit, OnChanges {
 
     this.ngOnChanges();
 
-    console.log(this.contact);
-
-    this.router.navigate(['/directorio']);
+    this.router.navigate([
+      this.appRoute.SLASH,
+      this.dirRoute.ROOT,
+      this.dirRoute.PAGE,
+      this.paginationService.currentPage
+    ]);
   }
 
   prepareSaveContact(): Contact {

@@ -11,6 +11,8 @@ import { DirectoryComponent } from './directory.component';
 import { ContactService } from '../shared/contact.service';
 import { AuthGuard } from '../auth/auth-guard.service';
 import { PaginationModule } from '../pagination/pagination.module';
+import { APP_DIR_ROUTE, DIRECTORY_ROUTE } from './const';
+import { PagesComponent } from './pages/pages.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { PaginationModule } from '../pagination/pagination.module';
     ContactEditComponent,
     ContactsListComponent,
     ContactItemComponent,
-    DirectoryComponent
+    DirectoryComponent,
+    PagesComponent
   ],
   imports: [
     CommonModule,
@@ -28,6 +31,7 @@ import { PaginationModule } from '../pagination/pagination.module';
     DirectoryRoutingModule
   ],
   providers: [
+    { provide: APP_DIR_ROUTE, useValue: DIRECTORY_ROUTE },
     AuthGuard,
     ContactService
   ]

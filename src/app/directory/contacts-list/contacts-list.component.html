@@ -1,17 +1,6 @@
-<ng-template [ngIf]="auth.isAuthenticated()">
-  <a class="btn btn-primary" routerLink="nuevo">
-    <i class="fa fa-plus" aria-hidden="true"></i>
-    Nuevo
-  </a>
-  <hr>
-</ng-template>
 <div class="row">
   <app-contact-item class="col-sm-6 mb-1"
     *ngFor="let id of contactsIds"
     [contact]="contactsMap[id]"
   ></app-contact-item>
 </div>
-
-<hr>
-
-<app-pagination></app-pagination>

@@ -5,10 +5,10 @@ import { APP_ROUTE } from '../const';
 
 @Injectable()
 export class PaginationService {
-  public currentPage: number;
   public pages: number[];
-  public currentRoute;
+  public currentRoute: ActivatedRoute;
 
+  private _currentPage: number;
   private _itemsPerPage: number;
 
   constructor(@Inject(APP_ROUTE) public appRoute,
@@ -20,6 +20,18 @@ export class PaginationService {
     this.itemsPerPage = 20;
     this.dataCount = 0;
     // this.setPages(10);
+  }
+
+  set currentPage(currentPage: number) {
+    if (isNaN(currentPage) || currentPage < 1) {
+      console.error('currentPage value must be a number greater than 0');
+      return;
+    }
+    this._currentPage = currentPage;
+  }
+
+  get currentPage(): number {
+    return this._currentPage;
   }
 
   set dataCount(dataCount: number) {
@@ -55,8 +67,7 @@ export class PaginationService {
       return;
     }
     this.currentPage = pageNum;
-    //this.router.navigate([newUrl, pageNum]);
-    console.log(this.currentRoute);
+    this.router.navigate([pageNum], { relativeTo: this.currentRoute });
   }
 
   prevPage() {

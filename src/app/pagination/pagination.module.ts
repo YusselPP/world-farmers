@@ -15,8 +15,6 @@ import { RouterModule } from '@angular/router';
   exports: [
     PaginationComponent
   ],
-  providers: [
-    PaginationService
-  ]
+  providers: []
 })
 export class PaginationModule { }

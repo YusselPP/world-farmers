@@ -46,7 +46,7 @@ export class ContactService {
   }
 
   getContactsChunk(offset: number, limit: number) {
-
+    return this.contacts.slice(offset, offset + limit);
   }
 
   getContacts() {

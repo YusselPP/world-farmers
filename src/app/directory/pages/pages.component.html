@@ -1,0 +1,14 @@
+<ng-template [ngIf]="auth.isAuthenticated()">
+  <a class="btn btn-sm btn-primary"
+     [routerLink]="[appRoute.SLASH, dirRoute.ROOT, dirRoute.CONTACT.ROOT, dirRoute.CONTACT.NEW]">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    Nuevo
+  </a>
+  <hr>
+</ng-template>
+
+<router-outlet></router-outlet>
+
+<hr>
+
+<app-pagination></app-pagination>

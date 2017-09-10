@@ -1,6 +1,6 @@
 <div class="row">
   <app-contact-item class="col-sm-6 mb-1"
-    *ngFor="let id of contactsIds"
-    [contact]="contactsMap[id]"
+    *ngFor="let contact of contacts"
+    [contact]="contact"
   ></app-contact-item>
 </div>

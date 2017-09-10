@@ -5,6 +5,7 @@ import { APP_ROUTE } from '../../const';
 import { APP_DIR_ROUTE } from '../const';
 import { PaginationService } from '../../pagination/pagination.service';
 import { ActivatedRoute } from '@angular/router';
+import { Contact } from '../contact.model';
 
 @Component({
   selector: 'app-contacts-list',
@@ -12,8 +13,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./contacts-list.component.css']
 })
 export class ContactsListComponent implements OnInit, OnDestroy {
-  contactsMap;
-  contactsIds;
+  contacts: Contact[] = [];
   contactsChangeSubscription;
 
   constructor(
@@ -25,16 +25,16 @@ export class ContactsListComponent implements OnInit, OnDestroy {
     private contactService: ContactService) { console.log('contact list component');}
 
   ngOnInit() {
-    this.paginationService.dataCount = this.contactService.getContactsCount();
-    this.contactsChangeSubscription = this.contactService.contactsChange.subscribe(this.onContacsChange.bind(this));
+    this.contactsChangeSubscription = this.contactService.contactsChange.subscribe(this.onContactsChange.bind(this));
     this.route.paramMap
       .map(paramMap => +paramMap.get('num'))
       .subscribe(pageNum => {
         const itemsPerPage = this.paginationService.itemsPerPage;
         this.paginationService.currentPage = pageNum;
         // this.contactsMap = this.contactService.getContactsChunk((pageNum - 1) * itemsPerPage, itemsPerPage);
-        this.contactsMap = this.contactService.getContacts();
-        this.contactsIds = Object.keys(this.contactsMap);
+        // this.contactsMap = this.contactService.getContacts();
+        this.contactService.getContactsPage(pageNum, itemsPerPage);
+        // this.contactsIds = Object.keys(this.contactsMap);
       });
   }
 
@@ -42,8 +42,8 @@ export class ContactsListComponent implements OnInit, OnDestroy {
     this.contactsChangeSubscription.unsubscribe();
   }
 
-  onContacsChange(contactsMap) {
-    this.contactsMap = contactsMap;
-    this.contactsIds = Object.keys(contactsMap);
+  onContactsChange(contacts) {
+    this.contacts = contacts;
+    this.paginationService.dataCount = this.contactService.getContactsCount();
   }
 }

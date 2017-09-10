@@ -14,7 +14,7 @@ export class PaginationComponent implements AfterViewInit {
   constructor(public paginationService: PaginationService, private activatedRoute: ActivatedRoute) { console.log('pagination component'); }
 
   ngAfterViewInit() {
-    console.log(this.navElement.nativeElement.clientWidth);
+    // console.log(this.navElement.nativeElement.clientWidth);
   }
 
   @HostListener('window:resize', ['$event'])

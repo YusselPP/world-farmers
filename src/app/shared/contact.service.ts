@@ -1,41 +1,17 @@
 import * as _ from 'lodash';
 import { Contact } from '../directory/contact.model';
 import { EventEmitter, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class ContactService {
   public contactsChange = new EventEmitter<{}>();
-  private contacts: Contact[] = [
-    new Contact('0', 'Agricultor 1', 'x', ['Miel'], '2', '1 Km2', 'x', 'Mérida, Yucatán, México', 0, 0),
-    new Contact('1', 'Cooperativa 1', '', ['Maíz', 'Cebada'], '5', '10 Km2', '', 'Irapuato, Guanajuato, México', 0, 0),
-    new Contact('2', 'Agricultor 2', '', ['Platano'], '10', '35 Km2', '', 'Teapa, Tabasco, México', 0, 0),
-    new Contact('3', 'Agricultor 3', '', ['Maíz'], '3', '1,000 Km2', '', 'Irapuato, Guanajuato, México', 0, 0),
-    new Contact('4', 'Agricultor 4', '', ['Miel'], '8', '1 Km2', '', 'Mérida, Yucatán, México', 0, 0),
-    new Contact('5', 'Cooperativa 2', '', ['Maíz', 'Cebada'], '4', '2,000 Km2', '', 'Irapuato, Guanajuato, México', 0, 0),
-    new Contact('6', 'Agricultor 1', 'x', ['Miel'], '2', '1 Km2', 'x', 'Mérida, Yucatán, México', 0, 0),
-    new Contact('7', 'Cooperativa 1', '', ['Maíz', 'Cebada'], '5', '10 Km2', '', 'Irapuato, Guanajuato, México', 0, 0),
-    new Contact('8', 'Agricultor 2', '', ['Platano'], '10', '35 Km2', '', 'Teapa, Tabasco, México', 0, 0),
-    new Contact('9', 'Agricultor 3', '', ['Maíz'], '3', '1,000 Km2', '', 'Irapuato, Guanajuato, México', 0, 0),
-    new Contact('10', 'Agricultor 4', '', ['Miel'], '8', '1 Km2', '', 'Mérida, Yucatán, México', 0, 0),
-    new Contact('11', 'Cooperativa 2', '', ['Maíz', 'Cebada'], '4', '2,000 Km2', '', 'Irapuato, Guanajuato, México', 0, 0),
-    new Contact('12', 'Agricultor 1', 'x', ['Miel'], '2', '1 Km2', 'x', 'Mérida, Yucatán, México', 0, 0),
-    new Contact('13', 'Cooperativa 1', '', ['Maíz', 'Cebada'], '5', '10 Km2', '', 'Irapuato, Guanajuato, México', 0, 0),
-    new Contact('14', 'Agricultor 2', '', ['Platano'], '10', '35 Km2', '', 'Teapa, Tabasco, México', 0, 0),
-    new Contact('15', 'Agricultor 3', '', ['Maíz'], '3', '1,000 Km2', '', 'Irapuato, Guanajuato, México', 0, 0),
-    new Contact('16', 'Agricultor 4', '', ['Miel'], '8', '1 Km2', '', 'Mérida, Yucatán, México', 0, 0),
-    new Contact('17', 'Cooperativa 2', '', ['Maíz', 'Cebada'], '4', '2,000 Km2', '', 'Irapuato, Guanajuato, México', 0, 0),
-    new Contact('18', 'Agricultor 1', 'x', ['Miel'], '2', '1 Km2', 'x', 'Mérida, Yucatán, México', 0, 0),
-    new Contact('19', 'Cooperativa 1', '', ['Maíz', 'Cebada'], '5', '10 Km2', '', 'Irapuato, Guanajuato, México', 0, 0),
-    new Contact('20', 'Agricultor 2', '', ['Platano'], '10', '35 Km2', '', 'Teapa, Tabasco, México', 0, 0),
-    new Contact('21', 'Agricultor 3', '', ['Maíz'], '3', '1,000 Km2', '', 'Irapuato, Guanajuato, México', 0, 0),
-    new Contact('22', 'Agricultor 4', '', ['Miel'], '8', '1 Km2', '', 'Mérida, Yucatán, México', 0, 0),
-    new Contact('23', 'Cooperativa 2', '', ['Maíz', 'Cebada'], '4', '2,000 Km2', '', 'Irapuato, Guanajuato, México', 0, 0)
-  ];
+  private contacts: Contact[] = [];
   private contactsMap = {};
+  private contactsCount = 0;
 
-  constructor () {
+  constructor (private httpClient: HttpClient) {
     console.log('contact service');
-    this.getContacts();
   }
 
   get(id: string) {
@@ -45,27 +21,30 @@ export class ContactService {
     return _.cloneDeep(this.contactsMap[id]);
   }
 
-  getContactsChunk(offset: number, limit: number) {
-    return this.contacts.slice(offset, offset + limit);
-  }
-
-  getContacts() {
-    this.contactsMap = this.contacts.reduce((result, contact) => {
-      if (contact.id === null) {
-        console.warn('Contact not added to the map, missing id');
-        return result;
-      }
-      result[contact.id] = contact;
-      return result;
-    }, {});
-
-    this.contactsChange.emit(this.getContactsMap());
-
-    return this.getContactsMap();
-  }
-
-  getContactsCount(): number {
-    return this.contacts.length;
+  getContactsPage(page: number, perPage: number) {
+    this.httpClient.get<any>('http://world-farmers.com/api/contacts', {
+      observe: 'body',
+      responseType: 'json',
+      params: new HttpParams().set('page', page.toString()).append('per_page', perPage.toString()),
+      headers: new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+    })
+      .map(
+        (contactsPage) => {
+          console.log(contactsPage);
+          for (const contact of contactsPage.data) {
+            if (contact['products']) {
+              contact['products'] = contact['products'].split(',').map(s => s.trim());
+            }
+          }
+          return contactsPage;
+        }
+      )
+      .subscribe(
+        (contactsPage) => {
+          this.contactsCount = contactsPage.total;
+          this.setContacts(contactsPage.data);
+        }
+      );
   }
 
   store(contact: Contact) {
@@ -73,7 +52,7 @@ export class ContactService {
     contact.id = this.getNewId();
     this.contacts.push(contact);
     this.contactsMap[contact.id] = contact;
-    this.contactsChange.emit(this.getContactsMap());
+    this.contactsChange.emit(this.getContacts());
   }
 
   update(id: string, contact: Contact): boolean {
@@ -94,7 +73,7 @@ export class ContactService {
       const pos = this.contacts.indexOf(contact);
       this.contacts.splice(pos, 1);
       delete this.contactsMap[id];
-      this.contactsChange.emit(this.getContactsMap());
+      this.contactsChange.emit(this.getContacts());
 
       return true;
     } else {
@@ -103,8 +82,30 @@ export class ContactService {
     }
   }
 
-  getContactsMap() {
-    return _.cloneDeep(this.contactsMap);
+  getContacts() {
+    return _.cloneDeep(this.contacts);
+  }
+
+  setContacts(contacts: Contact[]) {
+    this.contacts.length = 0;
+    this.contacts.push(...contacts);
+    this.updateContactsMap();
+    this.contactsChange.emit(this.getContacts());
+  }
+
+  updateContactsMap() {
+    this.contactsMap = this.contacts.reduce((result, contact) => {
+      if (contact.id === null) {
+        console.warn('Contact not added to the map, missing id');
+        return result;
+      }
+      result[contact.id] = contact;
+      return result;
+    }, {});
+  }
+
+  getContactsCount(): number {
+    return this.contactsCount;
   }
 
   getNewId() {

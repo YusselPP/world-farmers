@@ -17,8 +17,9 @@
             <a class="btn btn-primary m-1" title="Editar" [routerLink]="[appRoute.SLASH, dirRoute.ROOT, dirRoute.CONTACT.ROOT, contact.id, dirRoute.CONTACT.EDIT]">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
-            <button class="btn btn-danger m-1" title="Eliminar" (click)="onRemove($event, contact.id)">
-              <i class="fa fa-trash-o" aria-hidden="true"></i>
+            <button class="btn btn-danger m-1" title="Eliminar" (click)="onRemove($event, contact.id)" [disabled]="removing">
+              <i class="fa fa-trash-o" *ngIf="!removing" aria-hidden="true"></i>
+              <i class="fa fa-spinner" *ngIf="removing" aria-hidden="true"></i>
             </button>
         </div>
 

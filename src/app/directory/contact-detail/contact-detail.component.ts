@@ -26,7 +26,14 @@ export class ContactDetailComponent implements OnInit {
       map => {
         const id = map.get('id');
         if (id !== null) {
-          this.contact = this.contactService.get(id);
+          this.contactService.get(id).subscribe(
+            (contact: Contact) => {
+              this.contact = contact;
+            },
+            err => {
+              console.error(err);
+            }
+          );
         }
       }
     );

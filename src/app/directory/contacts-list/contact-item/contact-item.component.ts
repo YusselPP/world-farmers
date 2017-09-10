@@ -12,6 +12,7 @@ import { APP_ROUTE } from '../../../const';
 })
 export class ContactItemComponent implements OnInit {
   @Input() contact: Contact;
+  removing = false;
 
   constructor(
     @Inject(APP_ROUTE) public appRoute,
@@ -26,6 +27,15 @@ export class ContactItemComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    this.contactService.remove(id);
+    if (this.removing) {
+      return;
+    }
+
+    this.removing = true;
+    this.contactService.remove(id).subscribe(
+      response => {
+        this.removing = false;
+      }
+    );
   }
 }

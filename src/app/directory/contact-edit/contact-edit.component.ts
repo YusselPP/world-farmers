@@ -1,11 +1,11 @@
 import { Component, Inject, OnChanges, OnInit } from '@angular/core';
-import { Contact } from '../contact.model';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ContactService } from '../../shared/contact.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginationService } from '../../pagination/pagination.service';
 import { APP_DIR_ROUTE } from '../const';
 import { APP_ROUTE } from '../../const';
+import { Contact } from '../contact.model';
 
 @Component({
   selector: 'app-contact-edit',
@@ -40,7 +40,17 @@ export class ContactEditComponent implements OnInit, OnChanges {
       if (id !== null) {
         this.id = id;
         this.editMode = true;
-        this.contact = this.contactService.get(this.id);
+        // this.contact = this.contactService.get(this.id);
+        this.contact = new Contact();
+        this.contactService.get(this.id).subscribe(
+          (contacts: Contact) => {
+            this.contact = contacts;
+            this.ngOnChanges();
+          },
+          err => {
+            console.error(err);
+          }
+        );
       } else {
         this.contact = new Contact();
       }
@@ -54,8 +64,11 @@ export class ContactEditComponent implements OnInit, OnChanges {
       phoneNumber: '',
       products: this.fb.array([]),
       experienceYears: '',
+      experienceYearsUnit: '',
       landSize: '',
+      landSizeUnit: '',
       harvestAmount: '',
+      harvestAmountUnit: '',
       locality: '',
       latitude: '',
       longitude: ''
@@ -71,8 +84,11 @@ export class ContactEditComponent implements OnInit, OnChanges {
       name: this.contact.name,
       phoneNumber: this.contact.phoneNumber,
       experienceYears: this.contact.experienceYears,
+      experienceYearsUnit: this.contact.experienceYearsUnit,
       landSize: this.contact.landSize,
+      landSizeUnit: this.contact.landSizeUnit,
       harvestAmount: this.contact.harvestAmount,
+      harvestAmountUnit: this.contact.harvestAmountUnit,
       locality: this.contact.locality,
       latitude: this.contact.latitude,
       longitude: this.contact.longitude
@@ -133,8 +149,12 @@ export class ContactEditComponent implements OnInit, OnChanges {
       name: formModel.name,
       phoneNumber: formModel.phoneNumber,
       experienceYears: formModel.experienceYears,
+      experienceYearsUnit: formModel.experienceYearsUnit,
       landSize: formModel.landSize,
+      landSizeUnit: formModel.landSizeUnit,
       harvestAmount: formModel.harvestAmount,
+      harvestAmountUnit: formModel.harvestAmountUnit,
+
       locality: formModel.locality,
       latitude: formModel.latitude,
       longitude: formModel.longitude,

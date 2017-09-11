@@ -63,8 +63,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
       name: '',
       phoneNumber: '',
       products: this.fb.array([]),
-      experienceYears: '',
-      experienceYearsUnit: '',
+      startedWorking: '',
       landSize: '',
       landSizeUnit: '',
       harvestAmount: '',
@@ -84,8 +83,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
     this.contactForm.reset({
       name: this.contact.name,
       phoneNumber: this.contact.phoneNumber,
-      experienceYears: this.contact.experienceYears,
-      experienceYearsUnit: this.contact.experienceYearsUnit,
+      startedWorking: this.contact.startedWorking,
       landSize: this.contact.landSize,
       landSizeUnit: this.contact.landSizeUnit,
       harvestAmount: this.contact.harvestAmount,
@@ -126,6 +124,8 @@ export class ContactEditComponent implements OnInit, OnChanges {
 
     this.contact = this.prepareSaveContact();
 
+    console.log(this.contact.startedWorking);
+
     if (this.editMode) {
       this.contactService.update(this.id, this.contact)
         .subscribe(
@@ -162,12 +162,11 @@ export class ContactEditComponent implements OnInit, OnChanges {
   prepareSaveContact(): Contact {
     const formModel = this.contactForm.value;
 
-    return {
+    return new Contact({
       id: this.contact.id,
       name: formModel.name,
       phoneNumber: formModel.phoneNumber,
-      experienceYears: formModel.experienceYears,
-      experienceYearsUnit: formModel.experienceYearsUnit,
+      startedWorking: formModel.startedWorking,
       landSize: formModel.landSize,
       landSizeUnit: formModel.landSizeUnit,
       harvestAmount: formModel.harvestAmount,
@@ -177,7 +176,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
       latitude: formModel.latitude,
       longitude: formModel.longitude,
       products: formModel.products.slice()
-    };
+    });
   }
 
   revert() { this.ngOnChanges(); }

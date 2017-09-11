@@ -52,23 +52,10 @@
             </button>
           </div>
 
-          <!--<div class="form-group" [ngClass]="{'was-validated': contactForm.get('experienceYears').touched || submitted}">-->
-            <!--<label for="experienceYears">Años de experiencia:</label>-->
-            <!--<input type="text" class="form-control" id="experienceYears" name="experienceYears" required formControlName="experienceYears">-->
-            <!--<div class="invalid-feedback"></div>-->
-          <!--</div>-->
-
-          <label for="experienceYears">Años de experiencia:</label>
-
-          <div class="form-row">
-            <div class="form-group col-6" [ngClass]="{'was-validated': contactForm.get('experienceYears').touched || submitted}" >
-              <input type="number" class="form-control" id="experienceYears" name="experienceYears" required formControlName="experienceYears">
-              <div class="invalid-feedback"></div>
-            </div>
-            <div class="form-group col-6"  [ngClass]="{'was-validated': contactForm.get('experienceYearsUnit').touched || submitted}">
-              <input type="text" class="form-control" id="experienceYearsUnit" name="experienceYearsUnit" placeholder="" required formControlName="experienceYearsUnit">
-              <div class="invalid-feedback"></div>
-            </div>
+          <div class="form-group" [ngClass]="{'was-validated': contactForm.get('startedWorking').touched || submitted}">
+            <label for="startedWorking">Experiencia:</label>
+            <input type="date" class="form-control" id="startedWorking" name="startedWorking" required formControlName="startedWorking">
+            <div class="invalid-feedback"></div>
           </div>
 
           <label for="latitude">Coordenadas:</label>

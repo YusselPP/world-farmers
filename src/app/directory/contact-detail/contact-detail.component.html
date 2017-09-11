@@ -24,9 +24,9 @@
       </div>
 
       <div class="row">
-        <label for="experienceYears" class="col-sm-2 col-form-label"><strong>Años de experiencia:</strong></label>
+        <label for="startedWorking" class="col-sm-2 col-form-label"><strong>Años de experiencia:</strong></label>
         <div class="col-sm-10 d-flex align-items-center">
-          <input type="text" readonly class="form-control-plaintext" id="experienceYears" name="experienceYears" value="{{ contact.experienceYears }}">
+          <input type="date" readonly class="form-control-plaintext" id="startedWorking" name="startedWorking" value="{{ (today - contact.startedWorking) | date: 'yyyy-MM-dd' }}">
         </div>
       </div>
 

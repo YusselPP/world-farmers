@@ -4,10 +4,12 @@ export class Contact {
   public phoneNumber?: string;
 
   public products: string[];
-  public experienceYears?: string;
-  public experienceYearsUnit?: string;
+
+  public startedWorking?: string;
+
   public landSize?: string;
   public landSizeUnit?: string;
+
   public harvestAmount?: string;
   public harvestAmountUnit?: string;
 
@@ -15,39 +17,27 @@ export class Contact {
   public latitude?: number;
   public longitude?: number;
 
-  constructor(
-    id?: string,
-    name?: string,
-    phoneNumber?: string,
-    products: string | string[] = [],
-    experienceYears?: string,
-    experienceYearsUnit?: string,
-    landSize?: string,
-    landSizeUnit?: string,
-    harvestAmount?: string,
-    harvestAmountUnit?: string,
-    locality?: string,
-    latitude?: number,
-    longitude?: number
-  ) {
-    this.id = id;
-    this.name = name;
-    this.phoneNumber = phoneNumber;
+  constructor(options?) {
+    if (!options) {
+      options = {};
+    }
+    this.id = options.id;
+    this.name = options.name;
+    this.phoneNumber = options.phoneNumber;
 
-    this.experienceYears = experienceYears;
-    this.experienceYearsUnit = experienceYearsUnit;
+    this.startedWorking = options.startedWorking;
 
-    this.landSize = landSize;
-    this.landSizeUnit = landSizeUnit;
+    this.landSize = options.landSize;
+    this.landSizeUnit = options.landSizeUnit;
 
-    this.harvestAmount = harvestAmount;
-    this.harvestAmountUnit = harvestAmountUnit;
+    this.harvestAmount = options.harvestAmount;
+    this.harvestAmountUnit = options.harvestAmountUnit;
 
-    this.locality = locality;
-    this.latitude = latitude;
-    this.longitude = longitude;
+    this.locality = options.locality;
+    this.latitude = options.latitude;
+    this.longitude = options.longitude;
 
-    this.products = Contact.productsStringToArray(products);
+    this.products = Contact.productsStringToArray(options.products);
   }
 
   static productsStringToArray(products: string | string[]): string[] {
@@ -63,5 +53,25 @@ export class Contact {
       parsedProducts = [];
     }
     return parsedProducts;
+  }
+
+  public experience() {
+    const d1 = new Date(Date.now());
+    const experience = {
+      months: 0,
+      years: 0
+    };
+    let months;
+
+    if (!this.startedWorking) {
+      return experience;
+    }
+
+    const d2 = new Date(this.startedWorking);
+
+    months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth() + 1;
+    months += d2.getMonth();
+    return months <= 0 ? 0 : months;
   }
 }

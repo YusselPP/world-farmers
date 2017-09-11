@@ -12,7 +12,7 @@ export class ContactService {
 
   private contacts: Contact[] = [];
   private contactsMap = {};
-  private contactsCount = 0;
+  public contactsCount = 0;
 
 
   constructor (private httpClient: HttpClient) {
@@ -22,16 +22,8 @@ export class ContactService {
   public get(id: string) {
     const url = `${ContactService.apiBaseUrl}contacts/${id}`;
 
-    return this.httpClient.get(url)
-      .map(
-        (contact) => {
-          const productsS = contact['products'];
-          if (typeof productsS === 'string') {
-              contact['products'] = productsS.split(',').map(s => s.trim());
-          }
-          return contact;
-        }
-     );
+    return this.httpClient.get<Contact>(url)
+      .map(contact => new Contact(contact));
   }
 
   public getContactsPage(pageNum: number, perPage: number) {
@@ -44,10 +36,7 @@ export class ContactService {
     return this.httpClient.get<Page<Contact>>(url, {params: params})
       .do(contactsPage => this.contactsCount = contactsPage.total)
       .map(page => {
-        return page.data.map(contact => {
-          contact.products = Contact.productsStringToArray(contact.products);
-          return contact;
-        });
+        return page.data.map(contact => new Contact(contact));
       })
       .do(contacts => this.setContacts(contacts));
   }
@@ -59,7 +48,7 @@ export class ContactService {
 
     cont.products = cont.products.join(', ');
 
-    return this.httpClient.post(url, cont);
+    return this.httpClient.post(url, cont).do(r => this.contactsCount++);
   }
 
   public update(id: string, contact: Contact) {
@@ -76,11 +65,10 @@ export class ContactService {
     const url = `${ContactService.apiBaseUrl}contacts/${id}`;
 
     return this.httpClient.delete(url)
-      .do(response => this.removeFromView(id));
-  }
-
-  public getContactsCount(): number {
-    return this.contactsCount;
+      .do(response => {
+        this.contactsCount--;
+        this.removeFromView(id);
+      });
   }
 
 

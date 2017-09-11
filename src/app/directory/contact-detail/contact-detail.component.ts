@@ -13,6 +13,7 @@ import { APP_DIR_ROUTE } from '../const';
 })
 export class ContactDetailComponent implements OnInit {
   public contact: Contact;
+  public today = Date.now();
 
   constructor(
     @Inject(APP_ROUTE) public appRoute,

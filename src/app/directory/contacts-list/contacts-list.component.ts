@@ -29,11 +29,13 @@ export class ContactsListComponent implements OnInit {
   ngOnInit() {
     this.contacts = this.contactService.contactsChange
       .do((contacts: Contact[]) => {
-        this.paginationService.dataCount = this.contactService.getContactsCount();
-        if (contacts.length === 0) {
+        this.paginationService.dataCount = this.contactService.contactsCount;
+        if (contacts.length === 0 && this.paginationService.pageCount > 1) {
           // TODO: When datacount equals 0 show empty list message
           console.log(this.paginationService.pageCount, this.paginationService.dataCount);
-          this.router.navigate([this.paginationService.pageCount - 1], { relativeTo: this.route.parent });
+          this.router.navigate([this.paginationService.pageCount], { relativeTo: this.route.parent });
+        } else {
+
         }
       });
 

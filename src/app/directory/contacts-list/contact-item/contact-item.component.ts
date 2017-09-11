@@ -4,6 +4,7 @@ import { AuthService } from '../../../auth/auth.service';
 import { ContactService } from '../../../shared/contact.service';
 import { APP_DIR_ROUTE } from '../../const';
 import { APP_ROUTE } from '../../../const';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-contact-item',
@@ -32,10 +33,14 @@ export class ContactItemComponent implements OnInit {
     }
 
     this.removing = true;
-    this.contactService.remove(id).subscribe(
-      response => {
-        this.removing = false;
-      }
-    );
+    this.contactService.remove(id)
+      .catch(
+        error => {
+          this.removing = false;
+          console.error(error);
+          return Observable.throw(error);
+        }
+      )
+      .subscribe(res => this.removing = false);
   }
 }

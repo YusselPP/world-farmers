@@ -1,5 +1,5 @@
 import { Component, Inject, OnChanges, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ContactService } from '../../shared/contact.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginationService } from '../../pagination/pagination.service';
@@ -73,6 +73,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
       latitude: '',
       longitude: ''
     });
+    this.addProduct();
   }
 
   ngOnChanges() {
@@ -126,19 +127,36 @@ export class ContactEditComponent implements OnInit, OnChanges {
     this.contact = this.prepareSaveContact();
 
     if (this.editMode) {
-      this.contactService.update(this.id, this.contact);
+      this.contactService.update(this.id, this.contact)
+        .subscribe(
+          response => {
+            console.log('updated successfully: ' + response);
+            this.router.navigate([
+              this.appRoute.SLASH,
+              this.dirRoute.ROOT,
+              this.dirRoute.PAGE,
+              this.paginationService.currentPage
+            ]);
+          },
+          error => console.error(error)
+        );
     } else {
-      this.contactService.store(this.contact);
+      this.contactService.store(this.contact)
+        .subscribe(
+          response => {
+            console.log('stored successfully: ' + response);
+            this.router.navigate([
+              this.appRoute.SLASH,
+              this.dirRoute.ROOT,
+              this.dirRoute.PAGE,
+              this.paginationService.currentPage
+            ]);
+          },
+          error => console.error(error)
+        );
     }
 
     this.ngOnChanges();
-
-    this.router.navigate([
-      this.appRoute.SLASH,
-      this.dirRoute.ROOT,
-      this.dirRoute.PAGE,
-      this.paginationService.currentPage
-    ]);
   }
 
   prepareSaveContact(): Contact {

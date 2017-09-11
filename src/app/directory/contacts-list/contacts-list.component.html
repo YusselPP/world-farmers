@@ -1,6 +1,6 @@
 <div class="row">
   <app-contact-item class="col-sm-6 mb-1"
-    *ngFor="let contact of contacts"
+    *ngFor="let contact of contacts | async"
     [contact]="contact"
   ></app-contact-item>
 </div>

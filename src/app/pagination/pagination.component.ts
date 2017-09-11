@@ -19,7 +19,7 @@ export class PaginationComponent implements AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    console.log('Width: ' + event.target.innerWidth);
-    console.log(this.navElement.nativeElement.clientWidth);
+    // console.log('Width: ' + event.target.innerWidth);
+    // console.log(this.navElement.nativeElement.clientWidth);
   }
 }

@@ -6,8 +6,6 @@ import { APP_DIR_ROUTE } from '../const';
 import { PaginationService } from '../../pagination/pagination.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Contact } from '../contact.model';
-import { Observable } from 'rxjs/Observable';
-import { Page } from '../page.interface';
 
 @Component({
   selector: 'app-contacts-list',
@@ -15,7 +13,7 @@ import { Page } from '../page.interface';
   styleUrls: ['./contacts-list.component.css']
 })
 export class ContactsListComponent implements OnInit {
-  contacts: Observable<Page<Contact>>;
+  contacts: Contact[] = [];
 
   constructor(
     @Inject(APP_ROUTE) public appRoute,
@@ -27,24 +25,32 @@ export class ContactsListComponent implements OnInit {
     private contactService: ContactService) { console.log('contact list component');}
 
   ngOnInit() {
-    this.contacts = this.contactService.contactsChange
+    this.contactService.contactsChange
       .do((contacts: Contact[]) => {
         this.paginationService.dataCount = this.contactService.contactsCount;
         if (contacts.length === 0 && this.paginationService.pageCount > 1) {
-          // TODO: When datacount equals 0 show empty list message
-          console.log(this.paginationService.pageCount, this.paginationService.dataCount);
-          this.router.navigate([this.paginationService.pageCount], { relativeTo: this.route.parent });
+          this.router.navigate([this.paginationService.pageCount], {relativeTo: this.route.parent});
         } else {
-
+          this.router.navigate([1], {relativeTo: this.route.parent});
         }
-      });
+      })
+      .subscribe(
+        (contacts: Contact[]) => {
+          this.contacts = contacts;
+        },
+        err => {
+          console.error(err);
+        }
+      );
 
     this.route.paramMap
       .switchMap(paramMap => {
-        const pageNum = +paramMap.get('num');
+        let pageNum = +paramMap.get('num');
         const itemsPerPage = this.paginationService.itemsPerPage;
 
-        // TODO: When invalid current page throws and didnt change page
+        if (isNaN(pageNum) || pageNum < 1) {
+          pageNum = 1;
+        }
         this.paginationService.currentPage = pageNum;
         return this.contactService.getContactsPage(pageNum, itemsPerPage);
       })

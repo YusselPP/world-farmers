@@ -36,7 +36,7 @@ export class ContactService {
     return this.httpClient.get<Page<Contact>>(url, {params: params})
       .do(contactsPage => this.contactsCount = contactsPage.total)
       .map(page => {
-        return page.data.map(contact => new Contact(contact));
+        return page.data.map(contact => new Contact(contact)) as Contact[];
       })
       .do(contacts => this.setContacts(contacts));
   }

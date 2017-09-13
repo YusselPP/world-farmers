@@ -1,4 +1,7 @@
 export class Contact {
+  public static landSizeUnits = [{name: 'Hectáreas', value: 'HA'}];
+  public static harvestAmountUnits = [{name: 'Kilos', value: 'KG'}, {name: 'Toneladas', value: 'TON'}];
+
   public id?: string;
   public name?: string;
   public phoneNumber?: string;

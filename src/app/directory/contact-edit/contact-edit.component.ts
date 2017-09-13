@@ -1,5 +1,5 @@
 import { Component, Inject, OnChanges, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ContactService } from '../../shared/contact.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginationService } from '../../pagination/pagination.service';
@@ -18,6 +18,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
   editMode = false;
   contact: Contact;
   submitted = false;
+  Contact = Contact;
 
   constructor(
     @Inject(APP_ROUTE) public appRoute,
@@ -62,7 +63,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
     this.contactForm = this.fb.group({
       name: '',
       phoneNumber: '',
-      products: this.fb.array([]),
+      products: this.fb.array(['']),
       startedWorking: '',
       landSize: '',
       landSizeUnit: '',
@@ -72,7 +73,6 @@ export class ContactEditComponent implements OnInit, OnChanges {
       latitude: '',
       longitude: ''
     });
-    this.addProduct();
   }
 
   ngOnChanges() {
@@ -93,7 +93,9 @@ export class ContactEditComponent implements OnInit, OnChanges {
       longitude: this.contact.longitude
     });
 
-    this.setProducts(this.contact.products);
+    if (this.contact.products.length > 0) {
+      this.setProducts(this.contact.products);
+    }
   }
 
   get products(): FormArray {
@@ -181,4 +183,29 @@ export class ContactEditComponent implements OnInit, OnChanges {
 
   revert() { this.ngOnChanges(); }
 
+  today() {
+    let todayString;
+    const today = new Date();
+    const dd = today.getDate();
+    const mm = today.getMonth() + 1;
+    const yyyy = today.getFullYear();
+
+    todayString = yyyy + '-';
+
+    if (mm < 10) {
+      todayString += '0' + mm;
+    } else {
+      todayString += mm;
+    }
+
+    todayString += '-';
+
+    if (dd < 10) {
+      todayString += '0' + dd;
+    } else {
+      todayString += dd;
+    }
+
+    return todayString;
+  }
 }

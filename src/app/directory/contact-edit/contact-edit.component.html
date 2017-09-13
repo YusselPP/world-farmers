@@ -9,40 +9,44 @@
     <div class="card">
       <div class="card-body">
 
-        <form *ngIf="contact; else contactNotFound" [formGroup]="contactForm" (ngSubmit)="onSave()">
-                    <div class="form-group" [ngClass]="{'was-validated': contactForm.get('name').touched || submitted}">
+        <form *ngIf="contact; else contactNotFound" [formGroup]="contactForm" (ngSubmit)="onSave()" novalidate>
+          <div class="form-group" [ngClass]="{'was-validated': contactForm.get('name').touched || submitted}">
             <label for="name">*Nombre:</label>
-            <input type="text" class="form-control" id="name" name="name" required formControlName="name">
+            <input type="text" class="form-control" id="name" name="name" formControlName="name" required maxlength="150">
             <div class="invalid-feedback">
-              Ingresa un nombre
+              Ingresa un nombre.
             </div>
           </div>
 
           <div class="form-group" [ngClass]="{'was-validated': contactForm.get('phoneNumber').touched || submitted}">
             <label for="phoneNumber">Teléfono:</label>
-            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" pattern="([ -]|\d)*" required formControlName="phoneNumber">
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" formControlName="phoneNumber"  required maxlength="30" pattern="([ \-+()]|\d)*">
             <div class="invalid-feedback">
-              Solo se permite ingresar números
+              Ingresa un número telefónico válido. (Se permiten números y los símbolos: -+())
             </div>
           </div>
 
           <div class="form-group" [ngClass]="{'was-validated': contactForm.get('locality').touched || submitted}">
             <label for="locality">Ubicación:</label>
-            <input type="text" class="form-control" id="locality" name="locality" required formControlName="locality">
-            <div class="invalid-feedback"></div>
+            <input type="text" class="form-control" id="locality" name="locality"  required maxlength="150" formControlName="locality">
+            <div class="invalid-feedback">Ingresa una ubicación</div>
           </div>
 
           <div formArrayName="products">
             Productos:
-            <div *ngFor="let product of products.controls; index as i">
-              <div style="margin-left: 1em;">
+            <div style="margin-left: 1em;">
+
+              <div *ngFor="let product of products.controls; index as i">
                 <div class="form-group" [ngClass]="{'was-validated': product.touched || submitted}">
-                                    <div class="input-group">
-                    <input type="text" class="form-control" id="product-{{i}}" name="product-{{i}}" placeholder="ej: maíz, garbanzo, algodón" required [formControlName]="i">
-                    <button class="input-group-addon" style="color: red" (click)="removeProduct(i)" >
+                  <div class="input-group" >
+                    <input type="text" class="form-control" id="product-{{i}}" name="product-{{i}}" placeholder="ej: maíz, garbanzo, algodón"  required maxlength="150" [formControlName]="i">
+                    <button class="input-group-addon" style="color: red" (click)="removeProduct(i)" *ngIf="i != 0">
                       <i class="fa fa-remove" aria-hidden="true"></i>
                     </button>
                   </div>
+                  <div style="margin-top: .25rem; font-size: .875rem; color: #dc3545;" *ngIf="(product.touched || submitted) && product.invalid">
+                    Ingresa un producto
+                    </div>
                 </div>
               </div>
             </div>
@@ -53,59 +57,63 @@
           </div>
 
           <div class="form-group" [ngClass]="{'was-validated': contactForm.get('startedWorking').touched || submitted}">
-            <label for="startedWorking">Experiencia:</label>
-            <input type="date" class="form-control" id="startedWorking" name="startedWorking" required formControlName="startedWorking">
-            <div class="invalid-feedback"></div>
+            <label for="startedWorking">Trabaja desde:</label>
+            <input type="date" class="form-control" id="startedWorking" name="startedWorking" required formControlName="startedWorking" min="1901-12-14" max="{{today()}}">
+            <div class="invalid-feedback">Ingresa la fecha en que empezó a trabajar</div>
           </div>
 
           <label for="latitude">Coordenadas:</label>
 
           <div class="form-row">
             <div class="form-group col-6" [ngClass]="{'was-validated': contactForm.get('latitude').touched || submitted}" >
-              <input type="text" class="form-control" id="latitude" name="latitude" placeholder="latitud" required formControlName="latitude">
-              <div class="invalid-feedback"></div>
+              <input type="number"
+                     class="form-control"
+                     id="latitude"
+                     name="latitude"
+                     formControlName="latitude"
+                     placeholder="latitud"
+                     required
+                     min="-90"
+                     max="90"
+                     step="0.0000001"
+                     >
+              <div class="invalid-feedback">Ingresa una latitud válida (-90 a 90)</div>
             </div>
             <div class="form-group col-6"  [ngClass]="{'was-validated': contactForm.get('longitude').touched || submitted}">
-              <input type="text" class="form-control" id="longitude" name="longitude" placeholder="longitud" required formControlName="longitude">
-              <div class="invalid-feedback"></div>
+              <input type="number" class="form-control" id="longitude" name="longitude" formControlName="longitude" placeholder="longitud"  required min="-180" max="180" step="0.0000001">
+              <div class="invalid-feedback">Ingresa una latitud válida (-180 a 180)</div>
             </div>
           </div>
-
-          <!--<div class="form-group" [ngClass]="{'was-validated': contactForm.get('landSize').touched || submitted}">-->
-            <!--<label for="landSize">Tamaño del campo:</label>-->
-            <!--<input type="text" class="form-control" id="landSize" name="landSize" required formControlName="landSize">-->
-            <!--<div class="invalid-feedback"></div>-->
-          <!--</div>-->
 
           <label for="landSize">Tamaño del campo:</label>
 
           <div class="form-row">
             <div class="form-group col-6" [ngClass]="{'was-validated': contactForm.get('landSize').touched || submitted}" >
-              <input type="number" class="form-control" id="landSize" name="landSize" required formControlName="landSize">
-              <div class="invalid-feedback"></div>
+              <input type="number" class="form-control" id="landSize" name="landSize"  required min="0" max="999999999" step="any" formControlName="landSize">
+              <div class="invalid-feedback">Ingresa el tamaño del campo</div>
             </div>
             <div class="form-group col-6"  [ngClass]="{'was-validated': contactForm.get('landSizeUnit').touched || submitted}">
-              <input type="text" class="form-control" id="landSizeUnit" name="landSizeUnit" placeholder="" required formControlName="landSizeUnit">
-              <div class="invalid-feedback"></div>
+              <!--<input type="text" class="form-control" id="landSizeUnit" name="landSizeUnit" placeholder=""  required maxlength="5" formControlName="landSizeUnit">-->
+              <select type="text" class="form-control" id="landSizeUnit" name="landSizeUnit" placeholder=""  required maxlength="5" formControlName="landSizeUnit">
+                <option *ngFor="let unit of Contact.landSizeUnits" [value]="unit.value">{{unit.name}}</option>
+              </select>
+              <div class="invalid-feedback">Selecciona una unidad de medida</div>
             </div>
           </div>
-
-          <!--<div class="form-group" [ngClass]="{'was-validated': contactForm.get('harvestAmount').touched || submitted}">-->
-            <!--<label for="harvestAmount">Capacidad de cosecha:</label>-->
-            <!--<input type="text" class="form-control" id="harvestAmount" name="harvestAmount" required formControlName="harvestAmount">-->
-            <!--<div class="invalid-feedback"></div>-->
-          <!--</div>-->
 
           <label for="harvestAmount">Capacidad de cosecha:</label>
 
           <div class="form-row">
             <div class="form-group col-6" [ngClass]="{'was-validated': contactForm.get('harvestAmount').touched || submitted}" >
-              <input type="number" class="form-control" id="harvestAmount" name="harvestAmount" required formControlName="harvestAmount">
-              <div class="invalid-feedback"></div>
+              <input type="number" class="form-control" id="harvestAmount" name="harvestAmount" required min="0" max="999999999" step="any" formControlName="harvestAmount">
+              <div class="invalid-feedback">Ingresa la capacidad de cosecha</div>
             </div>
             <div class="form-group col-6"  [ngClass]="{'was-validated': contactForm.get('harvestAmountUnit').touched || submitted}">
-              <input type="text" class="form-control" id="harvestAmountUnit" name="harvestAmountUnit" placeholder="" required formControlName="harvestAmountUnit">
-              <div class="invalid-feedback"></div>
+              <!--<input type="text" class="form-control" id="harvestAmountUnit" name="harvestAmountUnit" placeholder=""  required maxlength="5" formControlName="harvestAmountUnit">-->
+              <select type="text" class="form-control" id="harvestAmountUnit" name="harvestAmountUnit" placeholder=""  required maxlength="5" formControlName="harvestAmountUnit">
+                <option *ngFor="let unit of Contact.harvestAmountUnits" [value]="unit.value">{{unit.name}}</option>
+              </select>
+              <div class="invalid-feedback">Selecciona una unidad de medida</div>
             </div>
           </div>
 

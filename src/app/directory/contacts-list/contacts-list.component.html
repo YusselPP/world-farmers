@@ -1,11 +1,9 @@
-<div class="row" *ngIf="contacts | async; else empty">
+<div class="row" *ngIf="contacts.length > 0; else empty">
   <app-contact-item class="col-sm-6 mb-1"
-    *ngFor="let contact of contacts | async"
+    *ngFor="let contact of contacts"
     [contact]="contact"
   ></app-contact-item>
 </div>
 <ng-template #empty>
-  <div class="row">
-    No se encontraron registros
-  </div>
+  <h5 class="text-center">No se encontraron registros</h5>
 </ng-template>

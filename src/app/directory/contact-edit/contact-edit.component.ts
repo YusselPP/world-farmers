@@ -6,6 +6,7 @@ import { PaginationService } from '../../pagination/pagination.service';
 import { APP_DIR_ROUTE } from '../const';
 import { APP_ROUTE } from '../../const';
 import { Contact } from '../contact.model';
+import { DateService } from '../../shared/date.service';
 
 @Component({
   selector: 'app-contact-edit',
@@ -23,6 +24,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
   constructor(
     @Inject(APP_ROUTE) public appRoute,
     @Inject(APP_DIR_ROUTE) public dirRoute,
+    public dateService: DateService,
     public paginationService: PaginationService,
     private fb: FormBuilder,
     private router: Router,
@@ -42,7 +44,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
         this.id = id;
         this.editMode = true;
         // this.contact = this.contactService.get(this.id);
-        this.contact = new Contact();
+        // this.contact = new Contact();
         this.contactService.get(this.id).subscribe(
           (contacts: Contact) => {
             this.contact = contacts;
@@ -55,7 +57,6 @@ export class ContactEditComponent implements OnInit, OnChanges {
       } else {
         this.contact = new Contact();
       }
-      this.ngOnChanges();
     });
   }
 
@@ -64,7 +65,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
       name: '',
       phoneNumber: '',
       products: this.fb.array(['']),
-      startedWorking: '',
+      startedWorking: this.dateService.today(),
       landSize: '',
       landSizeUnit: '',
       harvestAmount: '',
@@ -83,7 +84,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
     this.contactForm.reset({
       name: this.contact.name,
       phoneNumber: this.contact.phoneNumber,
-      startedWorking: this.contact.startedWorking,
+      startedWorking: this.contact.startedWorking || this.dateService.today(),
       landSize: this.contact.landSize,
       landSizeUnit: this.contact.landSizeUnit,
       harvestAmount: this.contact.harvestAmount,
@@ -95,6 +96,8 @@ export class ContactEditComponent implements OnInit, OnChanges {
 
     if (this.contact.products.length > 0) {
       this.setProducts(this.contact.products);
+    } else {
+      this.setProducts(['']);
     }
   }
 
@@ -182,30 +185,4 @@ export class ContactEditComponent implements OnInit, OnChanges {
   }
 
   revert() { this.ngOnChanges(); }
-
-  today() {
-    let todayString;
-    const today = new Date();
-    const dd = today.getDate();
-    const mm = today.getMonth() + 1;
-    const yyyy = today.getFullYear();
-
-    todayString = yyyy + '-';
-
-    if (mm < 10) {
-      todayString += '0' + mm;
-    } else {
-      todayString += mm;
-    }
-
-    todayString += '-';
-
-    if (dd < 10) {
-      todayString += '0' + dd;
-    } else {
-      todayString += dd;
-    }
-
-    return todayString;
-  }
 }

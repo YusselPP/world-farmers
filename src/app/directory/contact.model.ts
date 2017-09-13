@@ -1,6 +1,8 @@
 export class Contact {
-  public static landSizeUnits = [{name: 'Hectáreas', value: 'HA'}];
-  public static harvestAmountUnits = [{name: 'Kilos', value: 'KG'}, {name: 'Toneladas', value: 'TON'}];
+  public static landSizeUnits = {'HA': 'Hectáreas'};
+  public static landSizeUnitsKeys = Object.keys(Contact.landSizeUnits);
+  public static harvestAmountUnits = {'KG': 'Kilos', 'TON': 'Toneladas'};
+  public static harvestAmountUnitsKeys = Object.keys(Contact.harvestAmountUnits);
 
   public id?: string;
   public name?: string;
@@ -58,23 +60,38 @@ export class Contact {
     return parsedProducts;
   }
 
-  public experience() {
-    const d1 = new Date(Date.now());
-    const experience = {
-      months: 0,
-      years: 0
-    };
+  public getExperience(): string {
+    const d2 = new Date(Date.now());
     let months;
+    let years;
+    let experience = '';
 
     if (!this.startedWorking) {
       return experience;
     }
 
-    const d2 = new Date(this.startedWorking);
+    const d1 = new Date(this.startedWorking);
 
     months = (d2.getFullYear() - d1.getFullYear()) * 12;
     months -= d1.getMonth() + 1;
     months += d2.getMonth();
-    return months <= 0 ? 0 : months;
+    months = months <= 0 ? 0 : months;
+
+    years = Math.trunc(months / 12);
+    months = Math.trunc(months % 12);
+
+    if (years === 1) {
+      experience += years + ' año ';
+    } else if (years > 1) {
+      experience += years + ' años ';
+    }
+
+    if (months === 1) {
+      experience += months + ' mes';
+    } else if (months > 1) {
+      experience += months + ' meses';
+    }
+
+    return experience;
   }
 }

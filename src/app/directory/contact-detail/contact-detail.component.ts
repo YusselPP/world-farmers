@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Contact } from '../contact.model';
 import { ActivatedRoute } from '@angular/router';
 import { ContactService } from '../../shared/contact.service';
@@ -13,7 +13,7 @@ import { APP_DIR_ROUTE } from '../const';
 })
 export class ContactDetailComponent implements OnInit {
   public contact: Contact;
-  public today = Date.now();
+  public Contact: Contact;
 
   constructor(
     @Inject(APP_ROUTE) public appRoute,

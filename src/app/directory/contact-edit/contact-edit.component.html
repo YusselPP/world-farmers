@@ -40,7 +40,7 @@
                 <div class="form-group" [ngClass]="{'was-validated': product.touched || submitted}">
                   <div class="input-group" >
                     <input type="text" class="form-control" id="product-{{i}}" name="product-{{i}}" placeholder="ej: maíz, garbanzo, algodón"  required maxlength="150" [formControlName]="i">
-                    <button class="input-group-addon" style="color: red" (click)="removeProduct(i)" *ngIf="i != 0">
+                    <button type="button" class="input-group-addon" style="color: red" (click)="removeProduct(i)" *ngIf="i != 0">
                       <i class="fa fa-remove" aria-hidden="true"></i>
                     </button>
                   </div>
@@ -58,7 +58,7 @@
 
           <div class="form-group" [ngClass]="{'was-validated': contactForm.get('startedWorking').touched || submitted}">
             <label for="startedWorking">Trabaja desde:</label>
-            <input type="date" class="form-control" id="startedWorking" name="startedWorking" required formControlName="startedWorking" min="1901-12-14" max="{{today()}}">
+            <input type="date" class="form-control" id="startedWorking" name="startedWorking" required formControlName="startedWorking" min="1901-12-14" max="{{dateService.today()}}">
             <div class="invalid-feedback">Ingresa la fecha en que empezó a trabajar</div>
           </div>
 
@@ -95,7 +95,7 @@
             <div class="form-group col-6"  [ngClass]="{'was-validated': contactForm.get('landSizeUnit').touched || submitted}">
               <!--<input type="text" class="form-control" id="landSizeUnit" name="landSizeUnit" placeholder=""  required maxlength="5" formControlName="landSizeUnit">-->
               <select type="text" class="form-control" id="landSizeUnit" name="landSizeUnit" placeholder=""  required maxlength="5" formControlName="landSizeUnit">
-                <option *ngFor="let unit of Contact.landSizeUnits" [value]="unit.value">{{unit.name}}</option>
+                <option *ngFor="let unitKey of Contact.landSizeUnitsKeys" [value]="unitKey">{{ Contact.landSizeUnits[unitKey] }}</option>
               </select>
               <div class="invalid-feedback">Selecciona una unidad de medida</div>
             </div>
@@ -111,7 +111,7 @@
             <div class="form-group col-6"  [ngClass]="{'was-validated': contactForm.get('harvestAmountUnit').touched || submitted}">
               <!--<input type="text" class="form-control" id="harvestAmountUnit" name="harvestAmountUnit" placeholder=""  required maxlength="5" formControlName="harvestAmountUnit">-->
               <select type="text" class="form-control" id="harvestAmountUnit" name="harvestAmountUnit" placeholder=""  required maxlength="5" formControlName="harvestAmountUnit">
-                <option *ngFor="let unit of Contact.harvestAmountUnits" [value]="unit.value">{{unit.name}}</option>
+                <option *ngFor="let unitKey of Contact.harvestAmountUnitsKeys" [value]="unitKey">{{ Contact.harvestAmountUnits[unitKey] }}</option>
               </select>
               <div class="invalid-feedback">Selecciona una unidad de medida</div>
             </div>

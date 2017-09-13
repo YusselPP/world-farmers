@@ -23,10 +23,6 @@ export class PaginationService {
   }
 
   set currentPage(currentPage: number) {
-    if (isNaN(currentPage) || currentPage < 1) {
-      console.error('currentPage value must be a number greater than 0');
-      return;
-    }
     this._currentPage = currentPage;
   }
 

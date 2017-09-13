@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { ContactService } from '../../shared/contact.service';
 import { APP_ROUTE } from '../../const';
@@ -12,8 +12,10 @@ import { Contact } from '../contact.model';
   templateUrl: './contacts-list.component.html',
   styleUrls: ['./contacts-list.component.css']
 })
-export class ContactsListComponent implements OnInit {
+export class ContactsListComponent implements OnInit, OnDestroy {
   contacts: Contact[] = [];
+
+  private contactsChangeSubscription;
 
   constructor(
     @Inject(APP_ROUTE) public appRoute,
@@ -25,17 +27,27 @@ export class ContactsListComponent implements OnInit {
     private contactService: ContactService) { console.log('contact list component');}
 
   ngOnInit() {
-    this.contactService.contactsChange
+    this.contactsChangeSubscription = this.contactService.contactsChange
       .do((contacts: Contact[]) => {
+        const currentPage = this.paginationService.currentPage;
+
         this.paginationService.dataCount = this.contactService.contactsCount;
-        if (contacts.length === 0 && this.paginationService.pageCount > 1) {
-          this.router.navigate([this.paginationService.pageCount], {relativeTo: this.route.parent});
-        } else {
-          this.router.navigate([1], {relativeTo: this.route.parent});
+
+        // if the page has no data we assume is an invalid page
+        if (contacts.length === 0 && this.paginationService.currentPage !== 1) {
+          const totalPages = this.paginationService.pageCount;
+          let navigateTo = 1;
+
+          if (currentPage > totalPages) {
+            navigateTo = totalPages;
+          }
+
+          this.router.navigate([navigateTo], {relativeTo: this.route.parent});
         }
       })
       .subscribe(
         (contacts: Contact[]) => {
+          console.log('list component: contacts changed');
           this.contacts = contacts;
         },
         err => {
@@ -45,15 +57,17 @@ export class ContactsListComponent implements OnInit {
 
     this.route.paramMap
       .switchMap(paramMap => {
-        let pageNum = +paramMap.get('num');
+        const pageNum = +paramMap.get('num');
         const itemsPerPage = this.paginationService.itemsPerPage;
 
-        if (isNaN(pageNum) || pageNum < 1) {
-          pageNum = 1;
-        }
         this.paginationService.currentPage = pageNum;
         return this.contactService.getContactsPage(pageNum, itemsPerPage);
       })
-      .subscribe(page => {}, error => console.log(error));
+      .subscribe((page: Contact[]) => {
+      }, error => console.error(error));
+  }
+
+  ngOnDestroy() {
+    this.contactsChangeSubscription.unsubscribe();
   }
 }

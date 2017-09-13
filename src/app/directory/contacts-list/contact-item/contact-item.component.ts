@@ -19,7 +19,7 @@ export class ContactItemComponent implements OnInit {
     @Inject(APP_ROUTE) public appRoute,
     @Inject(APP_DIR_ROUTE) public dirRoute,
     public auth: AuthService,
-    private contactService: ContactService) {console.log('contact item component'); }
+    private contactService: ContactService) { }
 
   ngOnInit() {
   }

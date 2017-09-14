@@ -1,6 +1,7 @@
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { PaginationService } from '../pagination/pagination.service';
+import { isFunction, isObject } from 'util';
 
 @Injectable()
 export class ValidateParamGuard implements CanActivate {
@@ -18,7 +19,7 @@ export class ValidateParamGuard implements CanActivate {
     const paramValidators = data.paramValidators;
     const fallbackUrl = data.fallbackUrl || '/';
 
-    if (!(paramValidators instanceof Object)) {
+    if (!isObject(paramValidators)) {
       return true;
     }
 
@@ -26,7 +27,7 @@ export class ValidateParamGuard implements CanActivate {
       const validatorName = paramValidators[paramName];
       const paramValue = paramMap.get(paramName);
 
-      if (!validatorName || typeof this[validatorName] !== 'function') {
+      if (!validatorName || !isFunction(this[validatorName])) {
         console.error('ValidateParamGuard - validator function: ' + validatorName + ' is not declared');
         return false;
       }

@@ -63,8 +63,10 @@ export class ContactsListComponent implements OnInit, OnDestroy {
         this.paginationService.currentPage = pageNum;
         return this.contactService.getContactsPage(pageNum, itemsPerPage);
       })
-      .subscribe((page: Contact[]) => {
-      }, error => console.error(error));
+      .subscribe(
+        (page: Contact[]) => { },
+        error => console.error(error)
+      );
   }
 
   ngOnDestroy() {

@@ -1,10 +1,12 @@
+import { isArray, isString } from 'util';
+
 export class Contact {
   public static landSizeUnits = {'HA': 'Hectáreas'};
   public static landSizeUnitsKeys = Object.keys(Contact.landSizeUnits);
   public static harvestAmountUnits = {'KG': 'Kilos', 'TON': 'Toneladas'};
   public static harvestAmountUnitsKeys = Object.keys(Contact.harvestAmountUnits);
 
-  public id?: string;
+  public id?: number;
   public name?: string;
   public phoneNumber?: string;
 
@@ -12,10 +14,10 @@ export class Contact {
 
   public startedWorking?: string;
 
-  public landSize?: string;
+  public landSize?: number;
   public landSizeUnit?: string;
 
-  public harvestAmount?: string;
+  public harvestAmount?: number;
   public harvestAmountUnit?: string;
 
   public locality?: string;
@@ -32,10 +34,10 @@ export class Contact {
 
     this.startedWorking = options.startedWorking;
 
-    this.landSize = options.landSize;
+    this.landSize = +options.landSize || undefined;
     this.landSizeUnit = options.landSizeUnit;
 
-    this.harvestAmount = options.harvestAmount;
+    this.harvestAmount = +options.harvestAmount || undefined;
     this.harvestAmountUnit = options.harvestAmountUnit;
 
     this.locality = options.locality;
@@ -45,14 +47,14 @@ export class Contact {
     this.products = Contact.productsStringToArray(options.products);
   }
 
-  static productsStringToArray(products: string | string[]): string[] {
+  static productsStringToArray(products: string[] | string): string[] {
     let parsedProducts;
 
-    if (products instanceof Array) {
+    if (Array.isArray(products)) {
       return products;
     }
 
-    if (typeof products === 'string') {
+    if (isString(products)) {
       parsedProducts = products.split(',').map(s => s.trim());
     } else {
       parsedProducts = [];
@@ -93,5 +95,13 @@ export class Contact {
     }
 
     return experience;
+  }
+
+  public getLandSizeUnitText(): string {
+    return Contact.landSizeUnits[this.landSizeUnit];
+  }
+
+  public getHarvestAmountUnitText(): string {
+    return Contact.harvestAmountUnits[this.harvestAmountUnit];
   }
 }

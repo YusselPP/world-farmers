@@ -40,14 +40,14 @@
       <div class="row">
         <label for="landSize" class="col-sm-2 col-form-label"><strong>Tamaño del campo:</strong></label>
         <div class="col-sm-10 d-flex align-items-center">
-          <input type="text" readonly class="form-control-plaintext" id="landSize" name="landSize" value="{{ contact.landSize }} {{ Contact.landSizeUnits[contact.landSizeUnit] }}">
+          <input type="text" readonly class="form-control-plaintext" id="landSize" name="landSize" value="{{ contact.landSize }} {{ contact.getLandSizeUnitText() }}">
         </div>
       </div>
 
       <div class="row">
         <label for="harvestAmount" class="col-sm-2 col-form-label"><strong>Capacidad de cosecha:</strong></label>
         <div class="col-sm-10 d-flex align-items-center">
-          <input type="text" readonly class="form-control-plaintext" id="harvestAmount" name="harvestAmount" value="{{ contact.harvestAmount }} {{ Contact.harvestAmountUnits[contact.harvestAmountUnit] }}">
+          <input type="text" readonly class="form-control-plaintext" id="harvestAmount" name="harvestAmount" value="{{ contact.harvestAmount }} {{ contact.getHarvestAmountUnitText() }}">
         </div>
       </div>
 

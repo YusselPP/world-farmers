@@ -41,8 +41,8 @@ export class Contact {
     this.harvestAmountUnit = options.harvestAmountUnit;
 
     this.locality = options.locality;
-    this.latitude = options.latitude;
-    this.longitude = options.longitude;
+    this.latitude = +options.latitude || undefined;
+    this.longitude = +options.longitude || undefined;
 
     this.products = Contact.productsStringToArray(options.products);
   }

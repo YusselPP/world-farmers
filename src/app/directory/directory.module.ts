@@ -13,6 +13,9 @@ import { AuthGuard } from '../auth/auth-guard.service';
 import { PaginationModule } from '../pagination/pagination.module';
 import { APP_DIR_ROUTE, DIRECTORY_ROUTE } from './const';
 import { PagesComponent } from './pages/pages.component';
+import { MapComponent } from '../map/map.component';
+import { LocationMapComponent } from './contact-detail/location-map/location-map.component';
+import { SetLocationMapComponent } from './contact-edit/set-location-map/set-location-map.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { PagesComponent } from './pages/pages.component';
     ContactsListComponent,
     ContactItemComponent,
     DirectoryComponent,
-    PagesComponent
+    PagesComponent,
+    MapComponent,
+    LocationMapComponent,
+    SetLocationMapComponent
   ],
   imports: [
     CommonModule,

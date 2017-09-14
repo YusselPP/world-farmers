@@ -51,6 +51,12 @@
         </div>
       </div>
 
+      <br>
+
+      <strong>Ubicación:</strong>
+      <br><br>
+      <app-location-map [latitude]="contact.latitude" [longitude]="contact.longitude"></app-location-map>
+
     </form>
 
     <ng-template #contactNotFound>

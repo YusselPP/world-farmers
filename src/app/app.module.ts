@@ -12,6 +12,7 @@ import { APP_ROUTE, ROUTE } from './const';
 import { AjaxInterceptor } from './shared/ajax.interceptor';
 import { DateService } from './shared/date.service';
 import { PaginationService } from './pagination/pagination.service';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [

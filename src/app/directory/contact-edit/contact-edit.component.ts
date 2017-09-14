@@ -7,11 +7,14 @@ import { APP_DIR_ROUTE } from '../const';
 import { APP_ROUTE } from '../../const';
 import { Contact } from '../contact.model';
 import { DateService } from '../../shared/date.service';
+import { MapService } from '../../map/map.service';
+import { isFunction } from 'util';
 
 @Component({
   selector: 'app-contact-edit',
   templateUrl: './contact-edit.component.html',
-  styleUrls: ['./contact-edit.component.css']
+  styleUrls: ['./contact-edit.component.css'],
+  providers: [MapService]
 })
 export class ContactEditComponent implements OnInit, OnChanges {
   contactForm: FormGroup;
@@ -185,4 +188,11 @@ export class ContactEditComponent implements OnInit, OnChanges {
   }
 
   revert() { this.ngOnChanges(); }
+
+  onMapMarkerMoved(e) {
+    const lat = isFunction(e.lat) ? e.lat() : e.lat;
+    const lng = isFunction(e.lng) ? e.lng() : e.lng;
+    this.contactForm.get('latitude').setValue(lat);
+    this.contactForm.get('longitude').setValue(lng);
+  }
 }

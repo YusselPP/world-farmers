@@ -16,11 +16,6 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.createMap();
+    this.mapService.setMapContainer(this.mapContainer.nativeElement);
   }
-
-  createMap() {
-    this.mapService.createMap(this.mapContainer.nativeElement);
-  }
-
 }

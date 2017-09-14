@@ -2,11 +2,13 @@ import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable()
 export class MapService {
-  public map;
-
+  public mapContainerAvailable = new EventEmitter();
   public mapInit = new EventEmitter();
   public mapClicked = new EventEmitter();
+  public tilesLoaded = new EventEmitter();
+  public map;
 
+  private mapContainer;
   private mexicoLatLon = {
     lat: 23.0783947,
     lng: -100.9744313
@@ -20,13 +22,32 @@ export class MapService {
 
   constructor() { }
 
-  createMap(element, options?) {
-    this.map = new google.maps.Map(element, Object.assign(this.defaultOptions, options));
-    this.mapInit.emit(this.map);
+  setMapContainer(element) {
+    this.mapContainer = element;
+    this.mapContainerAvailable.emit();
+  }
+
+  createMap(options?) {
+    let mapContainerAvailableSub;
+
+    if (this.mapContainer) {
+      this.map = new google.maps.Map(this.mapContainer, Object.assign(this.defaultOptions, options));
+      this.mapInit.emit();
+    } else {
+      console.log('The map container is not available yet. The map will be created as soon as the map container becomes available');
+      mapContainerAvailableSub = this.mapContainerAvailable.subscribe(() => {
+        mapContainerAvailableSub.unsubscribe();
+        this.createMap(options);
+      });
+    }
   }
 
   addClickListener() {
     this.map.addListener('click', e => this.mapClicked.emit(e));
+  }
+
+  addTilesLoadedListener() {
+    this.map.addListener('tilesloaded', e => this.tilesLoaded.emit(e));
   }
 
   addMarker(latLng) {
@@ -34,5 +55,9 @@ export class MapService {
         position: latLng,
         map: this.map
       });
+  }
+
+  updateOptions(options) {
+    this.map.setOptions(options);
   }
 }

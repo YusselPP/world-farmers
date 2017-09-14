@@ -11,8 +11,7 @@ import { DirectoryModule } from './directory/directory.module';
 import { APP_ROUTE, ROUTE } from './const';
 import { AjaxInterceptor } from './shared/ajax.interceptor';
 import { DateService } from './shared/date.service';
-import { PaginationService } from './pagination/pagination.service';
-import { MapComponent } from './map/map.component';
+import { AuthGuard } from './auth/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +19,7 @@ import { MapComponent } from './map/map.component';
   ],
   providers: [
     DateService,
-    PaginationService,
+    AuthGuard,
     { provide: APP_ROUTE, useValue: ROUTE },
     { provide: HTTP_INTERCEPTORS, useClass: AjaxInterceptor, multi: true }
   ],

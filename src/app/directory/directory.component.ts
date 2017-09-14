@@ -5,7 +5,7 @@ import { PaginationService } from '../pagination/pagination.service';
   selector: 'app-directory',
   templateUrl: './directory.component.html',
   styleUrls: ['./directory.component.css'],
-  providers: []
+  providers: [PaginationService]
 })
 export class DirectoryComponent implements OnInit {
 

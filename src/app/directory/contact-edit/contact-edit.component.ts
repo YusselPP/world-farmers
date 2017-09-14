@@ -9,19 +9,21 @@ import { Contact } from '../contact.model';
 import { DateService } from '../../shared/date.service';
 import { MapService } from '../../map/map.service';
 import { isFunction } from 'util';
+import { GeocoderService } from '../../map/geocoder.service';
 
 @Component({
   selector: 'app-contact-edit',
   templateUrl: './contact-edit.component.html',
   styleUrls: ['./contact-edit.component.css'],
-  providers: [MapService]
+  providers: [MapService, GeocoderService]
 })
 export class ContactEditComponent implements OnInit, OnChanges {
   contactForm: FormGroup;
   id: string;
   editMode = false;
-  contact: Contact;
   submitted = false;
+  showCoordinates = false;
+  contact: Contact;
   Contact = Contact;
 
   constructor(
@@ -32,7 +34,8 @@ export class ContactEditComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private contactService: ContactService) {
+    private contactService: ContactService,
+    private geocoderService: GeocoderService) {
 
     console.log('contact edit component');
     this.createForm();
@@ -75,7 +78,8 @@ export class ContactEditComponent implements OnInit, OnChanges {
       harvestAmountUnit: '',
       locality: '',
       latitude: '',
-      longitude: ''
+      longitude: '',
+      showCoordinates: this.showCoordinates
     });
   }
 
@@ -94,7 +98,8 @@ export class ContactEditComponent implements OnInit, OnChanges {
       harvestAmountUnit: this.contact.harvestAmountUnit,
       locality: this.contact.locality,
       latitude: this.contact.latitude,
-      longitude: this.contact.longitude
+      longitude: this.contact.longitude,
+      showCoordinates: this.showCoordinates
     });
 
     if (this.contact.products.length > 0) {
@@ -194,5 +199,10 @@ export class ContactEditComponent implements OnInit, OnChanges {
     const lng = isFunction(e.lng) ? e.lng() : e.lng;
     this.contactForm.get('latitude').setValue(lat);
     this.contactForm.get('longitude').setValue(lng);
+
+    this.geocoderService.geocodeLatLng({lat: lat, lng: lng})
+      .subscribe(locality => {
+        this.contactForm.get('locality').setValue(locality.formatted_address);
+      });
   }
 }

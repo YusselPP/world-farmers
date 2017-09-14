@@ -9,13 +9,11 @@ import { DirectoryRoutingModule } from './directory-routing.module';
 import { ContactItemComponent } from './contacts-list/contact-item/contact-item.component';
 import { DirectoryComponent } from './directory.component';
 import { ContactService } from '../shared/contact.service';
-import { AuthGuard } from '../auth/auth-guard.service';
 import { PaginationModule } from '../pagination/pagination.module';
 import { APP_DIR_ROUTE, DIRECTORY_ROUTE } from './const';
 import { PagesComponent } from './pages/pages.component';
-import { MapComponent } from '../map/map.component';
-import { LocationMapComponent } from './contact-detail/location-map/location-map.component';
-import { SetLocationMapComponent } from './contact-edit/set-location-map/set-location-map.component';
+import { LocationMapComponent } from './location-map/location-map.component';
+import { MapModule } from '../map/map.module';
 
 @NgModule({
   declarations: [
@@ -25,20 +23,18 @@ import { SetLocationMapComponent } from './contact-edit/set-location-map/set-loc
     ContactItemComponent,
     DirectoryComponent,
     PagesComponent,
-    MapComponent,
-    LocationMapComponent,
-    SetLocationMapComponent
+    LocationMapComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     PaginationModule,
+    MapModule,
     DirectoryRoutingModule
   ],
   providers: [
     { provide: APP_DIR_ROUTE, useValue: DIRECTORY_ROUTE },
-    AuthGuard,
     ContactService
   ]
 })

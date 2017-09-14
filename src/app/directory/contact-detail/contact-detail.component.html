@@ -9,53 +9,49 @@
    </div>
   <div class="card-body">
     <form *ngIf="contact; else contactNotFound">
-      <div class="row">
-        <label for="locality" class="col-sm-2 col-form-label"><strong>Ubicación:</strong></label>
-        <div class="col-sm-10 d-flex align-items-center">
-          <input type="text" readonly class="form-control-plaintext" id="locality" name="locality" value="{{ contact.locality }}">
-        </div>
-      </div>
 
       <div class="row">
-        <label for="products" class="col-sm-2 col-form-label"><strong>Productos:</strong></label>
-        <div class="col-sm-10 d-flex align-items-center">
+        <label for="products" class="col-md-2 col-form-label"><strong>Productos:</strong></label>
+        <div class="col-md-10 d-flex align-items-center">
           <input type="text" readonly class="form-control-plaintext" id="products" name="products" value="{{ contact.products.join(', ') }}">
         </div>
       </div>
 
       <div class="row">
-        <label for="experience" class="col-sm-2 col-form-label"><strong>Experiencia:</strong></label>
-        <div class="col-sm-10 d-flex align-items-center">
+        <label for="experience" class="col-md-2 col-form-label"><strong>Experiencia:</strong></label>
+        <div class="col-md-10 d-flex align-items-center">
           <input type="text" readonly class="form-control-plaintext" id="experience" name="experience" value="{{ contact.getExperience() }}">
         </div>
       </div>
 
-      <div class="row">
-        <label for="coordinates" class="col-sm-2 col-form-label"><strong>Coordenadas:</strong></label>
-        <div class="col-sm-10 d-flex align-items-center">
-          <input type="text" readonly class="form-control-plaintext" id="coordinates" name="coordinates" value="{{ contact.latitude }}, {{ contact.longitude }}">
-        </div>
-      </div>
 
       <div class="row">
-        <label for="landSize" class="col-sm-2 col-form-label"><strong>Tamaño del campo:</strong></label>
-        <div class="col-sm-10 d-flex align-items-center">
+        <label for="landSize" class="col-md-2 col-form-label"><strong>Tamaño del campo:</strong></label>
+        <div class="col-md-10 d-flex align-items-center">
           <input type="text" readonly class="form-control-plaintext" id="landSize" name="landSize" value="{{ contact.landSize }} {{ contact.getLandSizeUnitText() }}">
         </div>
       </div>
 
       <div class="row">
-        <label for="harvestAmount" class="col-sm-2 col-form-label"><strong>Capacidad de cosecha:</strong></label>
-        <div class="col-sm-10 d-flex align-items-center">
+        <label for="harvestAmount" class="col-md-2 col-form-label"><strong>Capacidad de cosecha:</strong></label>
+        <div class="col-md-10 d-flex align-items-center">
           <input type="text" readonly class="form-control-plaintext" id="harvestAmount" name="harvestAmount" value="{{ contact.harvestAmount }} {{ contact.getHarvestAmountUnitText() }}">
         </div>
       </div>
 
-      <br>
+      <div class="row">
+        <label for="coordinates" class="col-md-2 col-form-label"><strong>Ubicación:</strong></label>
+        <div class="col-md-10 d-flex align-items-center">
+          <input type="text" readonly class="form-control-plaintext" id="coordinates" name="coordinates" value="{{ contact.locality }} ({{ contact.latitude }}, {{ contact.longitude }})">
+        </div>
+      </div>
 
-      <strong>Ubicación:</strong>
-      <br><br>
-      <app-location-map [latitude]="contact.latitude" [longitude]="contact.longitude"></app-location-map>
+      <div class="row">
+        <label class="col-md-2 col-form-label"></label>
+        <div class="col-md-10 d-flex align-items-center">
+          <app-location-map [latLng]="{lat: contact.latitude, lng: contact.longitude}"></app-location-map>
+        </div>
+      </div>
 
     </form>
 

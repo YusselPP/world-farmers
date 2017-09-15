@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class PaginationComponent implements AfterViewInit {
   @ViewChild('nav') navElement: ElementRef;
 
-  constructor(public paginationService: PaginationService, private activatedRoute: ActivatedRoute) { console.log('pagination component'); }
+  constructor(public paginationService: PaginationService, private activatedRoute: ActivatedRoute) { }
 
   ngAfterViewInit() {
     // console.log(this.navElement.nativeElement.clientWidth);

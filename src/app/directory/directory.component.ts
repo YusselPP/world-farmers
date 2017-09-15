@@ -9,7 +9,7 @@ import { PaginationService } from '../pagination/pagination.service';
 })
 export class DirectoryComponent implements OnInit {
 
-  constructor() {console.log('directory component'); }
+  constructor() { }
 
   ngOnInit() {
   }

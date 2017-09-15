@@ -16,7 +16,6 @@ export class ContactService {
 
 
   constructor (private httpClient: HttpClient) {
-    console.log('contact service');
   }
 
   public get(id: string) {

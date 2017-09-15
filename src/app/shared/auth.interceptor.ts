@@ -6,14 +6,15 @@ import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {console.log('auth interceptor');}
+  constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('Intercepted!', req);
-    // const copiedReq = req.clone({headers: req.headers.set('', '')});
-    // const copiedReq = req.clone({params: req.params.set('auth', this.authService.getToken())});
-    // return next.handle(copiedReq);
-    // return null;
-    return next.handle(req);
+    console.log('AuthInterceptor - Before ', req);
+
+    const authReq = req.clone({headers: req.headers.set('Au', '')});
+
+    console.log('AuthInterceptor - After ', authReq);
+
+    return next.handle(authReq);
   }
 }

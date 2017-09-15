@@ -12,7 +12,7 @@ export class NotFoundComponent implements OnInit {
   constructor(
     @Inject(APP_ROUTE) public appRoute,
     @Inject(APP_DIR_ROUTE) public dirRoute
-  ) { console.log('not found component');}
+  ) { }
 
   ngOnInit() {
   }

@@ -24,7 +24,7 @@ export class ContactsListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private paginationService: PaginationService,
-    private contactService: ContactService) { console.log('contact list component');}
+    private contactService: ContactService) { }
 
   ngOnInit() {
     this.contactsChangeSubscription = this.contactService.contactsChange
@@ -47,7 +47,6 @@ export class ContactsListComponent implements OnInit, OnDestroy {
       })
       .subscribe(
         (contacts: Contact[]) => {
-          console.log('list component: contacts changed');
           this.contacts = contacts;
         },
         err => {

@@ -14,7 +14,7 @@ export class PaginationService {
   constructor(@Inject(APP_ROUTE) public appRoute,
               @Inject(APP_DIR_ROUTE) public dirRoute,
               private router: Router) {
-    console.log('pagination service');
+
     this.pages = [];
     this.currentPage = 1;
     this.itemsPerPage = 20;

@@ -51,7 +51,6 @@ export class LocationMapComponent implements AfterViewInit{
   }
 
   onScrollWheelOptionChange(e) {
-    console.log(e);
     this.mapService.updateOptions({
       scrollwheel: this.isScrollWheelEnabled
     });

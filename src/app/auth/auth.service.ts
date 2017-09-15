@@ -6,12 +6,12 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   token: string;
 
-  constructor() {console.log('auth service');}
+  constructor() {}
 
   signupUser(email: string, password: string) {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .catch(
-        error => console.log(error)
+        error => console.error(error)
       );
   }
 

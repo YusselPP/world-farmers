@@ -37,7 +37,6 @@ export class ContactEditComponent implements OnInit, OnChanges {
     private contactService: ContactService,
     private geocoderService: GeocoderService) {
 
-    console.log('contact edit component');
     this.createForm();
   }
 
@@ -137,13 +136,10 @@ export class ContactEditComponent implements OnInit, OnChanges {
 
     this.contact = this.prepareSaveContact();
 
-    console.log(this.contact.startedWorking);
-
     if (this.editMode) {
       this.contactService.update(this.id, this.contact)
         .subscribe(
           response => {
-            console.log('updated successfully: ' + response);
             this.router.navigate([
               this.appRoute.SLASH,
               this.dirRoute.ROOT,
@@ -157,7 +153,6 @@ export class ContactEditComponent implements OnInit, OnChanges {
       this.contactService.store(this.contact)
         .subscribe(
           response => {
-            console.log('stored successfully: ' + response);
             this.router.navigate([
               this.appRoute.SLASH,
               this.dirRoute.ROOT,

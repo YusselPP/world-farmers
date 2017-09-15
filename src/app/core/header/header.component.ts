@@ -23,8 +23,6 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService,
     private changeDetectorRef: ChangeDetectorRef) {
 
-    console.log('header component');
-
     this.setCurrentLocation();
   }
 
@@ -47,7 +45,6 @@ export class HeaderComponent implements OnInit {
         observer => {
 
           observer.subscribe(locality => {
-              console.log(locality.formatted_address);
               this.locality = locality.formatted_address;
               this.changeDetectorRef.detectChanges();
             });

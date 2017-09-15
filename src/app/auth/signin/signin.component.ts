@@ -17,7 +17,7 @@ export class SigninComponent implements OnInit {
     @Inject(APP_ROUTE) public appRoute,
     @Inject(APP_DIR_ROUTE) public dirRoute,
     private authService: AuthService,
-    private router: Router) { console.log('sign in component'); }
+    private router: Router) { }
 
   ngOnInit() {
   }

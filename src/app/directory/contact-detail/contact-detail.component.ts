@@ -19,7 +19,7 @@ export class ContactDetailComponent implements OnInit {
     @Inject(APP_DIR_ROUTE) public dirRoute,
     public paginationService: PaginationService,
     private activatedRoute: ActivatedRoute,
-    private contactService: ContactService) {console.log('contact detail component'); }
+    private contactService: ContactService) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(

@@ -12,6 +12,7 @@ import { APP_DIR_ROUTE } from '../../directory/const';
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
+  logging = false;
 
   constructor(
     @Inject(APP_ROUTE) public appRoute,
@@ -26,14 +27,23 @@ export class SigninComponent implements OnInit {
     const email = form.value.email;
     const password = form.value.password;
 
+    if (this.logging) {
+      return;
+    }
+// TODO::
+    this.logging = true;
     this.authService.signinUser(email, password)
       .subscribe(res => {
         const url = this.authService.redirectUrl ?
           [this.authService.redirectUrl] :
           [this.appRoute.SLASH, this.dirRoute.ROOT];
 
+        this.logging = false;
         this.router.navigate(url);
-      }, err => console.error(err));
+      }, err => {
+        console.error(err);
+        this.logging = false;
+      });
   }
 
 }

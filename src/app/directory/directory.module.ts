@@ -14,6 +14,7 @@ import { APP_DIR_ROUTE, DIRECTORY_ROUTE } from './const';
 import { PagesComponent } from './pages/pages.component';
 import { LocationMapComponent } from './location-map/location-map.component';
 import { MapModule } from '../map/map.module';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { MapModule } from '../map/map.module';
     ReactiveFormsModule,
     PaginationModule,
     MapModule,
-    DirectoryRoutingModule
+    DirectoryRoutingModule,
+    CoreModule
   ],
   providers: [
     { provide: APP_DIR_ROUTE, useValue: DIRECTORY_ROUTE },

@@ -19,7 +19,7 @@ export class AuthService {
     const url = `${AuthService.apiBaseUrl}login`;
 
     return (
-      this.http.post(url, { email: email, password: password, scope: 'write-contacts'})
+      this.http.post(url, { email: email, password: password, scope: ''})
         .do(res => {
           localStorage.setItem(AuthService.tokenName, res['access_token']);
         })

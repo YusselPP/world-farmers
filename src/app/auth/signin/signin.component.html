@@ -26,7 +26,10 @@
             </div>
           </div>
           <div class="form-row">
-            <button class="btn btn-primary mx-auto" [disabled]="!f.valid">Entrar</button>
+            <button class="btn btn-primary mx-auto" [disabled]="!f.valid || logging">
+              <span *ngIf="!logging">Entrar</span>
+              <i class="fa fa-spinner" *ngIf="logging" aria-hidden="true"></i>
+            </button>
           </div>
         </form>
       </div>

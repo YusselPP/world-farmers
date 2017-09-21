@@ -6,3 +6,7 @@
     z-index: 1020;
   }
 }
+
+nav.navbar.app-progress-bar {
+  top: 5px;
+}

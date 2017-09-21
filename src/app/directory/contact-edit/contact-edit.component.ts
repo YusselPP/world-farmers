@@ -10,20 +10,23 @@ import { DateService } from '../../shared/date.service';
 import { MapService } from '../../map/map.service';
 import { isFunction } from 'util';
 import { GeocoderService } from '../../map/geocoder.service';
+import { SpinnerService } from '../../core/spinner/spinner.service';
 
 @Component({
   selector: 'app-contact-edit',
   templateUrl: './contact-edit.component.html',
   styleUrls: ['./contact-edit.component.css'],
-  providers: [MapService, GeocoderService]
+  providers: [MapService, GeocoderService, SpinnerService]
 })
 export class ContactEditComponent implements OnInit, OnChanges {
   contactForm: FormGroup;
   id: string;
   editMode = false;
   submitted = false;
+  loading = true;
+  saving = false;
   showCoordinates = false;
-  contact: Contact;
+  contact: Contact = null;
   Contact = Contact;
 
   constructor(
@@ -31,6 +34,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
     @Inject(APP_DIR_ROUTE) public dirRoute,
     public dateService: DateService,
     public paginationService: PaginationService,
+    public spinnerService: SpinnerService,
     private fb: FormBuilder,
     private router: Router,
     private activeRoute: ActivatedRoute,
@@ -48,18 +52,22 @@ export class ContactEditComponent implements OnInit, OnChanges {
       if (id !== null) {
         this.id = id;
         this.editMode = true;
+        this.loading = true;
         // this.contact = this.contactService.get(this.id);
         // this.contact = new Contact();
         this.contactService.get(this.id).subscribe(
           (contacts: Contact) => {
+            this.loading = false;
             this.contact = contacts;
             this.ngOnChanges();
           },
           err => {
+            this.loading = false;
             console.error(err);
           }
         );
       } else {
+        this.loading = false;
         this.contact = new Contact();
       }
     });
@@ -129,17 +137,24 @@ export class ContactEditComponent implements OnInit, OnChanges {
 
   onSave() {
     this.submitted = true;
+
+    if (this.saving) {
+      return;
+    }
+
     if (this.contactForm.invalid) {
       window.scrollTo(0, 0);
       return;
     }
 
     this.contact = this.prepareSaveContact();
+    this.saving = true;
 
     if (this.editMode) {
       this.contactService.update(this.id, this.contact)
         .subscribe(
           response => {
+            this.saving = false;
             this.router.navigate([
               this.appRoute.SLASH,
               this.dirRoute.ROOT,
@@ -147,12 +162,16 @@ export class ContactEditComponent implements OnInit, OnChanges {
               this.paginationService.currentPage
             ]);
           },
-          error => console.error(error)
+          error => {
+            console.error(error);
+            this.saving = false;
+          }
         );
     } else {
       this.contactService.store(this.contact)
         .subscribe(
           response => {
+            this.saving = false;
             this.router.navigate([
               this.appRoute.SLASH,
               this.dirRoute.ROOT,
@@ -160,7 +179,10 @@ export class ContactEditComponent implements OnInit, OnChanges {
               this.paginationService.currentPage
             ]);
           },
-          error => console.error(error)
+          error => {
+            console.error(error);
+            this.saving = false;
+          }
         );
     }
 

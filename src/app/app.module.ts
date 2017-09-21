@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/throw';
@@ -20,13 +21,19 @@ import { AuthGuard } from './auth/auth-guard.service';
 import { GeolocationService } from './shared/geolocation.service';
 import { GeocoderService } from './map/geocoder.service';
 import { AuthService } from './auth/auth.service';
-import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
+import { JwtModule } from '@auth0/angular-jwt';
+import { ProgressBarService } from './core/progress-bar/progress-bar.service';
+
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   providers: [
+    ProgressBarService,
     GeolocationService,
     GeocoderService,
     DateService,
@@ -40,17 +47,15 @@ import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
     HttpClientModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: () => {
-          return localStorage.getItem('access_token');
-        },
+        tokenGetter: tokenGetter,
         whitelistedDomains: ['world-farmers.com', 'localhost:4200']
       }
     }),
 
     SharedModule,
     AuthModule,
-    DirectoryModule,
     CoreModule,
+    DirectoryModule,
     AppRoutingModule
   ],
   bootstrap: [AppComponent]

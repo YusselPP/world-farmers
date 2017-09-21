@@ -6,6 +6,7 @@ import { APP_DIR_ROUTE } from '../../directory/const';
 import { GeolocationService } from '../../shared/geolocation.service';
 import { GeocoderService } from '../../map/geocoder.service';
 import { Router } from '@angular/router';
+import { ProgressBarService } from '../progress-bar/progress-bar.service';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
     @Inject(APP_DIR_ROUTE) public dirRoute,
     public authService: AuthService,
     public geolocationService: GeolocationService,
+    public progressBar: ProgressBarService,
     private router: Router,
     private geocoderService: GeocoderService,
     private changeDetectorRef: ChangeDetectorRef) {

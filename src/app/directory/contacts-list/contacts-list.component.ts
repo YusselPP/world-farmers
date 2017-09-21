@@ -6,14 +6,17 @@ import { APP_DIR_ROUTE } from '../const';
 import { PaginationService } from '../../pagination/pagination.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Contact } from '../contact.model';
+import { SpinnerService } from '../../core/spinner/spinner.service';
 
 @Component({
   selector: 'app-contacts-list',
   templateUrl: './contacts-list.component.html',
-  styleUrls: ['./contacts-list.component.css']
+  styleUrls: ['./contacts-list.component.css'],
+  providers: [SpinnerService]
 })
 export class ContactsListComponent implements OnInit, OnDestroy {
   contacts: Contact[] = [];
+  loadingList = true;
 
   private contactsChangeSubscription;
 
@@ -21,6 +24,7 @@ export class ContactsListComponent implements OnInit, OnDestroy {
     @Inject(APP_ROUTE) public appRoute,
     @Inject(APP_DIR_ROUTE) public dirRoute,
     public auth: AuthService,
+    public spinnerService: SpinnerService,
     private route: ActivatedRoute,
     private router: Router,
     private paginationService: PaginationService,
@@ -60,11 +64,12 @@ export class ContactsListComponent implements OnInit, OnDestroy {
         const itemsPerPage = this.paginationService.itemsPerPage;
 
         this.paginationService.currentPage = pageNum;
+        this.loadingList = true;
         return this.contactService.getContactsPage(pageNum, itemsPerPage);
       })
       .subscribe(
-        (page: Contact[]) => { },
-        error => console.error(error)
+        (page: Contact[]) => { this.loadingList = false; },
+        error => { console.error(error); this.loadingList = false; }
       );
   }
 

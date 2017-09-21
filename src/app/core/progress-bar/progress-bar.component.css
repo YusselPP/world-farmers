@@ -1,0 +1,12 @@
+.progress-bar-overlay {
+  position: fixed;
+  width:100%;
+  top:0;
+  left: 0;
+  opacity: 1;
+  z-index: 500000;
+}
+
+md-progress-bar .mat-progress-bar-fill::after {
+  background-color: red;
+}

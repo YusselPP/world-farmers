@@ -9,7 +9,7 @@
     <div class="card">
       <div class="card-body">
 
-        <form *ngIf="contact; else contactNotFound" [formGroup]="contactForm" (ngSubmit)="onSave()" novalidate>
+        <form *ngIf="contact && !loading" [formGroup]="contactForm" (ngSubmit)="onSave()" novalidate>
           <div class="form-group" [ngClass]="{'was-validated': contactForm.get('name').touched || submitted}">
             <label for="name">*Nombre:</label>
             <input type="text" class="form-control" id="name" name="name" formControlName="name" required maxlength="150">
@@ -127,11 +127,17 @@
 
           <div class="form-row">
             <a class="btn btn-danger mr-auto" [routerLink]="[appRoute.SLASH, dirRoute.ROOT]">Cancelar</a>
-            <button class="btn btn-primary" >Guardar</button>
+            <button class="btn btn-primary" [disabled]="saving">
+              <span *ngIf="!saving">Guardar</span>
+              <i class="fa fa-spinner" *ngIf="saving" aria-hidden="true"></i>
+            </button>
           </div>
 
         </form>
-        <ng-template #contactNotFound>
+
+        <app-spinner [spinnerService]="spinnerService" *ngIf="loading"></app-spinner>
+
+        <ng-template [ngIf]="!contact && !loading">
           <h5 class="text-center">No existe el recurso solicitado</h5>
           <br>
           <div class="text-center">

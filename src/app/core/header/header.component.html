@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light">
+<nav class="navbar navbar-expand-sm navbar-light bg-light" [ngClass]="{'app-progress-bar': progressBar.isShown()}">
   <a [routerLink]="[appRoute.SLASH]" class="navbar-brand">
     <img
       alt="Brand"

@@ -33,11 +33,11 @@ export class ContactService {
       .append('per_page', perPage.toString());
 
     return this.httpClient.get<Page<Contact>>(url, {params: params})
-      .do(contactsPage => this.contactsCount = contactsPage.total)
+      .do(contactsPage => this.contactsCount = contactsPage.total, err => this.contactsCount = 0)
       .map(page => {
         return page.data.map(contact => new Contact(contact)) as Contact[];
       })
-      .do(contacts => this.setContacts(contacts));
+      .do(contacts => this.setContacts(contacts), err => this.setContacts([]));
   }
 
   public store(contact: Contact) {

@@ -18,7 +18,7 @@ export class ContactsListComponent implements OnInit, OnDestroy {
   contacts: Contact[] = [];
   loadingList = true;
 
-  private contactsChangeSubscription;
+  private subscriptions = [];
 
   constructor(
     @Inject(APP_ROUTE) public appRoute,
@@ -31,7 +31,7 @@ export class ContactsListComponent implements OnInit, OnDestroy {
     private contactService: ContactService) { }
 
   ngOnInit() {
-    this.contactsChangeSubscription = this.contactService.contactsChange
+    this.subscriptions.push(this.contactService.contactsChange
       .do((contacts: Contact[]) => {
         const currentPage = this.paginationService.currentPage;
 
@@ -56,16 +56,22 @@ export class ContactsListComponent implements OnInit, OnDestroy {
         err => {
           console.error(err);
         }
-      );
+      ));
+
+    this.subscriptions.push(this.paginationService.pageSizeChange
+      .switchMap(size => {
+        return this.getContactsPage();
+      })
+      .subscribe(
+        (page: Contact[]) => { this.loadingList = false; },
+        error => { console.error(error); this.loadingList = false; }
+      ));
 
     this.route.paramMap
       .switchMap(paramMap => {
         const pageNum = +paramMap.get('num');
-        const itemsPerPage = this.paginationService.itemsPerPage;
-
         this.paginationService.currentPage = pageNum;
-        this.loadingList = true;
-        return this.contactService.getContactsPage(pageNum, itemsPerPage);
+        return this.getContactsPage();
       })
       .subscribe(
         (page: Contact[]) => { this.loadingList = false; },
@@ -73,7 +79,14 @@ export class ContactsListComponent implements OnInit, OnDestroy {
       );
   }
 
+  getContactsPage() {
+    const itemsPerPage = this.paginationService.itemsPerPage;
+    const currPage = this.paginationService.currentPage;
+    this.loadingList = true;
+    return this.contactService.getContactsPage(currPage, itemsPerPage);
+  }
+
   ngOnDestroy() {
-    this.contactsChangeSubscription.unsubscribe();
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }

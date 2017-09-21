@@ -30,7 +30,7 @@ export class SigninComponent implements OnInit {
     if (this.logging) {
       return;
     }
-// TODO::
+
     this.logging = true;
     this.authService.signinUser(email, password)
       .subscribe(res => {

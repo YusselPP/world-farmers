@@ -1,25 +1,32 @@
-<nav aria-label="Search directory results" #nav *ngIf="paginationService.pageCount > 1">
-  <ul class="pagination justify-content-center">
+<!--<nav aria-label="Search directory results" #nav *ngIf="paginationService.pageCount > 1">-->
+  <!--<ul class="pagination justify-content-center">-->
 
-    <li class="page-item" [ngClass]="{disabled: !paginationService.canGoPrev()}" (click)="paginationService.prevPage()">
-      <a class="page-link">
-        <i class="fa fa-angle-left" aria-hidden="true"></i>
-      </a>
-    </li>
+    <!--<li class="page-item" [ngClass]="{disabled: !paginationService.canGoPrev()}" (click)="paginationService.prevPage()">-->
+      <!--<a class="page-link">-->
+        <!--<i class="fa fa-angle-left" aria-hidden="true"></i>-->
+      <!--</a>-->
+    <!--</li>-->
 
-    <li class="page-item"
-        *ngFor="let page of paginationService.pages"
-        [ngClass]="{'active': paginationService.currentPage === page}"
-        (click)="paginationService.goToPage(page)"
-    >
-      <a class="page-link">{{ page }}</a>
-    </li>
+    <!--<li class="page-item"-->
+        <!--*ngFor="let page of paginationService.pages"-->
+        <!--[ngClass]="{'active': paginationService.currentPage === page}"-->
+        <!--(click)="paginationService.goToPage(page)"-->
+    <!--&gt;-->
+      <!--<a class="page-link">{{ page }}</a>-->
+    <!--</li>-->
 
-    <li class="page-item" [ngClass]="{disabled: !paginationService.canGoNext()}" (click)="paginationService.nextPage()">
-      <a class="page-link">
-        <i class="fa fa-angle-right" aria-hidden="true"></i>
-      </a>
-    </li>
+    <!--<li class="page-item" [ngClass]="{disabled: !paginationService.canGoNext()}" (click)="paginationService.nextPage()">-->
+      <!--<a class="page-link">-->
+        <!--<i class="fa fa-angle-right" aria-hidden="true"></i>-->
+      <!--</a>-->
+    <!--</li>-->
 
-  </ul>
-</nav>
+  <!--</ul>-->
+<!--</nav>-->
+
+<md-paginator [length]="paginationService.dataCount"
+              [pageIndex]="paginationService.currentPage - 1"
+              [pageSize]="paginationService.itemsPerPage"
+              [pageSizeOptions]="paginationService.pageSizeOptions"
+              (page)="onPageEvent($event)">
+</md-paginator>

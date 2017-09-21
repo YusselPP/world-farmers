@@ -8,18 +8,26 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.css']
 })
-export class PaginationComponent implements AfterViewInit {
-  @ViewChild('nav') navElement: ElementRef;
+export class PaginationComponent {
 
-  constructor(public paginationService: PaginationService, private activatedRoute: ActivatedRoute) { }
+  constructor(public paginationService: PaginationService) { }
 
-  ngAfterViewInit() {
-    // console.log(this.navElement.nativeElement.clientWidth);
-  }
+  onPageEvent(event) {
+    console.log(event);
+    const page = event.pageIndex + 1;
+    const pageSize = event.pageSize;
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    // console.log('Width: ' + event.target.innerWidth);
-    // console.log(this.navElement.nativeElement.clientWidth);
+
+
+    if (this.paginationService.itemsPerPage !== pageSize) {
+      this.paginationService.itemsPerPage = pageSize;
+    }
+
+    if (this.paginationService.currentPage !== page) {
+      this.paginationService.goToPage(page);
+      return;
+    }
+
+    this.paginationService.pageSizeChange.emit(pageSize);
   }
 }

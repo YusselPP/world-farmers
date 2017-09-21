@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaginationComponent } from './pagination.component';
-import { PaginationService } from './pagination.service';
 import { RouterModule } from '@angular/router';
+import { MdPaginatorModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    BrowserAnimationsModule,
+    MdPaginatorModule
   ],
   declarations: [
     PaginationComponent

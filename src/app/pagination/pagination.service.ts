@@ -1,15 +1,18 @@
-import { Inject, Injectable } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { EventEmitter, Inject, Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { APP_DIR_ROUTE } from '../directory/const';
 import { APP_ROUTE } from '../const';
 
 @Injectable()
 export class PaginationService {
+  public pageSizeChange = new EventEmitter();
+  public pageSizeOptions = [10, 20, 50, 100];
   public pages: number[];
   public currentRoute: ActivatedRoute;
 
   private _currentPage: number;
   private _itemsPerPage: number;
+  private _dataCount: number;
 
   constructor(@Inject(APP_ROUTE) public appRoute,
               @Inject(APP_DIR_ROUTE) public dirRoute,
@@ -35,7 +38,12 @@ export class PaginationService {
       console.error('dataCount value must be greater than or equal to 0');
       return;
     }
-    this.setPages(Math.ceil(dataCount / this.itemsPerPage));
+    this._dataCount = dataCount;
+    this.setPages(Math.ceil(this.dataCount / this.itemsPerPage));
+  }
+
+  get dataCount(): number {
+    return this._dataCount;
   }
 
   get itemsPerPage(): number {
@@ -48,6 +56,7 @@ export class PaginationService {
       return;
     }
     this._itemsPerPage = itemsPerPage;
+    this.setPages(Math.ceil(this.dataCount / this.itemsPerPage));
   }
 
   get pageCount() {

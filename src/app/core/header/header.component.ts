@@ -5,6 +5,7 @@ import { APP_ROUTE } from '../../const';
 import { APP_DIR_ROUTE } from '../../directory/const';
 import { GeolocationService } from '../../shared/geolocation.service';
 import { GeocoderService } from '../../map/geocoder.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -18,9 +19,10 @@ export class HeaderComponent implements OnInit {
   constructor(
     @Inject(APP_ROUTE) public appRoute,
     @Inject(APP_DIR_ROUTE) public dirRoute,
+    public authService: AuthService,
     public geolocationService: GeolocationService,
+    private router: Router,
     private geocoderService: GeocoderService,
-    private authService: AuthService,
     private changeDetectorRef: ChangeDetectorRef) {
 
     this.setCurrentLocation();
@@ -31,6 +33,7 @@ export class HeaderComponent implements OnInit {
 
   onLogout() {
     this.authService.logout();
+    this.router.navigate([this.appRoute.SLASH]);
   }
 
   setCurrentLocation() {

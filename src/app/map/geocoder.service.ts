@@ -24,9 +24,11 @@ export class GeocoderService {
           }
         } else {
           console.log('geocodeLatLng - No results found');
+          this.geocodeFound.emit({});
         }
       } else {
-        console.error('geocodeLatLng - Geocoder failed due to: ' + status);
+        console.log('geocodeLatLng - Geocoder failed due to: ' + status);
+        this.geocodeFound.emit({});
       }
     });
     return this.geocodeFound;

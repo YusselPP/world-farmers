@@ -1,28 +1,40 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { tokenNotExpired } from 'angular2-jwt';
 
 @Injectable()
 export class AuthService {
-  token: string;
+  private static apiBaseUrl = 'http://world-farmers.com/api/';
+  private static tokenName = 'access_token';
 
-  constructor() {}
+  public redirectUrl;
+
+  constructor(private http: HttpClient) {}
 
   signupUser(email: string, password: string) {
 
   }
 
   signinUser(email: string, password: string) {
+    const url = `${AuthService.apiBaseUrl}login`;
 
+    return (
+      this.http.post(url, { email: email, password: password, scope: 'write-contacts'})
+        .do(res => {
+          localStorage.setItem(AuthService.tokenName, res['access_token']);
+        })
+    );
   }
 
   logout() {
+    const url = `${AuthService.apiBaseUrl}logout`;
 
+    this.http.post(url, {}).subscribe(res => {}, err => console.error(err));
+
+    localStorage.removeItem(AuthService.tokenName);
   }
 
-  getToken() {
-
-  }
-
-  isAuthenticated(): boolean {
-    return true;
+  isAuthenticated() {
+    return tokenNotExpired(AuthService.tokenName);
   }
 }

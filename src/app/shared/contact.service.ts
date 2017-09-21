@@ -8,7 +8,7 @@ import { Page } from '../directory/page.interface';
 export class ContactService {
   private static apiBaseUrl = 'http://world-farmers.com/api/';
 
-  public contactsChange = new EventEmitter<{}>();
+  public contactsChange: EventEmitter<Contact[]> = new EventEmitter();
 
   private contacts: Contact[] = [];
   private contactsMap = {};

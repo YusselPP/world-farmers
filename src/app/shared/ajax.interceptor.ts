@@ -8,7 +8,9 @@ export class AjaxInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const ajaxReq = req.clone({headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')});
+    const ajaxReq = req.clone({
+      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest').append('Content-Type', 'application/json')
+    });
 
     return next.handle(ajaxReq);
   }

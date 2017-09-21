@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import { MapService } from '../../map/map.service';
+import { isNumber } from 'util';
 
 @Component({
   selector: 'app-location-map',
@@ -28,7 +29,7 @@ export class LocationMapComponent implements AfterViewInit{
   }
 
   onMapInit() {
-    if (this.latLng) {
+    if (this.latLng && isNumber(this.latLng.lat) && isNumber(this.latLng.lng)) {
       this.mapService.map.panTo(this.latLng);
       this.moveMarker(this.latLng);
     }

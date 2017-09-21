@@ -69,7 +69,7 @@ export class Contact {
     let experience = '';
 
     if (!this.startedWorking) {
-      return experience;
+      return 'Sin experiencia';
     }
 
     const d1 = new Date(this.startedWorking);
@@ -92,6 +92,10 @@ export class Contact {
       experience += months + ' mes';
     } else if (months > 1) {
       experience += months + ' meses';
+    }
+
+    if (experience === '') {
+      return 'Menos de 1 mes';
     }
 
     return experience;

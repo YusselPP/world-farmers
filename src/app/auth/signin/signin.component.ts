@@ -25,13 +25,15 @@ export class SigninComponent implements OnInit {
   onSignin(form: NgForm) {
     const email = form.value.email;
     const password = form.value.password;
-    this.authService.signinUser(email, password);
-    if (this.authService.isAuthenticated()) {
-      this.router.navigate([
-        this.appRoute.SLASH,
-        this.dirRoute.ROOT
-      ]);
-    }
+
+    this.authService.signinUser(email, password)
+      .subscribe(res => {
+        const url = this.authService.redirectUrl ?
+          [this.authService.redirectUrl] :
+          [this.appRoute.SLASH, this.dirRoute.ROOT];
+
+        this.router.navigate(url);
+      }, err => console.error(err));
   }
 
 }

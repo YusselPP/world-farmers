@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 
 import { AuthService } from '../../auth/auth.service';
 import { APP_ROUTE } from '../../const';
@@ -14,8 +14,10 @@ import { ProgressBarService } from '../progress-bar/progress-bar.service';
   styleUrls: ['./header.component.css'],
   providers: [GeocoderService]
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   locality;
+
+  private subscriptions = [];
 
   constructor(
     @Inject(APP_ROUTE) public appRoute,
@@ -39,7 +41,8 @@ export class HeaderComponent implements OnInit {
   }
 
   setCurrentLocation() {
-    this.geolocationService.currentPosition
+    this.subscriptions.push(
+      this.geolocationService.currentPosition
       .map(position => {
         return this.geocoderService.geocodeLatLng({
           lat: position.coords.latitude,
@@ -48,13 +51,18 @@ export class HeaderComponent implements OnInit {
       })
       .subscribe(
         observer => {
-
+          console.log('currentPosition subscriber called');
           observer.subscribe(locality => {
               this.locality = locality.formatted_address;
               this.changeDetectorRef.detectChanges();
             });
         },
         error => console.error(error)
-      );
+      )
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }

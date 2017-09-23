@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProgressBarConfig, ProgressBarService } from './progress-bar.service';
 
 @Component({
@@ -6,15 +6,22 @@ import { ProgressBarConfig, ProgressBarService } from './progress-bar.service';
   templateUrl: './progress-bar.component.html',
   styleUrls: ['./progress-bar.component.css']
 })
-export class ProgressBarComponent implements OnInit {
+export class ProgressBarComponent implements OnInit, OnDestroy {
   config: ProgressBarConfig;
+
+  private subscriptions = [];
 
   constructor(private progressBarService: ProgressBarService) {
     this.config = progressBarService.config;
   }
 
   ngOnInit() {
-    this.progressBarService.configUpdated.subscribe(config => this.config = config);
+    this.subscriptions.push(
+      this.progressBarService.configUpdated.subscribe(config => this.config = config)
+    );
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe);
+  }
 }

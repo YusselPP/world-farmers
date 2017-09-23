@@ -21,7 +21,8 @@ export class ContactService {
   public get(id: string) {
     const url = `${ContactService.apiBaseUrl}contacts/${id}`;
 
-    return this.httpClient.get<Contact>(url)
+    return this.httpClient.get(url, {responseType: 'text'})
+      .map(data => JSON.parse(data))
       .map(contact => new Contact(contact));
   }
 
@@ -32,7 +33,8 @@ export class ContactService {
       .append('page', pageNum.toString())
       .append('per_page', perPage.toString());
 
-    return this.httpClient.get<Page<Contact>>(url, {params: params})
+    return this.httpClient.get(url, { responseType: 'text', params: params} )
+      .map(data => JSON.parse(data) as Page<Contact>)
       .do(contactsPage => this.contactsCount = contactsPage.total, err => this.contactsCount = 0)
       .map(page => {
         return page.data.map(contact => new Contact(contact)) as Contact[];

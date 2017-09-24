@@ -11,6 +11,13 @@
     <form *ngIf="contact && !loading">
 
       <div class="row">
+        <label class="col-md-2 col-form-label"></label>
+        <div class="col-md-10">
+          <img src="http://ftwaynesfarmersmarket.com/wp-content/uploads/2016/05/farmer_icon.jpg" width="256" height="256">
+        </div>
+      </div>
+
+      <div class="row">
         <label for="products" class="col-md-2 col-form-label"><strong>Productos:</strong></label>
         <div class="col-md-10 d-flex align-items-center">
           <input type="text" readonly class="form-control-plaintext" id="products" name="products" value="{{ contact.products.join(', ') }}">

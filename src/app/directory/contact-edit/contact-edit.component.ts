@@ -11,6 +11,7 @@ import { MapService } from '../../map/map.service';
 import { isFunction } from 'util';
 import { GeocoderService } from '../../map/geocoder.service';
 import { SpinnerService } from '../../core/spinner/spinner.service';
+import { ImageResult, ResizeOptions } from 'ng2-imageupload';
 
 @Component({
   selector: 'app-contact-edit',
@@ -28,6 +29,12 @@ export class ContactEditComponent implements OnInit, OnChanges {
   showCoordinates = false;
   contact: Contact = null;
   Contact = Contact;
+  image: string;
+
+  resizeOptions: ResizeOptions = {
+    resizeMaxHeight: 256,
+    resizeMaxWidth: 256
+  };
 
   constructor(
     @Inject(APP_ROUTE) public appRoute,
@@ -153,7 +160,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
     if (this.editMode) {
       this.contactService.update(this.id, this.contact)
         .subscribe(
-          response => {
+          () => {
             this.saving = false;
             this.router.navigate([
               this.appRoute.SLASH,
@@ -170,7 +177,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
     } else {
       this.contactService.store(this.contact)
         .subscribe(
-          response => {
+          () => {
             this.saving = false;
             this.router.navigate([
               this.appRoute.SLASH,
@@ -209,8 +216,6 @@ export class ContactEditComponent implements OnInit, OnChanges {
     });
   }
 
-  revert() { this.ngOnChanges(); }
-
   onMapMarkerMoved(e) {
     const lat = isFunction(e.lat) ? e.lat() : e.lat;
     const lng = isFunction(e.lng) ? e.lng() : e.lng;
@@ -221,5 +226,17 @@ export class ContactEditComponent implements OnInit, OnChanges {
       .subscribe(locality => {
         this.contactForm.get('locality').setValue(locality.formatted_address);
       });
+  }
+
+  selectedImage(imageResult: ImageResult) {
+    console.log(imageResult);
+
+    if (imageResult.error) {
+      return;
+    }
+
+    this.image = imageResult.resized
+      && imageResult.resized.dataURL
+      || imageResult.dataURL;
   }
 }

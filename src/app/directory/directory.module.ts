@@ -15,6 +15,7 @@ import { PagesComponent } from './pages/pages.component';
 import { LocationMapComponent } from './location-map/location-map.component';
 import { MapModule } from '../map/map.module';
 import { CoreModule } from '../core/core.module';
+import { ImageUploadModule } from 'ng2-imageupload';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { CoreModule } from '../core/core.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    ImageUploadModule,
     PaginationModule,
     MapModule,
     DirectoryRoutingModule,

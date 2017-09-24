@@ -12,6 +12,7 @@ import { MdProgressBarModule, MdProgressSpinnerModule } from '@angular/material'
 import { ProgressBarInterceptor } from './progress-bar/progress-bar.interceptor';
 import { EmptyResultsComponent } from './empty-results/empty-results.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { MapModule } from '../map/map.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     CommonModule,
     RouterModule,
     MdProgressBarModule,
-    MdProgressSpinnerModule
+    MdProgressSpinnerModule,
+    MapModule
   ],
   exports: [
     HeaderComponent,

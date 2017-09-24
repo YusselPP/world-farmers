@@ -1,4 +1,4 @@
-<div class="row" *ngIf="contacts.length > 0 && !loadingList; else empty">
+<div class="row" *ngIf="contacts.length > 0 && !loadingList">
   <app-contact-item class="col-sm-6 mb-1"
     *ngFor="let contact of contacts"
     [contact]="contact"
@@ -7,7 +7,7 @@
 
 <app-spinner [spinnerService]="spinnerService" *ngIf="loadingList"></app-spinner>
 
-<ng-template #empty>
+<ng-template [ngIf]="contacts.length === 0 && !loadingList">
   <app-empty-results>
     <h5 class="text-center">No se encontraron registros</h5>
   </app-empty-results>

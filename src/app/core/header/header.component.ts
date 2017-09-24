@@ -7,6 +7,7 @@ import { GeolocationService } from '../../shared/geolocation.service';
 import { GeocoderService } from '../../map/geocoder.service';
 import { Router } from '@angular/router';
 import { ProgressBarService } from '../progress-bar/progress-bar.service';
+import { SearchLocationService } from '../../shared/search-location.service';
 
 @Component({
   selector: 'app-header',
@@ -16,12 +17,15 @@ import { ProgressBarService } from '../progress-bar/progress-bar.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   locality;
+  currentPos;
+  showBar;
 
   private subscriptions = [];
 
   constructor(
     @Inject(APP_ROUTE) public appRoute,
     @Inject(APP_DIR_ROUTE) public dirRoute,
+    public searchLocation: SearchLocationService,
     public authService: AuthService,
     public geolocationService: GeolocationService,
     public progressBar: ProgressBarService,
@@ -29,6 +33,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private geocoderService: GeocoderService,
     private changeDetectorRef: ChangeDetectorRef) {
 
+    this.progressBar.configUpdated.subscribe(() => {
+      this.showBar = this.progressBar.isShown();
+      this.changeDetectorRef.detectChanges();
+    });
     this.setCurrentLocation();
   }
 
@@ -44,6 +52,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.geolocationService.currentPosition
       .map(position => {
+        this.currentPos = position;
         return this.geocoderService.geocodeLatLng({
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -53,9 +62,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         observer => {
           console.log('currentPosition subscriber called');
           observer.subscribe(locality => {
-              this.locality = locality.formatted_address;
-              this.changeDetectorRef.detectChanges();
-            });
+            if (locality.geometry) {
+              this.searchLocation.bounds = locality.geometry.bounds;
+            }
+            this.locality = locality.formatted_address;
+            this.changeDetectorRef.detectChanges();
+          });
         },
         error => console.error(error)
       )

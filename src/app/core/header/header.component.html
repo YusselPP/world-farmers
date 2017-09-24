@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light" [ngClass]="{'app-progress-bar': progressBar.isShown()}">
+<nav class="navbar navbar-expand-sm navbar-light bg-light" [ngClass]="{'app-progress-bar': showBar}">
   <a [routerLink]="[appRoute.SLASH]" class="navbar-brand">
     <img
       alt="Brand"
@@ -29,16 +29,7 @@
         <a class="nav-link" [routerLink]="[appRoute.SLASH, dirRoute.ROOT]">Directorio</a>
       </li>
 
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarLocationMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{ locality }}
-          <span class="caret"></span>
-        </a>
-
-        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarLocationMenu">
-          <li><a class="dropdown-item">Cambiar ubicación</a></li>
-        </ul>
-      </li>
+      <input class="form-control mr-sm-2" type="text" appAutocomplete [position]="currentPos" value="{{ locality }}">
 
       <li class="nav-item">
         <a class="nav-link" (click)="onLogout()" *ngIf="authService.isAuthenticated()">Salir</a>

@@ -1,6 +1,5 @@
-<div class="progress-bar-overlay">
+<div class="progress-bar-overlay" *ngIf="config.isShown">
   <md-progress-bar
-    *ngIf="config.isShown"
     [color]="config.color"
     [mode]="config.mode">
   </md-progress-bar>

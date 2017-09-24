@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { GeocoderService } from '../map/geocoder.service';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -8,7 +7,7 @@ export class GeolocationService {
 
   private _currentPosition: Observable<Position>;
 
-  constructor(private geocodeService: GeocoderService) {
+  constructor() {
     this._currentPosition = new Observable(this.getCurrentPosition.bind(this));
   }
 

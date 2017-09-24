@@ -26,3 +26,7 @@ a, button {
 .was-validated .form-control:valid~.invalid-tooltip {
   display: none;
 }
+
+.pac-container {
+  z-index: 1050;
+}

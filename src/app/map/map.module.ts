@@ -1,16 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MapComponent } from './map.component';
+import { AutocompleteDirective } from './autocomplete.directive';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [
-    MapComponent
+    MapComponent,
+    AutocompleteDirective
   ],
   exports: [
-    MapComponent
+    MapComponent,
+    AutocompleteDirective
   ]
 })
 export class MapModule { }

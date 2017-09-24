@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { ProgressBarService } from './core/progress-bar/progress-bar.service';
 
 @Component({
   selector: 'app-root',

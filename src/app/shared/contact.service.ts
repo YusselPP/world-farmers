@@ -26,12 +26,16 @@ export class ContactService {
       .map(contact => new Contact(contact));
   }
 
-  public getContactsPage(pageNum: number, perPage: number) {
+  public getContactsPage(pageNum: number, perPage: number, bounds?: any) {
 
     const url = `${ContactService.apiBaseUrl}contacts`;
-    const params = new HttpParams()
+    let params = new HttpParams()
       .append('page', pageNum.toString())
       .append('per_page', perPage.toString());
+
+    if (bounds) {
+      params = params.append('bounds', JSON.stringify(bounds));
+    }
 
     return this.httpClient.get(url, { responseType: 'text', params: params} )
       .map(data => JSON.parse(data) as Page<Contact>)

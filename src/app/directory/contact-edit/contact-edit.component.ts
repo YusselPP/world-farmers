@@ -29,7 +29,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
   showCoordinates = false;
   contact: Contact = null;
   Contact = Contact;
-  image: string;
+  image = '';
 
   resizeOptions: ResizeOptions = {
     resizeMaxHeight: 256,
@@ -232,6 +232,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
     console.log(imageResult);
 
     if (imageResult.error) {
+      this.image = '';
       return;
     }
 

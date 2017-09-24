@@ -5,6 +5,8 @@ import { APP_DIR_ROUTE } from '../const';
 import { APP_ROUTE } from '../../const';
 import { PaginationService } from '../../pagination/pagination.service';
 import { ActivatedRoute } from '@angular/router';
+import { NgForm } from '@angular/forms';
+import { SearchLocationService } from '../../shared/search-location.service';
 
 @Component({
   selector: 'app-pages',
@@ -16,6 +18,7 @@ export class PagesComponent implements OnInit {
     @Inject(APP_ROUTE) public appRoute,
     @Inject(APP_DIR_ROUTE) public dirRoute,
     public auth: AuthService,
+    private search: SearchLocationService,
     private route: ActivatedRoute,
     private paginationService: PaginationService
   ) {
@@ -25,4 +28,8 @@ export class PagesComponent implements OnInit {
   ngOnInit() {
   }
 
+  onSearch(form: NgForm) {
+    console.log(form.value.search);
+    this.search.filter = form.value.search;
+  }
 }

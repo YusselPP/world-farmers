@@ -1,9 +1,24 @@
 <ng-template [ngIf]="auth.isAuthenticated()">
-  <a class="btn btn-sm btn-primary"
-     [routerLink]="[appRoute.SLASH, dirRoute.ROOT, dirRoute.CONTACT.ROOT, dirRoute.CONTACT.NEW]">
-    <i class="fa fa-plus" aria-hidden="true"></i>
-    Nuevo
-  </a>
+  <div class="row">
+    <div class="col-5">
+      <a class="btn btn-sm btn-primary"
+         [routerLink]="[appRoute.SLASH, dirRoute.ROOT, dirRoute.CONTACT.ROOT, dirRoute.CONTACT.NEW]">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        Nuevo
+      </a>
+    </div>
+
+    <div class="col-7 col-sm-5 col-lg-4 col-xl-3 ml-auto">
+      <form (submit)="onSearch(f)" #f="ngForm">
+        <div class="input-group">
+          <input type="search" name="search" class="form-control" ngModel>
+          <button>
+            <span class="fa fa-search"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
   <hr>
 </ng-template>
 

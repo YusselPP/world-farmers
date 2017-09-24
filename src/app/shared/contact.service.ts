@@ -3,6 +3,7 @@ import { Contact } from '../directory/contact.model';
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Page } from '../directory/page.interface';
+import LatLngBounds = google.maps.LatLngBounds;
 
 @Injectable()
 export class ContactService {
@@ -26,7 +27,7 @@ export class ContactService {
       .map(contact => new Contact(contact));
   }
 
-  public getContactsPage(pageNum: number, perPage: number, bounds?: any) {
+  public getContactsPage(pageNum: number, perPage: number, bounds?: LatLngBounds, filter?: string) {
 
     const url = `${ContactService.apiBaseUrl}contacts`;
     let params = new HttpParams()
@@ -35,6 +36,10 @@ export class ContactService {
 
     if (bounds) {
       params = params.append('bounds', JSON.stringify(bounds));
+    }
+
+    if (filter) {
+      params = params.append('filter', JSON.stringify(filter.split(/\s+/).filter(s => s !== '')));
     }
 
     return this.httpClient.get(url, { responseType: 'text', params: params} )

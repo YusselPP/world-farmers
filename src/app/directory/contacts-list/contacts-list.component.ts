@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, NgZone, OnDestroy } from '@angular/core';
+import { Component, Inject, NgZone, OnDestroy } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { ContactService } from '../../shared/contact.service';
 import { APP_ROUTE } from '../../const';
@@ -29,7 +29,6 @@ export class ContactsListComponent implements OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private zone: NgZone,
-    private changeDetectorRef: ChangeDetectorRef,
     private searchLocation: SearchLocationService,
     private paginationService: PaginationService,
     private contactService: ContactService) {
@@ -80,7 +79,8 @@ export class ContactsListComponent implements OnDestroy {
   getContactsPage() {
     const itemsPerPage = this.paginationService.itemsPerPage;
     const currPage = this.paginationService.currentPage;
-    const bounds = this.searchLocation.bounds;
+    const bounds = this.searchLocation.search.bounds;
+    const filter = this.searchLocation.search.filter;
 
     this.loadingList = true;
 
@@ -88,7 +88,7 @@ export class ContactsListComponent implements OnDestroy {
       return Promise.resolve([]);
     }
 
-    return this.contactService.getContactsPage(currPage, itemsPerPage, bounds);
+    return this.contactService.getContactsPage(currPage, itemsPerPage, bounds, filter);
   }
 
   onContactsLoad(contacts) {

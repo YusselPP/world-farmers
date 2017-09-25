@@ -13,7 +13,6 @@ export class PaginationComponent {
   constructor(public paginationService: PaginationService) { }
 
   onPageEvent(event) {
-    console.log(event);
     const page = event.pageIndex + 1;
     const pageSize = event.pageSize;
 

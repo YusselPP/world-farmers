@@ -1,0 +1,10 @@
+<h5 md-dialog-title>{{ data.title }}</h5>
+<div md-dialog-content>
+  <p>{{ data.message }}</p>
+</div>
+<div md-dialog-actions>
+  <div class="row">
+    <button class="btn btn-sm btn-primary mx-auto" (click)="onNoClick()">{{ data.noText || noText }}</button>
+    <button class="btn btn-sm btn-danger mx-auto" *ngIf="data.showYesButton" (click)="onYesClick()">{{ data.yesText || yesText }}</button>
+  </div>
+</div>

@@ -53,7 +53,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       })
       .subscribe(
         observer => {
-            console.log('currentPosition subscriber called');
             const subscription = observer.subscribe(locality => {
               this.zone.run(() => {
                 if (locality.geometry) {

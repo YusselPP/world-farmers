@@ -13,6 +13,7 @@ import { ProgressBarInterceptor } from './progress-bar/progress-bar.interceptor'
 import { EmptyResultsComponent } from './empty-results/empty-results.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { MapModule } from '../map/map.module';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,8 +22,10 @@ import { MapModule } from '../map/map.module';
     NotFoundComponent,
     ProgressBarComponent,
     EmptyResultsComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    DialogComponent
   ],
+  entryComponents: [DialogComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -37,7 +40,7 @@ import { MapModule } from '../map/map.module';
     SpinnerComponent
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true},
+    // {provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ProgressBarInterceptor, multi: true}
   ]
 })

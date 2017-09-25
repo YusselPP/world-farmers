@@ -12,7 +12,6 @@ export class GeocoderService {
   geocodeLatLng(latLng) {
     this.geocoder.geocode({'location': latLng}, (results, status) => {
       if (status === GeocoderStatus.OK) {
-        console.log(results);
         const resultLen = results.length;
 
         if (resultLen > 0) {

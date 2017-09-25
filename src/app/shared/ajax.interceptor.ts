@@ -1,11 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
+import { SigninDialogComponent } from '../auth/signin-dialog/signin-dialog.component';
+import { MdDialog } from '@angular/material';
+import { APP_ROUTES } from '../const';
+import { DialogService } from '../core/dialog.service';
 
 @Injectable()
 export class AjaxInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+              private dialogService: DialogService,
+              private dialog: MdDialog,
+              @Inject(APP_ROUTES) private appRoutes) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -16,9 +23,18 @@ export class AjaxInterceptor implements HttpInterceptor {
     return next.handle(ajaxReq).do(
       event => {}, error => {
         if (error instanceof HttpErrorResponse) {
-          console.log('Ajax interceptor url: ', this.router.url);
+
           if (error.status === 401) {
-            console.log('Auth error');
+            const loginUrl = '/' + this.appRoutes.LOGIN;
+            const loginDialog = this.dialog.getDialogById('app-login-dialog');
+
+            if (!loginDialog && this.router.url !== loginUrl) {
+              this.dialog.open<SigninDialogComponent>(SigninDialogComponent, {id: 'app-login-dialog', width: '350px'});
+            }
+          } else if (error.status === 403) {
+            this.dialogService.alert('', 'No tienes los permisos suficientes para realizar esta acción');
+          } else {
+            this.dialogService.alert('', 'Error al procesar la petición con el servidor');
           }
         }
       }

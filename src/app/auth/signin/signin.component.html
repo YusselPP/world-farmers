@@ -2,6 +2,7 @@
   <div class="col-12 mx-auto" [ngClass]="{'col-sm-8 col-md-6 col-lg-4': !isDialog}">
     <div class="card">
       <div class="card-body">
+        <div class="alert alert-info" *ngIf="isDialog">Tu sesión ha expirado. Ingresa de nuevo por favor.</div>
         <form (ngSubmit)="onSignin(f)" #f="ngForm">
           <div class="alert alert-danger" *ngIf="errorMessage" role="alert">
             {{ errorMessage }}

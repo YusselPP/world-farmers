@@ -33,12 +33,18 @@ export class ContactsListComponent implements OnDestroy {
     private contactService: ContactService) {
 
     this.subscriptions.push(
+      this.contactService.contactsChange.subscribe(
+        contacts => this.onContactsLoad(contacts)
+      )
+    );
+
+    this.subscriptions.push(
       this.paginationService.pageSizeChange
         .switchMap(size => {
           return this.getContactsPage();
         })
         .subscribe(
-          contacts => this.onContactsLoad(contacts),
+          contacts => {},
           error => this.onError(error)
         )
     );
@@ -50,7 +56,7 @@ export class ContactsListComponent implements OnDestroy {
           return this.getContactsPage();
         })
         .subscribe(
-          contacts => this.onContactsLoad(contacts),
+          contacts => {},
           error => this.onError(error)
         )
     );
@@ -62,7 +68,7 @@ export class ContactsListComponent implements OnDestroy {
         return this.getContactsPage();
       })
       .subscribe(
-        contacts => this.onContactsLoad(contacts),
+        contacts => {},
         error => this.onError(error)
       );
   }

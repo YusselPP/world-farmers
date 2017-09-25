@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { APP_ROUTES } from '../../const';
-import { MdDialog } from '@angular/material';
+import { MdDialog, MdDialogRef } from '@angular/material';
 import { SigninDialogComponent } from '../signin-dialog/signin-dialog.component';
 
 @Component({
@@ -16,6 +16,7 @@ export class SigninComponent implements OnInit {
   logging = false;
   errorMessage = '';
   @Input() isDialog = false;
+  @Input() dialogRef: MdDialogRef<SigninDialogComponent>;
 
   constructor(
     @Inject(APP_ROUTES) public appRoute,
@@ -42,27 +43,20 @@ export class SigninComponent implements OnInit {
           ['/', this.appRoute.DIRECTORY];
 
         this.logging = false;
-        this.router.navigate(url);
+
+        if (this.dialogRef) {
+          this.dialogRef.close();
+        } else {
+          this.router.navigate(url);
+        }
       }, err => {
         console.error(err);
         if (err.status === 401) {
           this.errorMessage = 'Usuario o contraseña incorrectos';
         } else {
-          this.errorMessage = 'Error con el servidor';
+          this.errorMessage = 'Error al procesar la petición con el servidor';
         }
         this.logging = false;
       });
-  }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open<SigninDialogComponent>(SigninDialogComponent, {
-      width: '350px',
-      // data: { isDialog: true }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
-    });
   }
 }

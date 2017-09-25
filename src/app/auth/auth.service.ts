@@ -23,7 +23,6 @@ export class AuthService {
         .map(data => JSON.parse(data))
         .do(res => {
           if (res['error']) {
-            console.log(res.error);
             throw new Error(res.error);
           } else {
             localStorage.setItem(AuthService.tokenName, res['access_token']);

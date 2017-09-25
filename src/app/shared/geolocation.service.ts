@@ -12,7 +12,6 @@ export class GeolocationService {
   }
 
   getCurrentPosition(observer) {
-    console.log('getCurrentPosition called');
     if (this.geolocation) {
       this.geolocation.getCurrentPosition(position => {
         observer.next(position);

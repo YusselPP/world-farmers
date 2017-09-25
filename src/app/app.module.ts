@@ -25,6 +25,7 @@ import { AuthService } from './auth/auth.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ProgressBarService } from './core/progress-bar/progress-bar.service';
 import { SearchService } from './shared/search.service';
+import { DialogService } from './core/dialog.service';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -40,6 +41,7 @@ export function tokenGetter() {
     GeocoderService,
     SearchService,
     DateService,
+    DialogService,
     AuthGuard,
     AuthService,
     { provide: APP_ROUTES, useValue: ROUTES },

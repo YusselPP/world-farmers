@@ -78,7 +78,8 @@ export class ContactService {
       .do(response => {
         this.contactsCount--;
         this.removeFromView(id);
-      });
+      })
+      .map(() => this.getContacts());
   }
 
 

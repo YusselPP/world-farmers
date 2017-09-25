@@ -24,6 +24,13 @@
         </div>
       </div>
 
+      <div class="row" *ngIf="auth.isAuthenticated()">
+        <label for="phoneNumber" class="col-md-2 col-form-label"><strong>Teléfono:</strong></label>
+        <div class="col-md-10 d-flex align-items-center">
+          <input type="text" readonly class="form-control-plaintext" id="phoneNumber" name="phoneNumber" value="{{ contact.phoneNumber }}">
+        </div>
+      </div>
+
       <div class="row">
         <label for="experience" class="col-md-2 col-form-label"><strong>Experiencia:</strong></label>
         <div class="col-md-10 d-flex align-items-center">

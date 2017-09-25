@@ -5,6 +5,7 @@ import { ContactService } from '../../shared/contact.service';
 import { PaginationService } from '../../pagination/pagination.service';
 import { APP_ROUTES } from '../../const';
 import { SpinnerService } from '../../core/spinner/spinner.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-contact-detail',
@@ -18,6 +19,7 @@ export class ContactDetailComponent implements OnInit {
 
   constructor(
     @Inject(APP_ROUTES) public appRoute,
+    public auth: AuthService,
     public paginationService: PaginationService,
     public spinnerService: SpinnerService,
     private activatedRoute: ActivatedRoute,

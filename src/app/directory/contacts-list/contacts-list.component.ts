@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Contact } from '../contact.model';
 import { SpinnerService } from '../../core/spinner/spinner.service';
 import { SearchService } from '../../shared/search.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-contacts-list',
@@ -88,7 +89,8 @@ export class ContactsListComponent implements OnDestroy {
       return Promise.resolve([]);
     }
 
-    return this.contactService.getContactsPage(currPage, itemsPerPage, bounds, filter);
+    return this.contactService.getContactsPage(currPage, itemsPerPage, bounds, filter)
+      .catch(err => this.onError(err));
   }
 
   onContactsLoad(contacts) {
@@ -116,7 +118,9 @@ export class ContactsListComponent implements OnDestroy {
 
   onError(error) {
     console.error(error);
+    this.contacts = [];
     this.loadingList = false;
+    return Observable.of([]);
   }
 
   ngOnDestroy() {

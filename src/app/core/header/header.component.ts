@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 
 import { AuthService } from '../../auth/auth.service';
 import { APP_ROUTE } from '../../const';
@@ -18,7 +18,6 @@ import { SearchService } from '../../shared/search.service';
 export class HeaderComponent implements OnInit, OnDestroy {
   locality;
   currentPos;
-  showBar;
 
   private subscriptions = [];
 
@@ -31,12 +30,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public progressBar: ProgressBarService,
     private router: Router,
     private geocoderService: GeocoderService,
-    private changeDetectorRef: ChangeDetectorRef) {
+    private zone: NgZone) {
 
-    this.progressBar.configUpdated.subscribe(() => {
-      this.showBar = this.progressBar.isShown();
-      this.changeDetectorRef.detectChanges();
-    });
     this.setCurrentLocation();
   }
 
@@ -60,14 +55,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       })
       .subscribe(
         observer => {
-          console.log('currentPosition subscriber called');
-          observer.subscribe(locality => {
-            if (locality.geometry) {
-              this.search.bounds = locality.geometry.bounds;
-            }
-            this.locality = locality.formatted_address;
-            this.changeDetectorRef.detectChanges();
-          });
+            console.log('currentPosition subscriber called');
+            const subscription = observer.subscribe(locality => {
+              this.zone.run(() => {
+                if (locality.geometry) {
+                  this.search.bounds = locality.geometry.bounds;
+                }
+                this.locality = locality.formatted_address;
+                subscription.unsubscribe();
+              });
+            });
         },
         error => console.error(error)
       )

@@ -10,7 +10,6 @@ import { ContactItemComponent } from './contacts-list/contact-item/contact-item.
 import { DirectoryComponent } from './directory.component';
 import { ContactService } from '../shared/contact.service';
 import { PaginationModule } from '../pagination/pagination.module';
-import { APP_DIR_ROUTE, DIRECTORY_ROUTE } from './const';
 import { PagesComponent } from './pages/pages.component';
 import { LocationMapComponent } from './location-map/location-map.component';
 import { MapModule } from '../map/map.module';
@@ -38,7 +37,7 @@ import { ImageUploadModule } from 'ng2-imageupload';
     CoreModule
   ],
   providers: [
-    { provide: APP_DIR_ROUTE, useValue: DIRECTORY_ROUTE },
+    // { provide: APP_DIR_ROUTE, useValue: DIRECTORY_ROUTE },
     ContactService
   ]
 })

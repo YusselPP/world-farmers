@@ -13,6 +13,9 @@ export class LoggingInterceptor implements HttpInterceptor {
           console.log('Client-side error occured.');
         } else {
           console.log('Server-side error occured.');
+          if (err.status === 401) {
+            console.log('auth exception');
+          }
         }
       }
     );

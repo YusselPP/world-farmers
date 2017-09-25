@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light" [ngClass]="{'app-progress-bar': progressBar.isShown()}">
-  <a [routerLink]="[appRoute.SLASH]" class="navbar-brand">
+  <a [routerLink]="[appRoute.HOME]" class="navbar-brand">
     <img
       alt="Brand"
       width="35"
@@ -22,11 +22,11 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link" [routerLink]="[appRoute.SLASH]">Inicio</a>
+        <a class="nav-link" [routerLink]="[appRoute.HOME]">Inicio</a>
       </li>
 
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="[appRoute.SLASH, dirRoute.ROOT]">Directorio</a>
+        <a class="nav-link" [routerLink]="['/' + appRoute.DIRECTORY]">Directorio</a>
       </li>
 
       <input class="form-control mr-sm-2" type="text" appAutocomplete [position]="currentPos" value="{{ locality }}">

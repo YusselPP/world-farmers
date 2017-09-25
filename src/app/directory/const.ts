@@ -1,8 +1,5 @@
-import { InjectionToken } from '@angular/core';
 
-export let APP_DIR_ROUTE = new InjectionToken('app.dir.route');
-
-export const DIRECTORY_ROUTE = {
+export const ROUTE_COMPONENTS = {
   ROOT: 'directorio',
   PAGE: 'pagina',
   CONTACT: {
@@ -10,4 +7,12 @@ export const DIRECTORY_ROUTE = {
     NEW: 'nuevo',
     EDIT: 'editar'
   }
+};
+
+export const ROUTES = {
+  DIRECTORY: ROUTE_COMPONENTS.ROOT,
+  PAGE: num => ROUTE_COMPONENTS.ROOT + '/' + ROUTE_COMPONENTS.PAGE  + '/' + num,
+  CONTACT: id => ROUTE_COMPONENTS.ROOT + '/' + ROUTE_COMPONENTS.CONTACT.ROOT + '/' + id,
+  CONTACT_NEW: ROUTE_COMPONENTS.ROOT + '/' + ROUTE_COMPONENTS.CONTACT.ROOT + '/' + ROUTE_COMPONENTS.CONTACT.NEW,
+  CONTACT_EDIT: id => ROUTE_COMPONENTS.ROOT + '/' + ROUTE_COMPONENTS.CONTACT.ROOT + '/' + id + '/' + ROUTE_COMPONENTS.CONTACT.EDIT
 };

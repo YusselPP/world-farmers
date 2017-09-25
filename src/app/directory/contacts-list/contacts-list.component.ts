@@ -1,8 +1,7 @@
 import { Component, Inject, NgZone, OnDestroy } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { ContactService } from '../../shared/contact.service';
-import { APP_ROUTE } from '../../const';
-import { APP_DIR_ROUTE } from '../const';
+import { APP_ROUTES } from '../../const';
 import { PaginationService } from '../../pagination/pagination.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Contact } from '../contact.model';
@@ -23,8 +22,7 @@ export class ContactsListComponent implements OnDestroy {
   private subscriptions = [];
 
   constructor(
-    @Inject(APP_ROUTE) public appRoute,
-    @Inject(APP_DIR_ROUTE) public dirRoute,
+    @Inject(APP_ROUTES) public appRoute,
     public auth: AuthService,
     public spinnerService: SpinnerService,
     private route: ActivatedRoute,

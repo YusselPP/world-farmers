@@ -7,20 +7,21 @@ import { ContactEditComponent } from './contact-edit/contact-edit.component';
 import { ContactDetailComponent } from './contact-detail/contact-detail.component';
 import { AuthGuard } from '../auth/auth-guard.service';
 import { PagesComponent } from './pages/pages.component';
+import { ROUTE_COMPONENTS } from './const';
 
 const directoryRoutes: Routes = [
-  { path: 'directorio', component: DirectoryComponent, children: [
-      { path: 'pagina', component: PagesComponent, children: [
+  { path: ROUTE_COMPONENTS.ROOT, component: DirectoryComponent, children: [
+      { path: ROUTE_COMPONENTS.PAGE, component: PagesComponent, children: [
         { path: ':num', component: ContactsListComponent},
         { path: '', redirectTo: '1', pathMatch: 'full' }
       ] },
-      { path: 'contacto', children: [
-        { path: 'nuevo', component: ContactEditComponent, canActivate: [AuthGuard] },
+      { path: ROUTE_COMPONENTS.CONTACT.ROOT, children: [
+        { path: ROUTE_COMPONENTS.CONTACT.NEW, component: ContactEditComponent, canActivate: [AuthGuard] },
         { path: ':id', component: ContactDetailComponent },
-        { path: ':id/editar', component: ContactEditComponent, canActivate: [AuthGuard] },
-        { path: '', redirectTo: '/404', pathMatch: 'prefix' }
+        { path: ':id/' + ROUTE_COMPONENTS.CONTACT.EDIT, component: ContactEditComponent, canActivate: [AuthGuard] },
+        { path: '', redirectTo: '/not-found', pathMatch: 'prefix' }
         ] },
-      { path: '', redirectTo: 'pagina/1', pathMatch: 'full' }
+      { path: '', redirectTo: ROUTE_COMPONENTS.PAGE + '/1', pathMatch: 'full' }
     ] },
 ];
 

@@ -3,8 +3,7 @@ import { Contact } from '../contact.model';
 import { ActivatedRoute } from '@angular/router';
 import { ContactService } from '../../shared/contact.service';
 import { PaginationService } from '../../pagination/pagination.service';
-import { APP_ROUTE } from '../../const';
-import { APP_DIR_ROUTE } from '../const';
+import { APP_ROUTES } from '../../const';
 import { SpinnerService } from '../../core/spinner/spinner.service';
 
 @Component({
@@ -18,8 +17,7 @@ export class ContactDetailComponent implements OnInit {
   public contact: Contact = null;
 
   constructor(
-    @Inject(APP_ROUTE) public appRoute,
-    @Inject(APP_DIR_ROUTE) public dirRoute,
+    @Inject(APP_ROUTES) public appRoute,
     public paginationService: PaginationService,
     public spinnerService: SpinnerService,
     private activatedRoute: ActivatedRoute,

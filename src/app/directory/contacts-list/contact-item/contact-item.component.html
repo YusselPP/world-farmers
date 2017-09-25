@@ -1,5 +1,5 @@
 <a
-  [routerLink]="[appRoute.SLASH, dirRoute.ROOT, dirRoute.CONTACT.ROOT, contact.id]"
+  [routerLink]="['/' + appRoute.CONTACT(contact.id)]"
   routerLinkActive="active"
   class="card"
 >
@@ -14,7 +14,7 @@
       <div class="col-3 col-sm-2 col-md-3 align-self-center" *ngIf="auth.isAuthenticated()">
 
         <div class="row justify-content-end pr-2">
-            <a class="btn btn-primary m-1" title="Editar" [routerLink]="[appRoute.SLASH, dirRoute.ROOT, dirRoute.CONTACT.ROOT, contact.id, dirRoute.CONTACT.EDIT]">
+            <a class="btn btn-primary m-1" title="Editar" [routerLink]="['/' + appRoute.CONTACT_EDIT(contact.id)]">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
             <button type="button" class="btn btn-danger m-1" title="Eliminar" (click)="onRemove($event, contact.id)" [disabled]="removing">

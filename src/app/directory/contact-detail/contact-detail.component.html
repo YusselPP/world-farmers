@@ -1,4 +1,4 @@
-<a class="btn btn-sm btn-default" [routerLink]="[appRoute.SLASH, dirRoute.ROOT, dirRoute.PAGE, paginationService.currentPage]">
+<a class="btn btn-sm btn-default" [routerLink]="['/' + appRoute.PAGE(paginationService.currentPage)]">
   <i class="fa fa-arrow-left" aria-hidden="true"></i>
   Directorio
 </a>
@@ -40,7 +40,7 @@
       </div>
 
       <div class="row">
-        <label for="harvestAmount" class="col-md-2 col-form-label"><strong>Capacidad de cosecha:</strong></label>
+        <label for="harvestAmount" class="col-md-2 col-form-label"><strong>Capacidad de cosecha mensual:</strong></label>
         <div class="col-md-10 d-flex align-items-center">
           <input type="text" readonly class="form-control-plaintext" id="harvestAmount" name="harvestAmount" value="{{ contact.harvestAmount }} {{ contact.getHarvestAmountUnitText() }}">
         </div>
@@ -68,7 +68,7 @@
       <h5 class="text-center">No existe el recurso solicitado</h5>
       <br>
       <div class="text-center">
-        <a class="btn btn-primary" [routerLink]="[appRoute.SLASH, dirRoute.ROOT]">Directorio</a>
+        <a class="btn btn-primary" [routerLink]="['/' + appRoute.PAGE(paginationService.currentPage)]">Directorio</a>
       </div>
     </ng-template>
   </div>

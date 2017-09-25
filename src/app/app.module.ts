@@ -15,7 +15,7 @@ import {SharedModule} from './shared/shared.module';
 import {AuthModule} from './auth/auth.module';
 import {CoreModule} from './core/core.module';
 import { DirectoryModule } from './directory/directory.module';
-import { APP_ROUTE, ROUTE } from './const';
+import { APP_ROUTES, ROUTES } from './const';
 import { AjaxInterceptor } from './shared/ajax.interceptor';
 import { DateService } from './shared/date.service';
 import { AuthGuard } from './auth/auth-guard.service';
@@ -42,7 +42,7 @@ export function tokenGetter() {
     DateService,
     AuthGuard,
     AuthService,
-    { provide: APP_ROUTE, useValue: ROUTE },
+    { provide: APP_ROUTES, useValue: ROUTES },
     { provide: HTTP_INTERCEPTORS, useClass: AjaxInterceptor, multi: true }
   ],
   imports: [

@@ -1,7 +1,6 @@
 import { EventEmitter, Inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { APP_DIR_ROUTE } from '../directory/const';
-import { APP_ROUTE } from '../const';
+import { APP_ROUTES } from '../const';
 
 @Injectable()
 export class PaginationService {
@@ -14,8 +13,7 @@ export class PaginationService {
   private _itemsPerPage: number;
   private _dataCount: number;
 
-  constructor(@Inject(APP_ROUTE) public appRoute,
-              @Inject(APP_DIR_ROUTE) public dirRoute,
+  constructor(@Inject(APP_ROUTES) public appRoute,
               private router: Router) {
 
     this.pages = [];

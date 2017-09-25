@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-5">
       <a class="btn btn-sm btn-primary"
-         [routerLink]="[appRoute.SLASH, dirRoute.ROOT, dirRoute.CONTACT.ROOT, dirRoute.CONTACT.NEW]">
+         [routerLink]="['/' + appRoute.CONTACT_NEW]">
         <i class="fa fa-plus" aria-hidden="true"></i>
         Nuevo
       </a>
@@ -17,6 +17,11 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <span [hidden]="!search.filter">Resultados de: {{ search.filter }}</span>
     </div>
   </div>
   <hr>

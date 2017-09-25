@@ -22,7 +22,12 @@ export class AuthService {
       this.http.post(url, { email: email, password: password}, { responseType: 'text'})
         .map(data => JSON.parse(data))
         .do(res => {
-          localStorage.setItem(AuthService.tokenName, res['access_token']);
+          if (res['error']) {
+            console.log(res.error);
+            throw new Error(res.error);
+          } else {
+            localStorage.setItem(AuthService.tokenName, res['access_token']);
+          }
         })
     );
   }

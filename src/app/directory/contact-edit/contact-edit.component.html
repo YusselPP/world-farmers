@@ -1,5 +1,5 @@
 <a class="btn btn-sm btn-default"
-   [routerLink]="[appRoute.SLASH, dirRoute.ROOT, dirRoute.PAGE, paginationService.currentPage]">
+   [routerLink]="['/' + appRoute.PAGE(paginationService.currentPage)]">
   <i class="fa fa-arrow-left" aria-hidden="true"></i>
   Directorio
 </a>
@@ -132,7 +132,7 @@
           </ng-template>
 
           <div class="form-row">
-            <a class="btn btn-danger mr-auto" [routerLink]="[appRoute.SLASH, dirRoute.ROOT]">Cancelar</a>
+            <a class="btn btn-danger mr-auto" [routerLink]="['/' + appRoute.PAGE(paginationService.currentPage)]">Cancelar</a>
             <button class="btn btn-primary" [disabled]="saving">
               <span *ngIf="!saving">Guardar</span>
               <i class="fa fa-spinner" *ngIf="saving" aria-hidden="true"></i>
@@ -147,7 +147,7 @@
           <h5 class="text-center">No existe el recurso solicitado</h5>
           <br>
           <div class="text-center">
-            <a class="btn btn-primary" [routerLink]="[appRoute.SLASH, dirRoute.ROOT]">Directorio</a>
+            <a class="btn btn-primary" [routerLink]="['/' + appRoute.PAGE(paginationService.currentPage)]">Directorio</a>
           </div>
         </ng-template>
       </div>

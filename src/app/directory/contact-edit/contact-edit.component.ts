@@ -3,8 +3,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ContactService } from '../../shared/contact.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginationService } from '../../pagination/pagination.service';
-import { APP_DIR_ROUTE } from '../const';
-import { APP_ROUTE } from '../../const';
+import { APP_ROUTES } from '../../const';
 import { Contact } from '../contact.model';
 import { DateService } from '../../shared/date.service';
 import { MapService } from '../../map/map.service';
@@ -37,8 +36,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
   };
 
   constructor(
-    @Inject(APP_ROUTE) public appRoute,
-    @Inject(APP_DIR_ROUTE) public dirRoute,
+    @Inject(APP_ROUTES) public appRoute,
     public dateService: DateService,
     public paginationService: PaginationService,
     public spinnerService: SpinnerService,
@@ -163,10 +161,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
           () => {
             this.saving = false;
             this.router.navigate([
-              this.appRoute.SLASH,
-              this.dirRoute.ROOT,
-              this.dirRoute.PAGE,
-              this.paginationService.currentPage
+              '/' + this.appRoute.PAGE(this.paginationService.currentPage)
             ]);
           },
           error => {
@@ -179,12 +174,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
         .subscribe(
           () => {
             this.saving = false;
-            this.router.navigate([
-              this.appRoute.SLASH,
-              this.dirRoute.ROOT,
-              this.dirRoute.PAGE,
-              this.paginationService.currentPage
-            ]);
+            this.router.navigate(['/' + this.appRoute.PAGE(this.paginationService.currentPage)]);
           },
           error => {
             console.error(error);

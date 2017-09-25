@@ -1,8 +1,7 @@
 import { Component, Inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 
 import { AuthService } from '../../auth/auth.service';
-import { APP_ROUTE } from '../../const';
-import { APP_DIR_ROUTE } from '../../directory/const';
+import { APP_ROUTES } from '../../const';
 import { GeolocationService } from '../../shared/geolocation.service';
 import { GeocoderService } from '../../map/geocoder.service';
 import { Router } from '@angular/router';
@@ -22,8 +21,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private subscriptions = [];
 
   constructor(
-    @Inject(APP_ROUTE) public appRoute,
-    @Inject(APP_DIR_ROUTE) public dirRoute,
+    @Inject(APP_ROUTES) public appRoute,
     public search: SearchService,
     public authService: AuthService,
     public geolocationService: GeolocationService,
@@ -40,7 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogout() {
     this.authService.logout();
-    this.router.navigate([this.appRoute.SLASH]);
+    this.router.navigate([this.appRoute.HOME]);
   }
 
   setCurrentLocation() {

@@ -7,7 +7,7 @@ import { GeolocationService } from '../../shared/geolocation.service';
 import { GeocoderService } from '../../map/geocoder.service';
 import { Router } from '@angular/router';
 import { ProgressBarService } from '../progress-bar/progress-bar.service';
-import { SearchLocationService } from '../../shared/search-location.service';
+import { SearchService } from '../../shared/search.service';
 
 @Component({
   selector: 'app-header',
@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(APP_ROUTE) public appRoute,
     @Inject(APP_DIR_ROUTE) public dirRoute,
-    public searchLocation: SearchLocationService,
+    public search: SearchService,
     public authService: AuthService,
     public geolocationService: GeolocationService,
     public progressBar: ProgressBarService,
@@ -63,7 +63,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           console.log('currentPosition subscriber called');
           observer.subscribe(locality => {
             if (locality.geometry) {
-              this.searchLocation.bounds = locality.geometry.bounds;
+              this.search.bounds = locality.geometry.bounds;
             }
             this.locality = locality.formatted_address;
             this.changeDetectorRef.detectChanges();

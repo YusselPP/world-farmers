@@ -1,23 +1,20 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable()
-export class SearchLocationService {
+export class SearchService {
 
   search = {
     bounds: null,
     filter: null
   };
 
-  boundsChange = new EventEmitter();
-
-  private _bounds;
-  private _filter;
+  searchChange = new EventEmitter();
 
   constructor() { }
 
   set bounds(bounds) {
     this.search.bounds = bounds;
-    this.boundsChange.emit(this.search);
+    this.searchChange.emit(this.search);
   }
 
   get bounds() {
@@ -26,7 +23,7 @@ export class SearchLocationService {
 
   set filter(filter) {
     this.search.filter = filter;
-    this.boundsChange.emit(this.search);
+    this.searchChange.emit(this.search);
   }
 
   get filter() {

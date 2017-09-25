@@ -7,7 +7,7 @@ import { PaginationService } from '../../pagination/pagination.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Contact } from '../contact.model';
 import { SpinnerService } from '../../core/spinner/spinner.service';
-import { SearchLocationService } from '../../shared/search-location.service';
+import { SearchService } from '../../shared/search.service';
 
 @Component({
   selector: 'app-contacts-list',
@@ -29,7 +29,7 @@ export class ContactsListComponent implements OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private zone: NgZone,
-    private searchLocation: SearchLocationService,
+    private search: SearchService,
     private paginationService: PaginationService,
     private contactService: ContactService) {
 
@@ -45,7 +45,7 @@ export class ContactsListComponent implements OnDestroy {
     );
 
     this.subscriptions.push(
-      this.searchLocation.boundsChange
+      this.search.searchChange
         .switchMap(bounds => {
           this.router.navigate([1], {relativeTo: this.route.parent});
           return this.getContactsPage();
@@ -79,8 +79,8 @@ export class ContactsListComponent implements OnDestroy {
   getContactsPage() {
     const itemsPerPage = this.paginationService.itemsPerPage;
     const currPage = this.paginationService.currentPage;
-    const bounds = this.searchLocation.search.bounds;
-    const filter = this.searchLocation.search.filter;
+    const bounds = this.search.search.bounds;
+    const filter = this.search.search.filter;
 
     this.loadingList = true;
 

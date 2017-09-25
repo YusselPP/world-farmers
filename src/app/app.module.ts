@@ -23,7 +23,7 @@ import { GeocoderService } from './map/geocoder.service';
 import { AuthService } from './auth/auth.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ProgressBarService } from './core/progress-bar/progress-bar.service';
-import { SearchLocationService } from './shared/search-location.service';
+import { SearchService } from './shared/search.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function tokenGetter() {
@@ -38,7 +38,7 @@ export function tokenGetter() {
     ProgressBarService,
     GeolocationService,
     GeocoderService,
-    SearchLocationService,
+    SearchService,
     DateService,
     AuthGuard,
     AuthService,

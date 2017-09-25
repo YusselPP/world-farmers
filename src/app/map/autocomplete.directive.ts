@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input, OnChanges } from '@angular/core';
-import { SearchLocationService } from '../shared/search-location.service';
+import { SearchService } from '../shared/search.service';
 
 @Directive({
   selector: '[appAutocomplete]'
@@ -9,7 +9,7 @@ export class AutocompleteDirective implements OnChanges{
 
   private autocomplete;
 
-  constructor(private ele: ElementRef, private searchLocation: SearchLocationService) {
+  constructor(private ele: ElementRef, private search: SearchService) {
     this.autocomplete = new google.maps.places.Autocomplete(ele.nativeElement, {types: ['geocode']});
     this.autocomplete.addListener('place_changed', () => {
       const place = this.autocomplete.getPlace();
@@ -17,7 +17,7 @@ export class AutocompleteDirective implements OnChanges{
       console.log(place, place.geometry);
 
       if (place.geometry) {
-        this.searchLocation.bounds = place.geometry.viewport;
+        this.search.bounds = place.geometry.viewport;
       }
     });
   }

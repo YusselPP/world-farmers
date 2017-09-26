@@ -1,4 +1,5 @@
 import { isArray, isString } from 'util';
+import { Observable } from 'rxjs/Observable';
 
 export class Contact {
   public static landSizeUnits = {'HA': 'Hectáreas'};
@@ -24,6 +25,8 @@ export class Contact {
   public latitude?: number;
   public longitude?: number;
 
+  public image?: string;
+
   constructor(options?) {
     if (!options) {
       options = {};
@@ -43,6 +46,8 @@ export class Contact {
     this.locality = options.locality;
     this.latitude = +options.latitude || undefined;
     this.longitude = +options.longitude || undefined;
+
+    this.image = options.image || undefined;
 
     this.products = Contact.productsStringToArray(options.products);
   }
@@ -107,5 +112,34 @@ export class Contact {
 
   public getHarvestAmountUnitText(): string {
     return Contact.harvestAmountUnits[this.harvestAmountUnit];
+  }
+
+  public getImageUrl(): Observable<string> {
+
+    if (!this.image) {
+      return Observable.of('');
+    }
+
+    const imageUrl = new Observable(observer => {
+      const fileBinaryString = this.image;
+      const bytes = new Uint8Array(fileBinaryString.length);
+      for (let i = 0; i < fileBinaryString.length; i++) {
+        bytes[i] = fileBinaryString.charCodeAt(i);
+      }
+
+      const aBlob = new Blob( [bytes], {type : 'image/jpeg'} );
+
+      const reader = new FileReader();
+
+      reader.onload = e => {
+         observer.next(reader.result);
+         observer.complete();
+      };
+      reader.onerror = err => observer.error(err);
+
+      reader.readAsDataURL(aBlob);
+    });
+
+    return imageUrl;
   }
 }

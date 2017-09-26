@@ -29,7 +29,9 @@
         <a class="nav-link" [routerLink]="['/' + appRoute.DIRECTORY]">Directorio</a>
       </li>
 
-      <input class="form-control mr-sm-2" type="text" appAutocomplete [position]="currentPos" value="{{ locality }}">
+      <form (submit)="onSearch(f)" #f="ngForm">
+        <input class="form-control mr-sm-2" type="text" name="location" ngModel appAutocomplete [position]="currentPos" value="{{ locality }}">
+      </form>
 
       <li class="nav-item">
         <a class="nav-link" (click)="onLogout()" *ngIf="authService.isAuthenticated()">Salir</a>

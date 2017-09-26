@@ -11,6 +11,8 @@ import { isFunction } from 'util';
 import { GeocoderService } from '../../map/geocoder.service';
 import { SpinnerService } from '../../core/spinner/spinner.service';
 import { ImageResult, ResizeOptions } from 'ng2-imageupload';
+import { Observable } from 'rxjs/Observable';
+import { createImage } from 'ng2-imageupload/src/utils';
 
 @Component({
   selector: 'app-contact-edit',
@@ -29,6 +31,10 @@ export class ContactEditComponent implements OnInit, OnChanges {
   contact: Contact = null;
   Contact = Contact;
   image = '';
+  imageFile: Blob;
+  binaryStringImage: string;
+
+  private currentImage: Observable<string>;
 
   resizeOptions: ResizeOptions = {
     resizeMaxHeight: 256,
@@ -47,6 +53,7 @@ export class ContactEditComponent implements OnInit, OnChanges {
     private geocoderService: GeocoderService) {
 
     this.createForm();
+    this.currentImage = new Observable(observer => this.imageToString(observer));
   }
 
   ngOnInit() {
@@ -189,6 +196,8 @@ export class ContactEditComponent implements OnInit, OnChanges {
   prepareSaveContact(): Contact {
     const formModel = this.contactForm.value;
 
+    // console.log(this.binaryStringImage);
+
     return new Contact({
       id: this.contact.id,
       name: formModel.name,
@@ -198,6 +207,8 @@ export class ContactEditComponent implements OnInit, OnChanges {
       landSizeUnit: formModel.landSizeUnit,
       harvestAmount: formModel.harvestAmount,
       harvestAmountUnit: formModel.harvestAmountUnit,
+
+      image: this.binaryStringImage,
 
       locality: formModel.locality,
       latitude: formModel.latitude,
@@ -229,5 +240,48 @@ export class ContactEditComponent implements OnInit, OnChanges {
     this.image = imageResult.resized
       && imageResult.resized.dataURL
       || imageResult.dataURL;
+
+
+    createImage(imageResult.resized.dataURL).then(image => {
+
+      const canvas = document.createElement('canvas');
+      canvas.width  = image.width;
+      canvas.height = image.height;
+
+      // draw image on canvas
+      const ctx = canvas.getContext('2d');
+      // console.log(image, image.width, image.height);
+
+      ctx.drawImage(image, 0, 0, image.width, image.height);
+
+      // get the data from canvas as 70% jpg (or specified type).
+      canvas.toBlob(blob => {
+        this.imageFile = blob;
+        this.currentImage.subscribe(s => this.binaryStringImage = s, err => console.log(err));
+      }, 'image/jpeg', 0.7);
+    });
+
+
+    // this.imageFile = imageResult.file;
+    // this.currentImage.subscribe(s => this.binaryStringImage = s, err => console.log(err));
   }
+
+  public imageToString(observer) {
+    const reader = new FileReader();
+
+    if (!this.imageFile) {
+      return observer.error('No imageFile set');
+    }
+
+    reader.onload = e => {
+      observer.next(reader.result);
+      observer.complete();
+    };
+    reader.onerror = e => {
+      observer.error(e);
+    };
+
+    reader.readAsBinaryString(this.imageFile);
+  }
+
 }

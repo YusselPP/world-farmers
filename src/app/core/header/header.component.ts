@@ -7,6 +7,7 @@ import { GeocoderService } from '../../map/geocoder.service';
 import { Router } from '@angular/router';
 import { ProgressBarService } from '../progress-bar/progress-bar.service';
 import { SearchService } from '../../shared/search.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -70,5 +71,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  onSearch(form: NgForm) {
+    // this.search.location = form.value.location;
   }
 }

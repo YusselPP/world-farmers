@@ -8,7 +8,10 @@ export class SearchService {
     filter: null
   };
 
+  private _location;
+
   searchChange = new EventEmitter();
+  locationChange = new EventEmitter();
 
   constructor() { }
 
@@ -28,6 +31,11 @@ export class SearchService {
 
   get filter() {
     return this.search.filter;
+  }
+
+  set location(location) {
+    this._location = location;
+    this.locationChange.emit(this._location);
   }
 
 }

@@ -16,6 +16,7 @@ import { AuthService } from '../../auth/auth.service';
 export class ContactDetailComponent implements OnInit {
   public loading = true;
   public contact: Contact = null;
+  public imageUrl;
 
   constructor(
     @Inject(APP_ROUTES) public appRoute,
@@ -35,6 +36,10 @@ export class ContactDetailComponent implements OnInit {
             (contact: Contact) => {
               this.loading = false;
               this.contact = contact;
+              this.contact.getImageUrl().subscribe(
+                url => this.imageUrl = url,
+                err => console.log(err)
+              );
             },
             err => {
               this.loading = false;

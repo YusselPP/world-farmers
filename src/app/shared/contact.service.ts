@@ -27,7 +27,7 @@ export class ContactService {
       .map(contact => new Contact(contact));
   }
 
-  public getContactsPage(pageNum: number, perPage: number, bounds?: LatLngBounds, filter?: string) {
+  public getContactsPage(pageNum: number, perPage: number, bounds?: LatLngBounds, filter?: string, location?) {
 
     const url = `${ContactService.apiBaseUrl}contacts`;
     let params = new HttpParams()
@@ -41,6 +41,10 @@ export class ContactService {
     if (filter) {
       params = params.append('filter', JSON.stringify(filter.split(/\s+/).filter(s => s !== '')));
     }
+
+    // if (location) {
+    //   params = params.append('location', location);
+    // }
 
     return this.httpClient.get(url, { responseType: 'text', params: params} )
       .map(data => JSON.parse(data) as Page<Contact>)

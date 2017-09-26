@@ -61,6 +61,18 @@ export class ContactsListComponent implements OnDestroy {
         )
     );
 
+    this.subscriptions.push(
+      this.search.locationChange
+        .switchMap((location) => {
+          this.router.navigate([1], {relativeTo: this.route.parent});
+          return this.getContactsPage(location);
+        })
+        .subscribe(
+          contacts => {},
+          error => this.onError(error)
+        )
+    );
+
     this.route.paramMap
       .map(params => +params.get('num'))
       .switchMap(pageNum => {
@@ -81,7 +93,7 @@ export class ContactsListComponent implements OnDestroy {
     this._loadingList = loadingList;
   }
 
-  getContactsPage() {
+  getContactsPage(location?) {
     const itemsPerPage = this.paginationService.itemsPerPage;
     const currPage = this.paginationService.currentPage;
     const bounds = this.search.search.bounds;
@@ -93,7 +105,7 @@ export class ContactsListComponent implements OnDestroy {
       return Promise.resolve([]);
     }
 
-    return this.contactService.getContactsPage(currPage, itemsPerPage, bounds, filter)
+    return this.contactService.getContactsPage(currPage, itemsPerPage, bounds, filter, location)
       .catch(err => this.onError(err));
   }
 

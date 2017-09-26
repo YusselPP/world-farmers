@@ -14,6 +14,7 @@ import { EmptyResultsComponent } from './empty-results/empty-results.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { MapModule } from '../map/map.module';
 import { DialogComponent } from './dialog/dialog.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { DialogComponent } from './dialog/dialog.component';
   entryComponents: [DialogComponent],
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule,
     MdProgressBarModule,
     MdProgressSpinnerModule,

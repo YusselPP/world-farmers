@@ -30,7 +30,7 @@
       </li>
 
       <form (submit)="onSearch(f)" #f="ngForm">
-        <input class="form-control mr-sm-2" type="text" name="location" ngModel appAutocomplete [position]="currentPos" value="{{ locality }}">
+        <input class="form-control mr-sm-2" type="text" name="location" [ngModel]="locality" (blur)="onSearchBlur()" #location appAutocomplete [position]="currentPos">
       </form>
 
       <li class="nav-item">

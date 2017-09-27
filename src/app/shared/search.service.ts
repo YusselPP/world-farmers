@@ -3,39 +3,45 @@ import { EventEmitter, Injectable } from '@angular/core';
 @Injectable()
 export class SearchService {
 
+  lastSearchFilter;
+
   search = {
     bounds: null,
-    filter: null
+    filter: null,
+    location: null
   };
 
-  private _location;
-
   searchChange = new EventEmitter();
-  locationChange = new EventEmitter();
 
   constructor() { }
 
-  set bounds(bounds) {
+  setBounds(bounds) {
     this.search.bounds = bounds;
+    this.search.location = null;
     this.searchChange.emit(this.search);
   }
 
-  get bounds() {
+  getBounds() {
     return this.search.bounds;
   }
 
-  set filter(filter) {
+  setLocation(location) {
+    this.search.location = location;
+    this.search.bounds = null;
+    this.searchChange.emit(this.search);
+  }
+
+  getLocation() {
+    return this.search.location;
+  }
+
+  setFilter(filter) {
     this.search.filter = filter;
     this.searchChange.emit(this.search);
   }
 
-  get filter() {
+  getFilter() {
     return this.search.filter;
-  }
-
-  set location(location) {
-    this._location = location;
-    this.locationChange.emit(this._location);
   }
 
 }

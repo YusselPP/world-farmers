@@ -1,4 +1,4 @@
-import { Component, Inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { AuthService } from '../../auth/auth.service';
 import { APP_ROUTES } from '../../const';
@@ -16,6 +16,7 @@ import { NgForm } from '@angular/forms';
   providers: [GeocoderService]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  @ViewChild('location') location: ElementRef;
   locality;
   currentPos;
 
@@ -57,7 +58,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             const subscription = observer.subscribe(locality => {
               this.zone.run(() => {
                 if (locality.geometry) {
-                  this.search.bounds = locality.geometry.bounds;
+                  this.search.setBounds(locality.geometry.bounds);
                 }
                 this.locality = locality.formatted_address;
                 subscription.unsubscribe();
@@ -74,6 +75,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onSearch(form: NgForm) {
-    // this.search.location = form.value.location;
+    this.search.setLocation(this.location.nativeElement.value);
+  }
+
+  onSearchBlur() {
+    this.search.search.location = this.location.nativeElement.value;
   }
 }

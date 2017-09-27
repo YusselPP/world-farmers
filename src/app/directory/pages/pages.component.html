@@ -11,7 +11,7 @@
   <div class="col-7 col-sm-5 col-lg-4 col-xl-3 ml-auto">
     <form (submit)="onSearch(f)" #f="ngForm">
       <div class="input-group">
-        <input type="search" name="search" class="form-control" [ngModel]="search.filter">
+        <input type="search" name="search" class="form-control" [ngModel]="search.getFilter()" (blur)="onSearchBlur()" #searchEle>
         <button>
           <span class="fa fa-search"></span>
         </button>
@@ -21,7 +21,7 @@
 </div>
 <div class="row">
   <div class="col-12">
-    <span [hidden]="!search.filter">Resultados de: {{ search.filter }}</span>
+    <span [hidden]="!search.lastSearchFilter">Resultados de: {{ search.lastSearchFilter }}</span>
   </div>
 </div>
 <hr>

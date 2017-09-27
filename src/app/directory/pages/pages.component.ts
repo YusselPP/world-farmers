@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 
 import { AuthService } from '../../auth/auth.service';
 import { APP_ROUTES } from '../../const';
@@ -13,6 +13,7 @@ import { SearchService } from '../../shared/search.service';
   styleUrls: ['./pages.component.css']
 })
 export class PagesComponent {
+  @ViewChild('searchEle') searchEle: ElementRef;
 
   constructor(
     @Inject(APP_ROUTES) public appRoute,
@@ -25,6 +26,11 @@ export class PagesComponent {
   }
 
   onSearch(form: NgForm) {
-    this.search.filter = form.value.search;
+    console.log(this.searchEle.nativeElement.value);
+    this.search.setFilter(this.searchEle.nativeElement.value);
+  }
+
+  onSearchBlur() {
+    this.search.search.filter = this.searchEle.nativeElement.value;
   }
 }

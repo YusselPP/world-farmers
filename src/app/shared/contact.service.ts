@@ -4,6 +4,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Page } from '../directory/page.interface';
 import LatLngBounds = google.maps.LatLngBounds;
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ContactService {
@@ -28,7 +29,7 @@ export class ContactService {
   }
 
   public getContactsPage(pageNum: number, perPage: number, bounds?: LatLngBounds, filter?: string, location?) {
-
+    let request: Observable<string>;
     const url = `${ContactService.apiBaseUrl}contacts`;
     let params = new HttpParams()
       .append('page', pageNum.toString())
@@ -42,11 +43,17 @@ export class ContactService {
       params = params.append('filter', JSON.stringify(filter.split(/\s+/).filter(s => s !== '')));
     }
 
-    // if (location) {
-    //   params = params.append('location', location);
-    // }
+    if (location) {
+      params = params.append('location', JSON.stringify(location.split(/[^A-Za-z\u00C0-\u017F]+/).filter(s => s !== '')));
+    }
 
-    return this.httpClient.get(url, { responseType: 'text', params: params} )
+    if (!bounds && !location) {
+      request = Observable.of(JSON.stringify({total: 0, data: []}));
+    } else {
+      request = this.httpClient.get(url, { responseType: 'text', params: params} );
+    }
+
+    return request
       .map(data => JSON.parse(data) as Page<Contact>)
       .do(contactsPage => this.contactsCount = contactsPage.total, err => this.contactsCount = 0)
       .map(page => {

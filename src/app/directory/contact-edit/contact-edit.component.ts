@@ -30,8 +30,9 @@ export class ContactEditComponent implements OnInit, OnChanges {
   showCoordinates = false;
   contact: Contact = null;
   Contact = Contact;
-  image = '';
   imageFile: Blob;
+  imageUrl = '';
+  imageError;
   binaryStringImage: string;
 
   private currentImage: Observable<string>;
@@ -65,12 +66,14 @@ export class ContactEditComponent implements OnInit, OnChanges {
         this.id = id;
         this.editMode = true;
         this.loading = true;
-        // this.contact = this.contactService.get(this.id);
-        // this.contact = new Contact();
         this.contactService.get(this.id).subscribe(
           (contacts: Contact) => {
             this.loading = false;
             this.contact = contacts;
+            this.contact.getImageUrl().subscribe(
+              url => this.imageUrl = url,
+              err => console.log(err)
+            );
             this.ngOnChanges();
           },
           err => {
@@ -196,8 +199,6 @@ export class ContactEditComponent implements OnInit, OnChanges {
   prepareSaveContact(): Contact {
     const formModel = this.contactForm.value;
 
-    // console.log(this.binaryStringImage);
-
     return new Contact({
       id: this.contact.id,
       name: formModel.name,
@@ -230,14 +231,15 @@ export class ContactEditComponent implements OnInit, OnChanges {
   }
 
   selectedImage(imageResult: ImageResult) {
-    console.log(imageResult);
 
     if (imageResult.error) {
-      this.image = '';
+      this.imageError = imageResult.error;
       return;
     }
 
-    this.image = imageResult.resized
+    this.imageError = null;
+
+    this.imageUrl = imageResult.resized
       && imageResult.resized.dataURL
       || imageResult.dataURL;
 
@@ -250,7 +252,6 @@ export class ContactEditComponent implements OnInit, OnChanges {
 
       // draw image on canvas
       const ctx = canvas.getContext('2d');
-      // console.log(image, image.width, image.height);
 
       ctx.drawImage(image, 0, 0, image.width, image.height);
 
@@ -260,10 +261,6 @@ export class ContactEditComponent implements OnInit, OnChanges {
         this.currentImage.subscribe(s => this.binaryStringImage = s, err => console.log(err));
       }, 'image/jpeg', 0.7);
     });
-
-
-    // this.imageFile = imageResult.file;
-    // this.currentImage.subscribe(s => this.binaryStringImage = s, err => console.log(err));
   }
 
   public imageToString(observer) {

@@ -87,11 +87,12 @@
           </div>
 
           <div class="form-row">
-            <img [src]="image" [hidden]="!image"><br>
+            <img [src]="imageUrl" [hidden]="!imageUrl"><br>
           </div>
 
           <div class="form-row">
-            <label>Imagen 256 x 256: (.jpg, .jpeg, .png)</label>
+            <label class="col-12">Imagen 256 x 256: (.jpg, .jpeg, .png)</label>
+            <div [hidden]="!imageError" style="color:red">{{ imageError }}</div>
             <input type="file" class="form-control" imageUpload (imageSelected)="selectedImage($event)" [resizeOptions]="resizeOptions" [allowedExtensions]="['jpg', 'jpeg', 'png']">
           </div>
 

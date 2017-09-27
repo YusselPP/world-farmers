@@ -15,7 +15,6 @@ export class AutocompleteDirective implements OnChanges{
       const place = this.autocomplete.getPlace();
 
       if (place.geometry) {
-        console.log(place);
         this.search.setBounds(place.geometry.viewport);
       }
     });

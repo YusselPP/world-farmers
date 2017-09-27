@@ -26,7 +26,6 @@ export class PagesComponent {
   }
 
   onSearch(form: NgForm) {
-    console.log(this.searchEle.nativeElement.value);
     this.search.setFilter(this.searchEle.nativeElement.value);
   }
 

@@ -34,7 +34,6 @@ export class MapService {
       this.map = new google.maps.Map(this.mapContainer, Object.assign(this.defaultOptions, options));
       this.mapInit.emit();
     } else {
-      console.log('The map container is not available yet. The map will be created as soon as the map container becomes available');
       mapContainerAvailableSub = this.mapContainerAvailable.subscribe(() => {
         mapContainerAvailableSub.unsubscribe();
         this.createMap(options);

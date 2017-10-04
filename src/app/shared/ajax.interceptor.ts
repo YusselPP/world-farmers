@@ -33,6 +33,7 @@ export class AjaxInterceptor implements HttpInterceptor {
             }
           } else if (error.status === 403) {
             this.dialogService.alert('', 'No tienes los permisos suficientes para realizar esta acción');
+          } else if (error.status >= 400 && error.status < 500) {
           } else {
             this.dialogService.alert('', 'Error al procesar la petición con el servidor');
           }

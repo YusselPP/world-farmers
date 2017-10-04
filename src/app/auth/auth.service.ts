@@ -4,7 +4,7 @@ import { tokenNotExpired } from 'angular2-jwt';
 
 @Injectable()
 export class AuthService {
-  private static apiBaseUrl = 'http://world-farmers.com/api/';
+  private static apiBaseUrl = 'http://farmersoftheworld.org/api/';
   private static tokenName = 'access_token';
 
   public redirectUrl;

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ContactService {
-  private static apiBaseUrl = 'http://world-farmers.com/api/';
+  private static apiBaseUrl = 'http://farmersoftheworld.org/api/';
 
   public contactsChange: EventEmitter<Contact[]> = new EventEmitter();
 

@@ -53,7 +53,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['world-farmers.com', 'localhost:4200']
+        whitelistedDomains: ['farmersoftheworld.org', 'localhost:4200']
       }
     }),
 
